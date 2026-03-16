@@ -15,7 +15,7 @@ BACKUP_DIR = DATA_DIR / "backups"
 MAX_BACKUPS = 7  # ennyi backupot tartunk meg (forgatás)
 
 # Kötelező mezők minimál validációhoz
-REQUIRED_FIELDS = ["nev"]
+REQUIRED_FIELDS = []
 
 # Opcionális: kulcsok, melyek (ha nem üresek) dátumként normalizálhatók
 DATE_FIELDS = [
