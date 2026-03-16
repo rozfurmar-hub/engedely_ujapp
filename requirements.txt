@@ -1,6 +1,7 @@
 streamlit
 docxtpl
 python-docx
-pandas
-requests
 python-dateutil
+requests
+pandas
+openpyxl
