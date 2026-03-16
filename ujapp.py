@@ -176,7 +176,7 @@ HU = {
     "buntet_reszletek": "Bűncselekmény részletei (ország, mikor, miért, büntetés)",
     "volt_kiutasitas": "Kiutasították-e korábban Magyarországról?",
     "kiutasitas_datum": "Kiutasítás dátuma (YYYY-MM-DD)",
-    "fert_beteg": "Szenved-e a felsorolt fertőző betegségek valamelyikében?",
+    "fert_beteg": "Szenved-e a felsorolt fertőző betegségek valamelyikében? /Tudomása szerint szenved-e gyógykezelésre szoruló HIV/AIDS, továbbá tbc, hepatitis B, luesz, lepra, hastífusz fertőző betegségekben?/",
     "kap_ellatas": "Fertőzőképesség esetén részesül-e kötelező és rendszeres ellátásban?",
 
     "section_kiskoru": "8) Kiskorú gyermek utazik együtt",
