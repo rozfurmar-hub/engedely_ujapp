@@ -43,6 +43,11 @@ def _login_box() -> None:
             st.session_state["admin_auth"] = False
             st.sidebar.error("Hibás jelszó.")
 
+# ========== Belépés ellenőrzése ==========
+if not _admin_password_ok():
+    _login_box()
+    st.stop()
+
 # ========== Rekordok betöltése + DataFrame létrehozása ==========
 
 records = list_records()
