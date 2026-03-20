@@ -30,6 +30,30 @@ DATE_FIELDS = [
 def github_commit_json():
     <itt lesz majd a token beolvasás + GitHub API lépések>
 
+import base64
+import json
+
+def json_to_base64(input_path, output_path):
+    # JSON fájl beolvasása
+    with open(input_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    # JSON újraszövegesítése (szépítve vagy tömören is lehet)
+    json_str = json.dumps(data, ensure_ascii=False)
+
+    # Base64 kódolás
+    base64_bytes = base64.b64encode(json_str.encode("utf-8"))
+    base64_str = base64_bytes.decode("utf-8")
+
+    # Eredmény fájlba írása
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(base64_str)
+
+    print("A JSON sikeresen Base64-re lett alakítva.")
+
+# Példa használat:
+json_to_base64("input.json", "output.b64")
+
 
 # ============== Segédfüggvények ==============
 def _ensure_dirs() -> None:
