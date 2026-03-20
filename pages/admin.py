@@ -55,7 +55,81 @@ df = pd.DataFrame(records)
 
 st.dataframe(df)
 
-   
+# ========== Letöltött pdf-ben megjelenő mezők  ==========
+PDF_FIELDS = {
+    "vezeteknev": "Családi név (útlevél szerint)",
+    "keresztnev": "Utónév (útlevél szerint)",
+    "szuletesi_csaladi": "Születési családi név",
+    "szuletesi_uto": "Születési utónév",
+    "anyja_csaladi": "Anyja születési családi neve",
+    "anyja_uto": "Anyja születési utóneve",
+    "nem": "Nem",
+    "allampolgarsag": "Állampolgárság",
+    "nemzetiseg": "Nemzetiség",
+    "csaladi_allapot": "Családi állapot",
+    "szuletesi_datum": "Születési idő",
+    "szuletesi_hely": "Születési hely",
+    "szuletesi_orszag": "Születési ország",
+    "vegzettseg": "Iskolai végzettség",
+    "szakkepzettseg": "Szakképzettség",
+    "magyarorszagra_erkezese_elotti_foglalkozas": "Érkezés előtti foglalkozás",
+    "utlevel_szam": "Útlevélszám",
+    "utlevel_kiadas": "Útlevél kiállításának dátuma",
+    "utlevel_helye": "Kiállítás helye",
+    "utlevel_tipus": "Útlevél típusa",
+    "utlevel_lejarat": "Útlevél érvényessége",
+    "helyrajzi_szam": "Helyrajzi szám",
+    "iranyitoszam": "Irányítószám",
+    "telepules": "Település",
+    "kozterulet_nev": "Közterület neve",
+    "kozterulet_jelleg": "Közterület jellege",
+    "hazszam": "Házszám",
+    "epulet": "Épület",
+    "lepcsohaz": "Lépcsőház",
+    "emelet": "Emelet",
+    "ajto": "Ajtó",
+    "szallas_jogcim": "Tartózkodás jogcíme",
+    "elso_beutazas_helye": "Beutazás helye",
+    "elso_beutazas_datuma": "Beutazás dátuma",
+    "hossz_engedely_szam": "Hosszabbítás engedélyszáma",
+    "hossz_engedely_ervenyes": "Engedély érvényessége",
+    "atvetel_mod": "Átvétel módja",
+    "postai_cim_tipus": "Postai cím típusa",
+    "egeszseg_biztositas": "Egészségbiztosítás",
+    "egeszseg_egyeb": "Biztosítás megjegyzése",
+    "visszaut_orszag": "Visszautazás országa",
+    "kozlekedesi_eszkoz": "Közlekedési eszköz",
+    "van_utlevel": "Van útlevél?",
+    "van_vizum": "Van vízum?",
+    "van_menetjegy": "Van menetjegy?",
+    "van_anyagi_fedezet": "Van anyagi fedezete?",
+    "fedezet_osszeg": "Fedezet összege",
+    "elozo_orszag": "Előző ország",
+    "elozo_telepules": "Előző település",
+    "elozo_kozterulet": "Előző közterület",
+    "mas_schengen_okmany": "Más schengeni okmány?",
+    "mas_schengen_tipus": "Okmány típusa",
+    "mas_schengen_szam": "Okmány száma",
+    "mas_schengen_ervenyes": "Okmány érvényessége",
+    "volt_elutasitas": "Volt elutasítás?",
+    "volt_buntetve": "Volt büntetve?",
+    "buntet_reszletek": "Bűncselekmény részletei",
+    "volt_kiutasitas": "Kiutasították?",
+    "kiutasitas_datum": "Kiutasítás dátuma",
+    "fert_beteg": "Fertőző betegségek",
+    "kap_ellatas": "Ellátást kap?",
+    "kiskoru_utazik": "Kiskorú utazik?",
+    "tartozkodas_vege": "Tartózkodás vége",
+    "tartozkodas_celja": "Tartózkodás célja",
+    "tranzakcio_szam": "Tranzakciószám"
+}
+
+# ========== UNICODE FONT REGISZTRÁLÁSA (hosszú ő,ű megjelenítése miatt) ==========
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+pdfmetrics.registerFont(TTFont("NotoSans", "fonts/NotoSans-Regular.ttf"))
+
+
 # Letöltések
 if st.button("📄 PDF export"):
     buffer = io.BytesIO()
@@ -71,6 +145,7 @@ if st.button("📄 PDF export"):
 
         t = Table(table, colWidths=[200, 300])
         t.setStyle(TableStyle([
+            ('FONT', (0,0), (-1,-1), 'NotoSans', 10),
             ('GRID', (0,0), (-1,-1), 0.25, colors.grey),
             ('VALIGN', (0,0), (-1,-1), 'TOP'),
             ('ALIGN', (0,0), (1,-1), 'LEFT'),
