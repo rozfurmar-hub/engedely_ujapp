@@ -30,29 +30,99 @@ DATE_FIELDS = [
 def github_commit_json():
     <itt lesz majd a token beolvasás + GitHub API lépések>
 
-import base64
+# ============== Streamlit-es JSON → Base64 átalakítás==============
+import streamlit as st
 import json
+import base64
+import requests
 
-def json_to_base64(input_path, output_path):
-    # JSON fájl beolvasása
-    with open(input_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
+st.title("Streamlit → GitHub JSON feltöltés")
 
-    # JSON újraszövegesítése (szépítve vagy tömören is lehet)
-    json_str = json.dumps(data, ensure_ascii=False)
+# ------------------------------
+# 1) Beállítások
+# ------------------------------
+GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]  # ajánlott a secrets.toml
+GITHUB_USER = "felhasznalo"
+GITHUB_REPO = "repo-nev"
+FILE_PATH = "engedely_ujapp/data/adatok.json"  # ahová feltöltöd majd
 
-    # Base64 kódolás
-    base64_bytes = base64.b64encode(json_str.encode("utf-8"))
-    base64_str = base64_bytes.decode("utf-8")
+API_URL = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/contents/{FILE_PATH}"
 
-    # Eredmény fájlba írása
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write(base64_str)
+headers = {
+    "Authorization": f"token {GITHUB_TOKEN}",
+    "Accept": "application/vnd.github.v3+json",
+}
 
-    print("A JSON sikeresen Base64-re lett alakítva.")
+# ------------------------------
+# 2) JSON adat bevitele Streamlitben
+# ------------------------------
+json_text = st.text_area("Add meg a JSON adatot:", height=250)
 
-# Példa használat:
-json_to_base64("input.json", "output.b64")
+if st.button("Feltöltés GitHubra"):
+    try:
+        # JSON ellenőrzése
+        data = json.loads(json_text)
+
+        # JSON → Base64
+        json_str = json.dumps(data, ensure_ascii=False, indent=2)
+        base64_content = base64.b64encode(json_str.encode("utf-8")).decode("utf-8")
+
+        # ------------------------------
+        # 3) Ellenőrizzük, létezik-e már a fájl
+        # ------------------------------
+        r = requests.get(API_URL, headers=headers)
+
+        if r.status_code == 200:
+            sha = r.json()["sha"]     # létező fájl frissítéséhez kell
+            message = "Frissítés Streamlitből"
+        else:
+            sha = None
+            message = "Új fájl feltöltése Streamlitből"
+
+        # ------------------------------
+        # 4) Payload összeállítása
+        # ------------------------------
+        payload = {
+            "message": message,
+            "content": base64_content,
+        }
+
+        if sha:
+            payload["sha"] = sha
+
+        # ------------------------------
+        # 5) Feltöltés a GitHubra
+        # ------------------------------
+        upload = requests.put(API_URL, json=payload, headers=headers)
+
+        if upload.status_code in [200, 201]:
+            st.success("🎉 Sikeres feltöltés!")
+            st.json(upload.json())
+        else:
+            st.error("Hiba történt a feltöltés során:")
+            st.json(upload.json())
+
+    except json.JSONDecodeError:
+        st.error("❌ Hibás JSON! Javítsd ki és próbáld újra.")
+
+# ============== Így néz ki a feltöltés GitHubra Base64-es tartalommal==============
+
+import requests
+
+url = "https://api.github.com/repos/<user>/<repo>/contents/engedely_ujapp/data/adatok.json"
+
+headers = {
+    "Authorization": f"token {GITHUB_TOKEN}",
+    "Accept": "application/vnd.github.v3+json"
+}
+
+payload = {
+    "message": "Frissítés Streamlitből",
+    "content": base64_str
+}
+
+r = requests.put(url, json=payload, headers=headers)
+print(r.json())
 
 
 # ============== Segédfüggvények ==============
