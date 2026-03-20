@@ -25,6 +25,12 @@ DATE_FIELDS = [
     "jelenlegi_engedely_ervenyessege",
 ]
 
+
+# ============== GitHub automatikus commit segédfüggvény (IDE!) ==============
+def github_commit_json():
+    <itt lesz majd a token beolvasás + GitHub API lépések>
+
+
 # ============== Segédfüggvények ==============
 def _ensure_dirs() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -147,6 +153,9 @@ def create_record(record: Dict[str, Any]) -> Dict[str, Any]:
 
     data.append(record)
     _atomic_write_json(JSON_PATH, data)
+
+    # 🔹 IDE JÖN MAJD az automatikus commit meghívása
+    
     return record
 
 def get_record(rec_id: str) -> Optional[Dict[str, Any]]:
@@ -178,6 +187,9 @@ def update_record(rec_id: str, patch: Dict[str, Any]) -> Dict[str, Any]:
         _backup()
     data[idx] = updated
     _atomic_write_json(JSON_PATH, data)
+    
+    # 🔹 IDE JÖN MAJD az automatikus commit meghívása
+    
     return updated
 
 def delete_record(rec_id: str) -> bool:
