@@ -139,7 +139,7 @@ if st.button("📄 PDF export"):
 
     for _, row in df.iterrows():
         table = []
-        for key, label in HUMAN_LABELS.items():
+        for key, label in PDF_FIELDS.items():
             value = row.get(key, "")
             table.append([label, str(value)])
 
