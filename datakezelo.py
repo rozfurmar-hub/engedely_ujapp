@@ -38,8 +38,8 @@ def github_commit_json():
     from streamlit import secrets
     GITHUB_TOKEN = secrets["GITHUB_TOKEN"]
 
-    GITHUB_USER = "felhasznalo"
-    GITHUB_REPO = "repo-nev"
+    GITHUB_USER = "rozfurmar-hub"
+    GITHUB_REPO = "engedely_ujapp"
     FILE_PATH = "engedely_ujapp/data/adatok.json"
 
     API_URL = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/contents/{FILE_PATH}"
