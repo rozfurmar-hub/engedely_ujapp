@@ -658,53 +658,98 @@ with st.form("adaturlap", clear_on_submit=False):
     st.markdown(f"**{L['section_fizetes']}**")
     tranzakcio_szam = st.text_input(L["tranzakcio_szam"]) 
 
-    # ====== HOZZÁTARTOZÓI MEZŐK – FORMON BELÜL ======
+    # ====== HOZZÁTARTOZÓK – DINAMIKUS MEZŐK A FORMON BELÜL (HU/RU i18n) ======
+    
     hozz = []
     
-    for i in range(st.session_state["hozz_inputs"]):
-        st.markdown(f"### {i+1}. hozzátartozó")
+    # I18N listák
+    ROKONSAG_HU = ["szülő", "gyermek", "házastárs", "testvér", "egyéb"]
+    ROKONSAG_RU = ["родитель", "ребенок", "супруг(а)", "брат/сестра", "другое"]
     
-        # NEM mező (HU/RU)
-        nem_opts = (
-            ["férfi", "nő", "egyéb"]
-            if ui_lang == "hu"
-            else ["мужской", "женский", "другое"]
-        )
+    HOZZ_NEM_HU = ["férfi", "nő", "egyéb"]
+    HOZZ_NEM_RU = ["мужской", "женский", "другое"]
+    
+    # Mezőfeliratok HU/RU i18n kulcsok
+    label_nem          = L.get("hozz_nem", "Nem")
+    label_vezetek      = L.get("hozz_vezeteknev", "Vezetéknév")
+    label_kereszt      = L.get("hozz_keresztnev", "Keresztnév")
+    label_rokon        = L.get("hozz_rokonsag", "Rokonsági fok")
+    label_szulhely     = L.get("hozz_szuletesi_hely", "Születési hely")
+    label_szulido      = L.get("hozz_szuletesi_ido", "Születési idő")
+    label_anyja_vez    = L.get("hozz_anyja_vezetek", "Anyja vezetéknév")
+    label_anyja_ker    = L.get("hozz_anyja_kereszt", "Anyja keresztnév")
+    label_allamp       = L.get("hozz_allamp", "Állampolgárság")
+    label_tartozkodas  = L.get("hozz_tartozkodas_e", "Magyarországon tartózkodik-e?")
+    label_okmany       = L.get("hozz_okmany_szam", "Okmányszám")
+    
+    # Nyelvfüggő választékok
+    nem_opts      = HOZZ_NEM_HU if ui_lang == "hu" else HOZZ_NEM_RU
+    rokonsag_opts = ROKONSAG_HU if ui_lang == "hu" else ROKONSAG_RU
+    igen_nem_opts = ["igen", "nem"] if ui_lang == "hu" else ["да", "нет"]
+    
+    # Dinamikus hozzátartozói mezők (session_state["hozz_inputs"])
+    for i in range(st.session_state.get("hozz_inputs", 0)):
+        st.markdown(f"### {i+1}. {L['section_hozzatartozo']}")
+    
         hozz_nem = st.selectbox(
-            f"Nem #{i+1}",
+            f"{label_nem} #{i+1}",
             nem_opts,
             key=f"h_nem_{i}"
         )
     
-        vezetek = st.text_input(f"Vezetéknév #{i+1}", key=f"h_vezetek_{i}")
-        kereszt = st.text_input(f"Keresztnév #{i+1}", key=f"h_kereszt_{i}")
+        vezetek = st.text_input(
+            f"{label_vezetek} #{i+1}",
+            key=f"h_vezetek_{i}"
+        )
     
-        # Rokonsági fok: legördülő (HU/RU)
-        if ui_lang == "ru":
-            rokon_opts = ["родитель", "ребенок", "супруг(а)", "брат/сестра", "другое"]
-        else:
-            rokon_opts = ["szülő", "gyermek", "házastárs", "testvér", "egyéb"]
+        kereszt = st.text_input(
+            f"{label_kereszt} #{i+1}",
+            key=f"h_kereszt_{i}"
+        )
     
         rokonsag = st.selectbox(
-            f"Rokonsági fok #{i+1}",
-            rokon_opts,
+            f"{label_rokon} #{i+1}",
+            rokonsag_opts,
             key=f"h_rok_{i}"
         )
     
-        szul_hely = st.text_input(f"Születési hely #{i+1}", key=f"h_szulhely_{i}")
-        szul_ido = st.text_input(f"Születési idő (YYYY-MM-DD) #{i+1}", key=f"h_szulido_{i}")
-        anyja_vez = st.text_input(f"Anyja vezetékneve #{i+1}", key=f"h_anyja_vez_{i}")
-        anyja_ker = st.text_input(f"Anyja keresztneve #{i+1}", key=f"h_anyja_ker_{i}")
-        allamp = st.text_input(f"Állampolgárság #{i+1}", key=f"h_allamp_{i}")
+        szul_hely = st.text_input(
+            f"{label_szulhely} #{i+1}",
+            key=f"h_szulhely_{i}"
+        )
+    
+        szul_ido = st.text_input(
+            f"{label_szulido} #{i+1}",
+            key=f"h_szulido_{i}"
+        )
+    
+        anyja_vez = st.text_input(
+            f"{label_anyja_vez} #{i+1}",
+            key=f"h_anyja_vez_{i}"
+        )
+    
+        anyja_ker = st.text_input(
+            f"{label_anyja_ker} #{i+1}",
+            key=f"h_anyja_ker_{i}"
+        )
+    
+        allamp = st.text_input(
+            f"{label_allamp} #{i+1}",
+            key=f"h_allamp_{i}"
+        )
     
         tartozkodas_e = st.selectbox(
-            f"Magyarországon tartózkodik-e? #{i+1}",
-            ["igen", "nem"] if ui_lang=="hu" else ["да", "нет"],
+            f"{label_tartozkodas} #{i+1}",
+            igen_nem_opts,
             key=f"h_tartozik_{i}"
         )
     
-        okmany = st.text_input(f"Okmányszám #{i+1}", key=f"h_okmany_{i}")
+        okmany = st.text_input(
+            f"{label_okmany} #{i+1}",
+            key=f"h_okmany_{i}"
+        )
     
+        # A mezők összegyűjtése strukturált JSON-hoz
         hozz.append({
             "nem": hozz_nem,
             "vezeteknev": vezetek,
