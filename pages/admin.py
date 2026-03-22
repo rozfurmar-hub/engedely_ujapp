@@ -2,54 +2,56 @@ import streamlit as st
 import io
 import json
 import pandas as pd
-import zipfile
 from pathlib import Path
-from typing import Any, Tuple
-
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 
-from datakezelo import list_records, delete_record
-from ujapp import HU as HUMAN_LABELS
+from datakezelo import list_records
+# ---------------------------------------------------
 
-# ========== Segédek / titkolvasás ==========
+pdfmetrics.registerFont(TTFont("NotoSans", "fonts/NotoSans-Regular.ttf"))
 
-def _get_secret(name: str, default: str | None = None) -> str | None:
+# ---------------------------------------------------
+# Admin jelszókezelés
+# ---------------------------------------------------
+
+def _get_secret(name, default=None):
     if name in st.secrets:
-        return str(st.secrets[name])
+        return st.secrets[name]
     import os
-        return os.environ.get(name, default)
+    return os.environ.get(name, default)
 
-# ========== Jogosultság ==========
-
-def _admin_password_ok() -> bool:
+def _admin_password_ok():
     required = _get_secret("APP_ADMIN_PASSWORD")
     if not required:
         return False
-    if "admin_auth" not in st.session_state:
-        st.session_state["admin_auth"] = False
-    return st.session_state["admin_auth"]
+    return st.session_state.get("admin_auth", False)
 
-def _login_box() -> None:
+def _login_box():
     st.sidebar.header("Admin bejelentkezés")
     pwd = st.sidebar.text_input("Jelszó", type="password")
-    if st.sidebar.button("Belépés", use_container_width=True):
-        if pwd and pwd == _get_secret("APP_ADMIN_PASSWORD"):
+    if st.sidebar.button("Belépés"):
+        if pwd == _get_secret("APP_ADMIN_PASSWORD"):
             st.session_state["admin_auth"] = True
-            st.toast("Sikeres bejelentkezés.", icon="✅")
+            st.success("Sikeres belépés.")
         else:
             st.session_state["admin_auth"] = False
-            st.sidebar.error("Hibás jelszó.")
+            st.error("Hibás jelszó.")
 
-# ========== Belépés ellenőrzése ==========
-
+# ---------------------------------------------------
+# Beléptetés
+# ---------------------------------------------------
 if not _admin_password_ok():
     _login_box()
     st.stop()
 
-# ========== Rekordok betöltése + DataFrame ==========
+# ---------------------------------------------------
+# Rekordok listázása
+# ---------------------------------------------------
 
 records = list_records()
 df = pd.DataFrame(records)
@@ -57,7 +59,9 @@ df = pd.DataFrame(records)
 st.title("📁 Admin felület – összes rekord")
 st.dataframe(df, use_container_width=True)
 
-# ========== PDF-ben szereplő mezők ==========
+# ---------------------------------------------------
+# PDF-ben megjelenő mezők
+# ---------------------------------------------------
 
 PDF_FIELDS = {
     "vezeteknev": "Családi név",
@@ -127,13 +131,9 @@ PDF_FIELDS = {
     "tranzakcio_szam": "Tranzakciószám",
 }
 
-# ========== FONT (unicode): NotoSans ==========
-
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-pdfmetrics.registerFont(TTFont("NotoSans", "fonts/NotoSans-Regular.ttf"))
-
-# ========== PDF EXPORT ==========
+# ---------------------------------------------------
+# PDF KÉSZÍTÉSE
+# ---------------------------------------------------
 
 st.subheader("📄 PDF export")
 
@@ -147,6 +147,7 @@ if generate_pdf:
     styles = getSampleStyleSheet()
 
     for _, row in df.iterrows():
+
         # --- FŐ MEZŐK ---
         table_data = []
         for key, label in PDF_FIELDS.items():
@@ -162,8 +163,9 @@ if generate_pdf:
         story.append(table)
         story.append(Spacer(1, 10))
 
-        # --- HOZZÁTARTOZÓK BLOKK ---
+        # --- HOZZÁTARTOZÓK ---
         hozz_json = row.get("hozzatartozok_json", "[]")
+
         try:
             hozz = json.loads(hozz_json)
         except:
@@ -171,27 +173,28 @@ if generate_pdf:
 
         if hozz:
             story.append(Paragraph("<b>Hozzátartozók:</b>", styles["Normal"]))
+
             for idx, h in enumerate(hozz, start=1):
-                txt = (
-                    f"<br/><b>{idx}. hozzátartozó</b><br/>"
-                    f"Vezetéknév: {h.get('vezeteknev','')}<br/>"
-                    f"Keresztnév: {h.get('keresztnev','')}<br/>"
-                    f"Rokonsági fok: {h.get('rokonsagi_fok','')}<br/>"
-                    f"Születési hely: {h.get('szuletesi_hely','')}<br/>"
-                    f"Születési idő: {h.get('szuletesi_ido','')}<br/>"
-                    f"Anyja neve: {h.get('anyja_vezetek','')} {h.get('anyja_kereszt','')}<br/>"
-                    f"Állampolgárság: {h.get('allampolgarsag','')}<br/>"
-                    f"Magyarországon tartózkodik-e: {h.get('tartozkodik_e','')}<br/>"
-                    f"Okmányszám: {h.get('okmany_szam','')}<br/>"
-                )
+                txt = (f"<br/><b>{idx}. hozzátartozó</b><br/>"
+                       f"Vezetéknév: {h.get('vezeteknev','')}<br/>"
+                       f"Keresztnév: {h.get('keresztnev','')}<br/>"
+                       f"Rokonsági fok: {h.get('rokonsagi_fok','')}<br/>"
+                       f"Születési hely: {h.get('szuletesi_hely','')}<br/>"
+                       f"Születési idő: {h.get('szuletesi_ido','')}<br/>"
+                       f"Anyja neve: {h.get('anyja_vezetek','')} {h.get('anyja_kereszt','')}<br/>"
+                       f"Állampolgárság: {h.get('allampolgarsag','')}<br/>"
+                       f"Magyarországon tartózkodik-e: {h.get('tartozkodik_e','')}<br/>"
+                       f"Okmányszám: {h.get('okmany_szam','')}<br/>"
+                       )
                 story.append(Paragraph(txt, styles["Normal"]))
                 story.append(Spacer(1, 8))
 
         story.append(Spacer(1, 20))
 
-    # PDF mentése
+    # --- PDF mentése ---
     doc.build(story)
     buffer.seek(0)
+
     st.download_button(
         label="📥 PDF letöltése",
         data=buffer.getvalue(),
