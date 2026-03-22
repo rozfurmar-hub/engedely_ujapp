@@ -482,21 +482,22 @@ with st.form("adaturlap", clear_on_submit=False):
     anyja_uto = st.text_input(L["anyja_uto"]) 
     nem_disp = st.selectbox(L["nem"], options=[""] + GENDER_DISP, index=0)
     csaladi_allapot_disp = st.selectbox(L["csaladi_allapot"], options=[""] + FAMILY_DISP, index=0)
-    allampolgarsag_valaszto = st.selectbox(
+    
+   # Állampolgárság – lokalizált lista
+if ui_lang == "ru":
+    allamp_opts = CITIZENSHIP_DISP_RU
+    egyeb_label = "Другое гражданство"
+    egyeb_value = "другое"
+else:
+    allamp_opts = CITIZENSHIP_CANON
+    egyeb_label = "Egyéb állampolgárság megnevezése"
+    egyeb_value = "egyéb"
+
+allampolgarsag_valaszto = st.selectbox(
     L["allampolgarsag"],
-    ["magyar", "ukrán", "orosz", "szerb", "egyéb"]
-    )
-    
-    egyeb_allampolgarsag = ""
-    if allampolgarsag_valaszto == "egyéb":
-        egyeb_allampolgarsag = st.text_input("Egyéb állampolgárság megnevezése")
-    
-    # rögzített érték
-    allampolgarsag = (
-        egyeb_allampolgarsag.strip() 
-        if allampolgarsag_valaszto == "egyéb" 
-        else allampolgarsag_valaszto
-    )
+    allamp_opts
+)
+
     nemzetiseg = st.text_input(L["nemzetiseg"]) 
     szuletesi_datum = st.text_input(L["szuletesi_datum"], placeholder="YYYY-MM-DD")
     szuletesi_hely = st.text_input(L["szuletesi_hely"]) 
@@ -509,15 +510,32 @@ with st.form("adaturlap", clear_on_submit=False):
     st.markdown(f"**{L['section_passport']}**")
     utlevel_szam = st.text_input(L["utlevel_szam"], placeholder="AB1234567")
     utlevel_kiadas = st.text_input(L["utlevel_kiadas"], placeholder="YYYY-MM-DD")
-    utlevel_hely_valaszto = st.selectbox(
+
+# Útlevél kiállítás helye – lokalizált lista
+if ui_lang == "ru":
+    pass_country_opts = PASS_COUNTRY_RU
+    egyeb_kiadas_label = "Другое место выдачи"
+    egyeb_kiadas_value = "другая страна"
+else:
+    pass_country_opts = PASS_COUNTRY
+    egyeb_kiadas_label = "Egyéb kiadási hely"
+    egyeb_kiadas_value = "egyéb"
+
+utlevel_hely_valaszto = st.selectbox(
     L["utlevel_helye"],
-    ["Magyarország", "Ukrajna", "Oroszország", "Szerbia", "egyéb"]
-    )
-    
-    egyeb_kiadasi_hely = ""
-    if utlevel_hely_valaszto == "egyéb":
-        egyeb_kiadasi_hely = st.text_input("Egyéb kiadási hely")
-    
+    pass_country_opts
+)
+
+egyeb_kiadasi_hely = ""
+if utlevel_hely_valaszto == egyeb_kiadas_value:
+    egyeb_kiadasi_hely = st.text_input(egyeb_kiadas_label)
+
+utlevel_helye = (
+    egyeb_kiadasi_hely.strip()
+    if utlevel_hely_valaszto == egyeb_kiadas_value
+    else utlevel_hely_valaszto
+)
+
     utlevel_helye = (
         egyeb_kiadasi_hely.strip() 
         if utlevel_hely_valaszto == "egyéb" 
