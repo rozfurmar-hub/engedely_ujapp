@@ -9,7 +9,7 @@
     "anyja_csaladi": "",
     "anyja_uto": "",
     "nem": "nő",
-    "allampolgarsag": "",
+    "allampolgarsag": "magyar",
     "nemzetiseg": "ukrán",
     "szuletesi_datum": "",
     "szuletesi_hely": "",
@@ -20,7 +20,7 @@
     "magyarorszagra_erkezese_elotti_foglalkozas": "Takarító",
     "utlevel_szam": "",
     "utlevel_kiadas": "",
-    "utlevel_helye": "Ukrajna",
+    "utlevel_helye": "Magyarország",
     "utlevel_tipus": "magánútlevél",
     "utlevel_lejarat": "",
     "helyrajzi_szam": "",
@@ -69,6 +69,6 @@
     "tartozkodas_celja": "Foglalkoztatás",
     "tranzakcio_szam": "",
     "teljes_nev": "GABRIELA ANNA",
-    "id": "20260322_195130"
+    "id": "20260322_202415"
   }
 ]
