@@ -173,23 +173,31 @@ if generate_pdf:
 
         if hozz:
             story.append(Paragraph("<b>Hozzátartozók:</b>", styles["Normal"]))
-
+            story.append(Spacer(1, 6))
+        
             for idx, h in enumerate(hozz, start=1):
-                txt = (
-                    f"{idx}. hozzátartozó\n"
-                    f"Vezetéknév: {h.get('vezeteknev','')}\n"
-                    f"Keresztnév: {h.get('keresztnev','')}\n"
-                    f"Rokonsági fok: {h.get('rokonsagi_fok','')}\n"
-                    f"Születési hely: {h.get('szuletesi_hely','')}\n"
-                    f"Születési idő: {h.get('szuletesi_ido','')}\n"
-                    f"Anyja neve: {h.get('anyja_vezetek','')} {h.get('anyja_kereszt','')}\n"
-                    f"Állampolgárság: {h.get('allampolgarsag','')}\n"
-                    f"Magyarországon tartózkodik-e: {h.get('tartozkodik_e','')}\n"
-                    f"Okmányszám: {h.get('okmany_szam','')}\n"
-                )
-                
-                story.append(Paragraph(txt.replace("\n", "<br/>"), styles["Normal"]))
-                story.append(Spacer(1, 8))
+                table_data = [
+                    ["Hozzátartozó #", idx],
+                    ["Vezetéknév", h.get("vezeteknev", "")],
+                    ["Keresztnév", h.get("keresztnev", "")],
+                    ["Rokonsági fok", h.get("rokonsagi_fok", "")],
+                    ["Születési hely", h.get("szuletesi_hely", "")],
+                    ["Születési idő", h.get("szuletesi_ido", "")],
+                    ["Anyja neve", f"{h.get('anyja_vezetek','')} {h.get('anyja_kereszt','')}"],
+                    ["Állampolgárság", h.get("allampolgarsag", "")],
+                    ["Tartózkodik-e", h.get("tartozkodik_e", "")],
+                    ["Okmányszám", h.get("okmany_szam", "")]
+                ]
+        
+                t = Table(table_data, colWidths=[180, 320])
+                t.setStyle(TableStyle([
+                    ('FONT', (0,0), (-1,-1), 'NotoSans', 9),
+                    ('GRID', (0,0), (-1,-1), 0.25, colors.grey),
+                    ('VALIGN', (0,0), (-1,-1), 'TOP'),
+                ]))
+        
+                story.append(t)
+                story.append(Spacer(1, 12))
 
 
     # --- PDF mentése ---
