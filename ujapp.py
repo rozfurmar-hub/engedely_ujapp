@@ -125,7 +125,7 @@ HU = {
     "utlevel_lejarat": "Útlevél érvényessége (YYYY-MM-DD)",
 
     "section_szallas": "3) Magyarországi szálláshely",
-    "helyrajzi_szam": "Helyrajzi szám",
+    "helyrajzi_szam": "Helyrajzi szám (nem kötelező)",
     "iranyitoszam": "Irányítószám",
     "telepules": "Település",
     "kozterulet_nev": "Közterület neve",
@@ -138,8 +138,8 @@ HU = {
     "szallas_jogcim": "A szálláshelyen tartózkodás jogcíme",
 
     "section_elso_vagy_hossz": "Első kérelem / Hosszabbítás",
-    "elso_beutazas_helye": "Beutazás helye (első kérelemnél)",
-    "elso_beutazas_datuma": "Beutazás ideje (YYYY-MM-DD)",
+    "elso_beutazas_helye": "Első kérelemnél: beutazás helye",
+    "elso_beutazas_datuma": "Első kérelemnél: beutazás ideje (YYYY-MM-DD)",
     "hossz_engedely_szam": "Hosszabbításnál: engedély száma",
     "hossz_engedely_ervenyes": "Hosszabbításnál: engedély érvényessége (YYYY-MM-DD)",
 
