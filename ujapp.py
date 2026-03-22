@@ -61,7 +61,7 @@ def load_labels(lang: str) -> dict:
 # Beépített HU/RU szótárak (fallback)
 HU = {
     "app_title": "📝 Tartózkodási engedély – adatbekérő (HU/RU)",
-    "app_caption": "Adatai alapján néhány dokumentumsablon készül, amit kérünk lementeni és megküldeni Nagy Máriának a maria.nagy@hungaria-xxx.com e-mail címre.",
+    "app_caption": "Adatai alapján néhány dokumentum készül, amit kérünk lementeni és megküldeni Nagy Máriának a maria.nagy@hungaria-xxx.com e-mail címre.",
     "sidebar_hdr_templates": "Elérhető sablonok",
     "help_header": "ℹ️ Használati útmutató",
     "help_md": (
