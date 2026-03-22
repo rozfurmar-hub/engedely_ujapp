@@ -483,20 +483,32 @@ with st.form("adaturlap", clear_on_submit=False):
     nem_disp = st.selectbox(L["nem"], options=[""] + GENDER_DISP, index=0)
     csaladi_allapot_disp = st.selectbox(L["csaladi_allapot"], options=[""] + FAMILY_DISP, index=0)
     
-   # Állampolgárság – lokalizált lista
-if ui_lang == "ru":
-    allamp_opts = CITIZENSHIP_DISP_RU
-    egyeb_label = "Другое гражданство"
-    egyeb_value = "другое"
-else:
-    allamp_opts = CITIZENSHIP_CANON
-    egyeb_label = "Egyéb állampolgárság megnevezése"
-    egyeb_value = "egyéb"
+    # Állampolgárság – lokalizált lista
+    if ui_lang == "ru":
+        allamp_opts = CITIZENSHIP_DISP_RU
+        egyeb_label = "Другое гражданство"
+        egyeb_value = "другое"
+    else:
+        allamp_opts = CITIZENSHIP_CANON
+        egyeb_label = "Egyéb állampolgárság megnevezése"
+        egyeb_value = "egyéb"
 
-allampolgarsag_valaszto = st.selectbox(
-    L["allampolgarsag"],
-    allamp_opts
-)
+    allampolgarsag_valaszto = st.selectbox(
+        L["allampolgarsag"],
+        allamp_opts
+    )
+
+    egyeb_allampolgarsag = ""
+    if allampolgarsag_valaszto == egyeb_value:
+        egyeb_allampolgarsag = st.text_input(egyeb_label)
+
+    allampolgarsag = (
+        egyeb_allampolgarsag.strip()
+        if allampolgarsag_valaszto == egyeb_value
+        else allampolgarsag_valaszto
+    )
+
+
 
     nemzetiseg = st.text_input(L["nemzetiseg"]) 
     szuletesi_datum = st.text_input(L["szuletesi_datum"], placeholder="YYYY-MM-DD")
