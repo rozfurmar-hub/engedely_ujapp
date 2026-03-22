@@ -106,7 +106,7 @@ PDF_FIELDS = {
     "fedezet_osszeg": "Fedezet összege",
     "elozo_orszag": "Előző ország",
     "elozo_telepules": "Előző település",
-    "elozo_kozterulet": "Előző közterület",
+    "elozo_cim": "Előző cím",
     "mas_schengen_okmany": "Más schengeni okmány?",
     "mas_schengen_tipus": "Okmány típusa",
     "mas_schengen_szam": "Okmány száma",
