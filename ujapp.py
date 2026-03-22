@@ -871,12 +871,11 @@ if submitted:
         st.error(L["err_fix"] + "\n- " + "\n- ".join(errors))
     else:
         try:
+            # Új rekord létrehozása
+            saved = create_record(record)
+            upsert_msg = L["succ_new"].format(id=saved.get("id"), nev=record.get("teljes_nev"))
 
-# Új rekord létrehozása
-saved = create_record(record)
-upsert_msg = L["succ_new"].format(id=saved.get("id"), nev=record.get("teljes_nev"))
-
-            # Dokumentumok
+            # Dokumentumok generálása
             generated_docs = []
             who = sanitize_for_filename(record.get("teljes_nev", "dokumentum"))
             when = datetime.now().strftime("%Y%m%d_%H%M")
