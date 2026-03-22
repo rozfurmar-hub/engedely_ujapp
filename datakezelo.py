@@ -40,7 +40,7 @@ def github_commit_json():
 
     GITHUB_USER = "rozfurmar-hub"
     GITHUB_REPO = "engedely_ujapp"
-    FILE_PATH = "engedely_ujapp/data/adatok.json"
+    FILE_PATH = "data/adatok.json"
 
     API_URL = f"https://api.github.com/repos/{GITHUB_USER}/{GITHUB_REPO}/contents/{FILE_PATH}"
 
