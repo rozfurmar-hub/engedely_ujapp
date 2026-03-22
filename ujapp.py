@@ -574,8 +574,6 @@ with st.form("adaturlap", clear_on_submit=False):
     hozz_count = st.number_input(L["hozz_count"], min_value=0, max_value=4, step=1, value=0)
     hozz = []
 
-    hozz = []
-
     if hozz_count > 0:
         st.info(
             "Az eltartottra vonatkozó személyes adatokat legyen szíves kitölteni."
@@ -621,7 +619,7 @@ with st.form("adaturlap", clear_on_submit=False):
     st.markdown(f"**{L['section_egyeb']}**")
     elozo_orszag = st.text_input(L["elozo_orszag"]) 
     elozo_telepules = st.text_input(L["elozo_telepules"]) 
-    elozo_kozterulet = st.text_input(L["elozo_kozterulet"]) 
+    elozo_cim = st.text_input(L["elozo_cim"]) 
     mas_schengen_okmany_disp = st.selectbox(L["mas_schengen_okmany"], options=[""] + YESNO_DISP, index=0)
     mas_schengen_tipus = st.text_input(L["mas_schengen_tipus"]) 
     mas_schengen_szam = st.text_input(L["mas_schengen_szam"]) 
@@ -750,7 +748,7 @@ if submitted:
         # egyéb adatok
         "elozo_orszag": (elozo_orszag or "").strip(),
         "elozo_telepules": (elozo_telepules or "").strip(),
-        "elozo_kozterulet": (elozo_kozterulet or "").strip(),
+        "elozo_cim": (elozo_cim or "").strip(),
         "mas_schengen_okmany": mas_schengen_okmany,
         "mas_schengen_tipus": (mas_schengen_tipus or "").strip(),
         "mas_schengen_szam": (mas_schengen_szam or "").strip(),
@@ -807,36 +805,36 @@ if submitted:
         allampolgarsag = record.get("allampolgarsag", "")
         if contains_cyrillic(allampolgarsag):
             hu_ap = translator_translate_to_hungarian(allampolgarsag)
-            allampolgarsag = hu_ap or transliterate_to_latin(allampolgarsag)
+            record["allampolgarsag"] = hu_ap or transliterate_to_latin(allampolgarsag)
 
         # g) Útlevél kiadási helye, ha Egyéb
         utlevel_helye = record.get("utlevel_helye", "")   
         if contains_cyrillic(utlevel_helye):
-                hu_place = translator_translate_to_hungarian(utlevel_helye)
-                utlevel_helye = hu_place or transliterate_to_latin(utlevel_helye)
+            hu_place = translator_translate_to_hungarian(utlevel_helye)
+            record["utlevel_helye"] = hu_place or transliterate_to_latin(utlevel_helye)
 
         # h) Más shengeni okmány - Engedély típusa
         mas_schengen_tipus = record.get("mas_schengen_tipus", "")   
         if contains_cyrillic(mas_schengen_tipus):
-                hu_mas_schengen_tipus = translator_translate_to_hungarian(mas_schengen_tipus)
-                mas_schengen_tipus = hu_mas_schengen_tipus or transliterate_to_latin(mas_schengen_tipus)       
+            hu_mas_schengen_tipus = translator_translate_to_hungarian(mas_schengen_tipus)
+            record["mas_schengen_tipus"] = hu_mas_schengen_tipus or transliterate_to_latin(mas_schengen_tipus)       
          
         # i) Teljes körű egészségbiztosítás Egyéb megjegyzés
         egeszseg_egyeb = record.get("egeszseg_egyeb", "")
-            if contains_cyrillic(egeszseg_egyeb):
-                hu_egeszs = translator_translate_to_hungarian(egeszseg_egyeb)
-                egeszseg_egyeb = hu_egeszs or transliterate_to_latin(egeszseg_egyeb)
+        if contains_cyrillic(egeszseg_egyeb):
+            hu_egeszs = translator_translate_to_hungarian(egeszseg_egyeb)
+            record["egeszseg_egyeb"] = hu_egeszs or transliterate_to_latin(egeszseg_egyeb)
         
         # j) Visszautazás országa és közlekedési eszköz
         visszaut_orszag = record.get("visszaut_orszag", "")
-            if contains_cyrillic(visszaut_orszag):
-                hu_visszaut_orszag = translator_translate_to_hungarian(visszaut_orszag)
-                visszaut_orszag = hu_visszaut_orszag or transliterate_to_latin(visszaut_orszag)
+        if contains_cyrillic(visszaut_orszag):
+            hu_visszaut_orszag = translator_translate_to_hungarian(visszaut_orszag)
+            record["visszaut_orszag"] = hu_visszaut_orszag or transliterate_to_latin(visszaut_orszag)
 
         kozlekedesi_eszkoz = record.get("kozlekedesi_eszkoz", "")
             if contains_cyrillic(kozlekedesi_eszkoz):
                 hu_kozlekedesi_eszkoz = translator_translate_to_hungarian(kozlekedesi_eszkoz)
-                kozlekedesi_eszkoz = hu_kozlekedesi_eszkoz or transliterate_to_latin(kozlekedesi_eszkoz)
+             record["kozlekedesi_eszkoz"] = hu_kozlekedesi_eszkoz or transliterate_to_latin(kozlekedesi_eszkoz)
             
         # k) Mo-ra érkezés előtti ország
         elozo_orszag = record.get("elozo_orszag", "")
@@ -850,7 +848,7 @@ if submitted:
             "anyja_csaladi","anyja_uto","allampolgarsag","nemzetiseg","szuletesi_hely","szuletesi_orszag",
             "utlevel_szam","utlevel_helye","helyrajzi_szam","iranyitoszam","telepules","kozterulet_nev",
             "kozterulet_jelleg","hazszam","epulet","lepcsohaz","emelet","ajto","elso_beutazas_helye",
-            "fedezet_osszeg","elozo_telepules","elozo_kozterulet","mas_schengen_szam","buntet_reszletek",
+            "fedezet_osszeg","elozo_telepules","elozo_cim","mas_schengen_szam","buntet_reszletek",
             "tranzakcio_szam"
         ]
         record, _ = transliterate_record_fields(record, to_trans)
@@ -976,7 +974,7 @@ PLACEHOLDERS = [
     # Hozzátartozók – JSON
     "hozzatartozok_json",
     # Egyéb
-    "elozo_orszag","elozo_telepules","elozo_kozterulet",
+    "elozo_orszag","elozo_telepules","elozo_cim",
     "mas_schengen_okmany","mas_schengen_tipus","mas_schengen_szam","mas_schengen_ervenyes",
     "volt_elutasitas","volt_buntetve","buntet_reszletek","volt_kiutasitas","kiutasitas_datum","fert_beteg","kap_ellatas",
     # Kiskorú
