@@ -486,9 +486,9 @@ hozz_count = st.number_input(
 # Magyarázó szöveg: azonnal jelenjen meg
 if hozz_count > 0:
     if ui_lang == "ru":
-        st.info("Если Вы указали, что у вас есть родственники-иждивенцы, добавьте данные о них с помощью кнопки 'Добавить'.")
+        st.info("Если Вы указали, что у вас есть родственники-иждивенцы, добавьте данные о них с помощью кнопки 'Добавить'. Поля появятся в конце формы")
     else:
-        st.info("Amennyiben megadta, hogy vannak eltartott hozzátartozói, adja hozzá a rájuk vonatkozó információt a Hozzáadás gombbal.")
+        st.info("Amennyiben megadta, hogy vannak eltartott hozzátartozói, adja hozzá a rájuk vonatkozó információt a Hozzáadás gombbal. A vonatkozó mezők az űrlap végén jelennek meg.")
 
 # Hozzáadás gomb (formon kívül!)
 if st.button("➕ Hozzáadás / Добавить"):
