@@ -1,11 +1,11 @@
 {
   "app_title": "📝 Tartózkodási engedély – adatbekérő (HU/RU)",
-  "app_caption": "Adatai alapján két űrlap készül:\n• Tartózkodási engedély iránti kérelem\n• Szálláshely bejelentése",
+  "app_caption": "Adatai alapján néhány dokumentum készül, amit kérünk lementeni és megküldeni Nagy Máriának a maria.nagy@hungaria-xxx.com e-mail címre.",
   "sidebar_hdr_templates": "Elérhető sablonok",
   "help_header": "ℹ️ Használati útmutató",
   "help_md": "1) Töltse ki az űrlapot magyarul vagy oroszul. Orosz UI esetén kérjük latin betűkkel írni.\n2) Válassza ki, hogy melyik dokumentum sablon készüljön.\n3) A 'Generálás' gomb megnyomására a kiválasztott DOCX sablon(ok) elkészülnek és letölthetők.",
   "sidebar_lang": "Nyelv / Язык",
-  "ru_latin_notice": "⚠️ Orosz nyelvű felület esetén kérjük *latin* betűkkel (A–Z, 0–9) kitölteni. A cirill szövegeket automatikusan latinra írjuk át, kivéve a *Szakképzettség* és a *Magyarországra érkezést megelőző foglalkozás* mezőket, amelyeket magyarra fordítunk.",
+  "ru_latin_notice": "⚠️ Orosz nyelvű felület esetén kérjük *latin* betűkkel (A–Z, 0–9) kitölteni. A cirill szövegeket automatikusan latinra írjuk át, kivéve néhány mezőt, amelyeket magyarra fordítunk.",
   "form_header": "Adatbekérő űrlap",
   "btn_generate": "📄 Dokumentum(ok) generálása",
   "select_templates": "Válasszon sablon(oka)t",
