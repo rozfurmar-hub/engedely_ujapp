@@ -160,7 +160,7 @@ HU = {
     "van_anyagi_fedezet": "Rendelkezik anyagi fedezettel?",
     "fedezet_osszeg": "Anyagi fedezet összege",
 
-    "section_hozzatartozo": "6) Eltartott házastárs/gyermek/szülő (max. 4 fő)",
+    "section_hozzatartozo": "6) Eltartott házastárs/gyermek/szülő (max. 8 fő)",
     "hozz_count": "Hozzátartozók száma",
 
     "section_egyeb": "7) Egyéb adatok",
@@ -602,7 +602,8 @@ with st.form("adaturlap", clear_on_submit=False):
     
     # A felhasználó megadja hány hozzátartozó van
     hozz_count = st.number_input(L["hozz_count"], min_value=0, max_value=8, step=1, value=0)
-    
+
+    # Magyarázó szöveg – MÁRIS jelenjen meg, ha legalább 1 van
     # Információs szöveg HU / RU
     if hozz_count > 0:
         if ui_lang == "ru":
@@ -611,7 +612,7 @@ with st.form("adaturlap", clear_on_submit=False):
             st.info("Amennyiben megadta, hogy vannak eltartott hozzátartozói, adja hozzá a rájuk vonatkozó információt a Hozzáadás gombbal.")
     
     # HOZZÁADÁS gomb – nem küldi el a formot
-    add_pressed = st.form_submit_button("➕ Hozzáadás")
+    add_pressed = st.form_submit_button("➕ Hozzáadás/Добавить")
     
     # Ha a felhasználó rányom és még nem érte el a limitet
     if add_pressed and st.session_state["hozz_inputs"] < hozz_count:
