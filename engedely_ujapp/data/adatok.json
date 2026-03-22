@@ -9,7 +9,7 @@
     "anyja_csaladi": "",
     "anyja_uto": "",
     "nem": "nő",
-    "allampolgarsag": "magyar",
+    "allampolgarsag": "",
     "nemzetiseg": "ukrán",
     "szuletesi_datum": "",
     "szuletesi_hely": "",
@@ -49,7 +49,7 @@
     "van_menetjegy": "",
     "van_anyagi_fedezet": "",
     "fedezet_osszeg": "",
-    "hozzatartozok_json": "[{\"vezeteknev\": \"\", \"keresztnev\": \"\", \"rokonsagi_fok\": \"\", \"szuletesi_hely\": \"\", \"szuletesi_ido\": \"\", \"anyja_vezetek\": \"\", \"anyja_kereszt\": \"\", \"allampolgarsag\": \"\", \"tartozkodik_e\": \"igen\", \"okmany_szam\": \"\"}, {\"vezeteknev\": \"\", \"keresztnev\": \"\", \"rokonsagi_fok\": \"\", \"szuletesi_hely\": \"\", \"szuletesi_ido\": \"\", \"anyja_vezetek\": \"\", \"anyja_kereszt\": \"\", \"allampolgarsag\": \"\", \"tartozkodik_e\": \"igen\", \"okmany_szam\": \"\"}]",
+    "hozzatartozok_json": "[{\"vezeteknev\": \"Prokat\", \"keresztnev\": \"Vadim\", \"rokonsagi_fok\": \"syn\", \"szuletesi_hely\": \"Izmail\", \"szuletesi_ido\": \"2020.03.03.\", \"anyja_vezetek\": \"\", \"anyja_kereszt\": \"\", \"allampolgarsag\": \"\", \"tartozkodik_e\": \"nem\", \"okmany_szam\": \"\"}, {\"vezeteknev\": \"Prokat\", \"keresztnev\": \"Anyuta\", \"rokonsagi_fok\": \"doch\", \"szuletesi_hely\": \"Izmail\", \"szuletesi_ido\": \"2021.12.12.\", \"anyja_vezetek\": \"\", \"anyja_kereszt\": \"\", \"allampolgarsag\": \"\", \"tartozkodik_e\": \"nem\", \"okmany_szam\": \"\"}]",
     "elozo_orszag": "Ukrajna",
     "elozo_telepules": "Izmail",
     "elozo_cim": "ulyu Sakharova 56.",
@@ -69,6 +69,6 @@
     "tartozkodas_celja": "Foglalkoztatás",
     "tranzakcio_szam": "",
     "teljes_nev": "GABRIELA ANNA",
-    "id": "20260322_194912"
+    "id": "20260322_195130"
   }
 ]
