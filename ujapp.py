@@ -871,8 +871,14 @@ if submitted:
         if contains_cyrillic(elozo_orszag):
             hu_elozo_orszag = translator_translate_to_hungarian(elozo_orszag)
             record["elozo_orszag"] = hu_elozo_orszag or transliterate_to_latin(elozo_orszag)
+
+        # l) Bűncselekmény részletei
+        buntet_reszletek = record.get("buntet_reszletek", "")
+        if contains_cyrillic(buntet_reszletek):
+            hu_buntet_reszletek = translator_translate_to_hungarian(buntet_reszletek)
+            record["buntet_reszletek"] = hu_buntet_reszletek or transliterate_to_latin(buntet_reszletek)
             
-        # l) Minden egyéb mező transliterációja
+        # m) Minden egyéb mező transliterációja
         to_trans = [
             "phone","email","vezeteknev","keresztnev","szuletesi_csaladi","szuletesi_uto",
             "anyja_csaladi","anyja_uto","allampolgarsag","nemzetiseg","szuletesi_hely","szuletesi_orszag",
