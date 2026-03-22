@@ -61,7 +61,7 @@ def load_labels(lang: str) -> dict:
 # Beépített HU/RU szótárak (fallback)
 HU = {
     "app_title": "📝 Tartózkodási engedély – adatbekérő (HU/RU)",
-    "app_caption": "Adatai alapján két űrlap készül: \n• Tartózkodási engedély iránti kérelem \n• Szálláshely bejelentése",
+    "app_caption": "Adatai alapján néhány dokumentumsablon készül, amit kérünk lementeni és megküldeni Nagy Máriának a maria.nagy@hungaria-xxx.com e-mail címre.",
     "sidebar_hdr_templates": "Elérhető sablonok",
     "help_header": "ℹ️ Használati útmutató",
     "help_md": (
@@ -176,7 +176,7 @@ HU = {
     "buntet_reszletek": "Bűncselekmény részletei (ország, mikor, miért, büntetés)",
     "volt_kiutasitas": "Kiutasították-e korábban Magyarországról?",
     "kiutasitas_datum": "Kiutasítás dátuma (YYYY-MM-DD)",
-    "fert_beteg": "Szenved-e a felsorolt fertőző betegségek valamelyikében? /Tudomása szerint szenved-e gyógykezelésre szoruló HIV/AIDS, továbbá tbc, hepatitis B, luesz, lepra, hastífusz fertőző betegségekben?/",
+    "fert_beteg": "Szenved-e a felsorolt fertőző betegségek valamelyikében? Tudomása szerint szenved-e gyógykezelésre szoruló HIV/AIDS, továbbá tbc, hepatitis B, luesz, lepra, hastífusz fertőző betegségekben?",
     "kap_ellatas": "Fertőzőképesség esetén részesül-e kötelező és rendszeres ellátásban?",
 
     "section_kiskoru": "8) Kiskorú gyermek utazik együtt",
@@ -193,7 +193,7 @@ HU = {
 RU = {
     **HU,
     "app_title": "📝 Заявление на вид на жительство – форма сбора данных (HU/RU)",
-    "app_caption": "По введённым данным готовятся 2 документа: \n• Заявление на вид на жительство \n• Уведомление о месте проживания",
+    "app_caption": "По введённым данным готовятся несколько документов. Просьба их сохранить и направить по электронной почте Марии Надь на эл.адрес: maria.nagy@hungaria-xxx.com.",
     "ru_latin_notice": "⚠️ Пожалуйста, заполняйте *латиницей* (A–Z, 0–9) в соответствии с документами. Текст кириллицей будет автоматически транслитерирован, кроме некоторых полей, которые будут переведены на венгерский.",
     "help_md": (
         "1) Заполните форму на венгерском или русском (желательно латиницей).\n"
@@ -465,6 +465,8 @@ if ui_lang == "ru":
 # Lokalizált opciók
 GENDER_DISP, FAMILY_DISP, EDU_DISP, YESNO_DISP, PASS_DISP, JOGCIM_DISP, ATVETEL_DISP, POSTAI_DISP, CEL_DISP = get_localized_options(ui_lang)
 
+
+
 st.subheader(L["form_header"])
 
 # ====== HOZZÁTARTOZÓI UI BLOKK – FORM ELŐTT ======
@@ -473,7 +475,7 @@ st.subheader(L["form_header"])
 if "hozz_inputs" not in st.session_state:
     st.session_state["hozz_inputs"] = 0
 
-# A felhasználó megadja hány hozzátartozója van
+# Hozzátartozók száma
 hozz_count = st.number_input(
     L["hozz_count"],
     min_value=0,
@@ -483,18 +485,18 @@ hozz_count = st.number_input(
     key="hozz_count_selector"
 )
 
-# Magyarázó szöveg: azonnal jelenjen meg
+# Magyarázó szöveg – azonnal
 if hozz_count > 0:
     if ui_lang == "ru":
-        st.info("Если Вы указали, что у вас есть родственники-иждивенцы, добавьте данные о них с помощью кнопки 'Добавить'. Поля появятся в конце формы")
+        st.info("Если Вы указали, что у вас есть родственники-иждивенцы, добавьте данные о них с помощью кнопки 'Добавить'.")
     else:
-        st.info("Amennyiben megadta, hogy vannak eltartott hozzátartozói, adja hozzá a rájuk vonatkozó információt a Hozzáadás gombbal. A vonatkozó mezők az űrlap végén jelennek meg.")
+        st.info("Amennyiben megadta, hogy vannak eltartott hozzátartozói, adja hozzá a rájuk vonatkozó információt a Hozzáadás gombbal.")
 
 # Hozzáadás gomb (formon kívül!)
 if st.button("➕ Hozzáadás / Добавить"):
     if st.session_state["hozz_inputs"] < hozz_count:
         st.session_state["hozz_inputs"] += 1
-
+        
 
 with st.form("adaturlap", clear_on_submit=False):
     # 0) Elérhetőség
