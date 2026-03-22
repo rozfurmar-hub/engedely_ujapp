@@ -200,6 +200,20 @@ RU = {
         "2) Выберите шаблоны документов.\n"
         "3) Нажмите ‘Генерировать’ для скачивания DOCX."
     ),
+    # ====== Hozzátartozók RU feliratai ======
+
+    "hozz_nem": "Пол",
+    "hozz_vezeteknev": "Фамилия",
+    "hozz_keresztnev": "Имя",
+    "hozz_rokonsag": "Степень родства",
+    "hozz_szuletesi_hely": "Место рождения",
+    "hozz_szuletesi_ido": "Дата рождения",
+    "hozz_anyja_vezetek": "Фамилия матери",
+    "hozz_anyja_kereszt": "Имя матери",
+    "hozz_allamp": "Гражданство",
+    "hozz_tartozkodas_e": "Проживает ли в Венгрии?",
+    "hozz_okmany_szam": "Номер документа",
+    
     # Поля — переводы (HU kulcsok fordítása fent átírva RU-ra)
 }
 
