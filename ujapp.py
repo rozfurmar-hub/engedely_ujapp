@@ -479,7 +479,21 @@ with st.form("adaturlap", clear_on_submit=False):
     anyja_uto = st.text_input(L["anyja_uto"]) 
     nem_disp = st.selectbox(L["nem"], options=[""] + GENDER_DISP, index=0)
     csaladi_allapot_disp = st.selectbox(L["csaladi_allapot"], options=[""] + FAMILY_DISP, index=0)
-    allampolgarsag = st.text_input(L["allampolgarsag"]) 
+    allampolgarsag_valaszto = st.selectbox(
+    L["allampolgarsag"],
+    ["magyar", "ukrán", "orosz", "szerb", "egyéb"]
+    )
+    
+    egyeb_allampolgarsag = ""
+    if allampolgarsag_valaszto == "egyéb":
+        egyeb_allampolgarsag = st.text_input("Egyéb állampolgárság megnevezése")
+    
+    # rögzített érték
+    allampolgarsag = (
+        egyeb_allampolgarsag.strip() 
+        if allampolgarsag_valaszto == "egyéb" 
+        else allampolgarsag_valaszto
+    )
     nemzetiseg = st.text_input(L["nemzetiseg"]) 
     szuletesi_datum = st.text_input(L["szuletesi_datum"], placeholder="YYYY-MM-DD")
     szuletesi_hely = st.text_input(L["szuletesi_hely"]) 
@@ -492,7 +506,20 @@ with st.form("adaturlap", clear_on_submit=False):
     st.markdown(f"**{L['section_passport']}**")
     utlevel_szam = st.text_input(L["utlevel_szam"], placeholder="AB1234567")
     utlevel_kiadas = st.text_input(L["utlevel_kiadas"], placeholder="YYYY-MM-DD")
-    utlevel_helye = st.text_input(L["utlevel_helye"]) 
+    utlevel_hely_valaszto = st.selectbox(
+    L["utlevel_helye"],
+    ["Magyarország", "Ukrajna", "Oroszország", "Szerbia", "egyéb"]
+    )
+    
+    egyeb_kiadasi_hely = ""
+    if utlevel_hely_valaszto == "egyéb":
+        egyeb_kiadasi_hely = st.text_input("Egyéb kiadási hely")
+    
+    utlevel_helye = (
+        egyeb_kiadasi_hely.strip() 
+        if utlevel_hely_valaszto == "egyéb" 
+        else utlevel_hely_valaszto
+    ) 
     utlevel_tipus_disp = st.selectbox(L["utlevel_tipus"], options=[""] + PASS_DISP, index=0)
     utlevel_lejarat = st.text_input(L["utlevel_lejarat"], placeholder="YYYY-MM-DD")
 
@@ -538,17 +565,48 @@ with st.form("adaturlap", clear_on_submit=False):
     fedezet_osszeg = st.text_input(L["fedezet_osszeg"]) 
 
     # 6) Hozzátartozók
-    st.markdown(f"**{L['section_hozzatartozo']}**")
-    hozz_count = st.number_input(L["hozz_count"], min_value=0, max_value=4, step=1, value=0)
     hozz = []
+
+    if hozz_count > 0:
+        st.info(
+            "Az eltartottra vonatkozó személyes adatokat legyen szíves kitölteni."
+        )
+    
     for i in range(int(hozz_count)):
-        st.markdown(f"— **{i+1}. hozzátartozó**")
-        nev = st.text_input(f"Név / rokonsági fok #{i+1}", key=f"h_nev_{i}")
-        szulet = st.text_input(f"Születési hely, idő #{i+1}", key=f"h_szul_{i}")
-        allamp = st.text_input(f"Állampolgárság #{i+1}", key=f"h_all_{i}")
-        jogcim = st.text_input(f"Tartózkodása jogcíme #{i+1}", key=f"h_jog_{i}")
-        okmany = st.text_input(f"Tartózkodási okmány száma #{i+1}", key=f"h_okm_{i}")
-        hozz.append({"nev": nev, "szulet": szulet, "allamp": allamp, "jogcim": jogcim, "okmany": okmany})
+        st.markdown(f"### {i+1}. hozzátartozó")
+    
+        vezetek = st.text_input(f"Vezetéknév #{i+1}", key=f"h_vezetek_{i}")
+        kereszt = st.text_input(f"Keresztnév #{i+1}", key=f"h_kereszt_{i}")
+        rokonsag = st.text_input(f"Rokonsági fok #{i+1}", key=f"h_rok_{i}")
+    
+        szul_hely = st.text_input(f"Születési hely #{i+1}", key=f"h_szulhely_{i}")
+        szul_ido = st.text_input(f"Születési idő (YYYY-MM-DD) #{i+1}", key=f"h_szulido_{i}")
+    
+        anyja_vez = st.text_input(f"Anyja születési vezetékneve #{i+1}", key=f"h_anyja_vez_{i}")
+        anyja_ker = st.text_input(f"Anyja születési keresztneve #{i+1}", key=f"h_anyja_ker_{i}")
+    
+        allamp = st.text_input(f"Állampolgárság #{i+1}", key=f"h_allamp_{i}")
+    
+        tartozkodas_e = st.selectbox(
+            f"Magyarországon tartózkodik-e? #{i+1}",
+            ["igen", "nem"],
+            key=f"h_tartozik_{i}"
+        )
+    
+        okmany = st.text_input(f"Tartózkodási okmány száma #{i+1}", key=f"h_okmany_{i}")
+    
+        hozz.append({
+            "vezeteknev": vezetek,
+            "keresztnev": kereszt,
+            "rokonsagi_fok": rokonsag,
+            "szuletesi_hely": szul_hely,
+            "szuletesi_ido": szul_ido,
+            "anyja_vezetek": anyja_vez,
+            "anyja_kereszt": anyja_ker,
+            "allampolgarsag": allamp,
+            "tartozkodik_e": tartozkodas_e,
+            "okmany_szam": okmany
+        })
 
     # 7) Egyéb adatok
     st.markdown(f"**{L['section_egyeb']}**")
@@ -706,7 +764,7 @@ if submitted:
         "teljes_nev": f"{(vezeteknev or '').strip()} {(keresztnev or '').strip()}".strip(),
     }
 
-    # RU UI: két mező fordítása HU-ra; minden más szabad szöveg translit
+    # RU UI: hét mező fordítása HU-ra; minden más szabad szöveg translit
     if ui_lang == "ru":
         # a) Foglalkozás
         job_val = record.get("magyarorszagra_erkezese_elotti_foglalkozas", "")
@@ -718,7 +776,36 @@ if submitted:
         if contains_cyrillic(skill_val):
             hu_skill = translator_translate_to_hungarian(skill_val)
             record["szakkepzettseg"] = hu_skill or transliterate_to_latin(skill_val)
-        # c) Minden egyéb mező transliterációja
+          # c) Születési hely
+        birth_place = record.get("szuletesi_hely", "")
+        if contains_cyrillic(birth_place):
+            hu_birth_place = translator_translate_to_hungarian(birth_place)
+            record["szuletesi_hely"] = hu_birth_place or transliterate_to_latin(birth_place)
+    
+        # d) Születési ország
+        birth_country = record.get("szuletesi_orszag", "")
+        if contains_cyrillic(birth_country):
+            hu_birth_country = translator_translate_to_hungarian(birth_country)
+            record["szuletesi_orszag"] = hu_birth_country or transliterate_to_latin(birth_country)
+    
+        # e) Nemzetiség
+        nationality = record.get("nemzetiseg", "")
+        if contains_cyrillic(nationality):
+            hu_nationality = translator_translate_to_hungarian(nationality)
+            record["nemzetiseg"] = hu_nationality or transliterate_to_latin(nationality)
+
+        # f) Egyéb állampolgárság translit/fordítás
+        if ui_lang == "ru":
+            if contains_cyrillic(allampolgarsag):
+                hu_ap = translator_translate_to_hungarian(allampolgarsag)
+                allampolgarsag = hu_ap or transliterate_to_latin(allampolgarsag)
+
+        # g) Útlevél kiadási helye, ha Egyéb
+            if contains_cyrillic(utlevel_helye):
+                hu_place = translator_translate_to_hungarian(utlevel_helye)
+                utlevel_helye = hu_place or transliterate_to_latin(utlevel_helye)
+        
+        # h) Minden egyéb mező transliterációja
         to_trans = [
             "phone","email","vezeteknev","keresztnev","szuletesi_csaladi","szuletesi_uto",
             "anyja_csaladi","anyja_uto","allampolgarsag","nemzetiseg","szuletesi_hely","szuletesi_orszag",
