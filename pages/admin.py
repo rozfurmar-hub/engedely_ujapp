@@ -175,21 +175,22 @@ if generate_pdf:
             story.append(Paragraph("<b>Hozzátartozók:</b>", styles["Normal"]))
 
             for idx, h in enumerate(hozz, start=1):
-                txt = (f"<br/><b>{idx}. hozzátartozó</b><br/>"
-                       f"Vezetéknév: {h.get('vezeteknev','')}<br/>"
-                       f"Keresztnév: {h.get('keresztnev','')}<br/>"
-                       f"Rokonsági fok: {h.get('rokonsagi_fok','')}<br/>"
-                       f"Születési hely: {h.get('szuletesi_hely','')}<br/>"
-                       f"Születési idő: {h.get('szuletesi_ido','')}<br/>"
-                       f"Anyja neve: {h.get('anyja_vezetek','')} {h.get('anyja_kereszt','')}<br/>"
-                       f"Állampolgárság: {h.get('allampolgarsag','')}<br/>"
-                       f"Magyarországon tartózkodik-e: {h.get('tartozkodik_e','')}<br/>"
-                       f"Okmányszám: {h.get('okmany_szam','')}<br/>"
-                       )
-                story.append(Paragraph(txt, styles["Normal"]))
+                txt = (
+                    f"{idx}. hozzátartozó\n"
+                    f"Vezetéknév: {h.get('vezeteknev','')}\n"
+                    f"Keresztnév: {h.get('keresztnev','')}\n"
+                    f"Rokonsági fok: {h.get('rokonsagi_fok','')}\n"
+                    f"Születési hely: {h.get('szuletesi_hely','')}\n"
+                    f"Születési idő: {h.get('szuletesi_ido','')}\n"
+                    f"Anyja neve: {h.get('anyja_vezetek','')} {h.get('anyja_kereszt','')}\n"
+                    f"Állampolgárság: {h.get('allampolgarsag','')}\n"
+                    f"Magyarországon tartózkodik-e: {h.get('tartozkodik_e','')}\n"
+                    f"Okmányszám: {h.get('okmany_szam','')}\n"
+                )
+                
+                story.append(Paragraph(txt.replace("\n", "<br/>"), styles["Normal"]))
                 story.append(Spacer(1, 8))
 
-        story.append(Spacer(1, 20))
 
     # --- PDF mentése ---
     doc.build(story)
