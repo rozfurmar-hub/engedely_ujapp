@@ -548,11 +548,7 @@ with st.form("adaturlap", clear_on_submit=False):
         else utlevel_hely_valaszto
     )
 
-    utlevel_helye = (
-        egyeb_kiadasi_hely.strip() 
-        if utlevel_hely_valaszto == "egyéb" 
-        else utlevel_hely_valaszto
-    ) 
+    
     utlevel_tipus_disp = st.selectbox(L["utlevel_tipus"], options=[""] + PASS_DISP, index=0)
     utlevel_lejarat = st.text_input(L["utlevel_lejarat"], placeholder="YYYY-MM-DD")
 
@@ -801,8 +797,10 @@ if submitted:
         "teljes_nev": f"{(vezeteknev or '').strip()} {(keresztnev or '').strip()}".strip(),
     }
 
-    # RU UI: több mező fordítása HU-ra; minden más szabad szöveg translit
-    if ui_lang == "ru":
+   
+    # CIRILL SZÖVEG FORDÍTÁSA + TRANSLIT MINDIG (UI nyelvétől függetlenül)
+    if True:
+
         # a) Foglalkozás
         job_val = record.get("magyarorszagra_erkezese_elotti_foglalkozas", "")
         if contains_cyrillic(job_val):
