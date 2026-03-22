@@ -523,30 +523,30 @@ with st.form("adaturlap", clear_on_submit=False):
     utlevel_szam = st.text_input(L["utlevel_szam"], placeholder="AB1234567")
     utlevel_kiadas = st.text_input(L["utlevel_kiadas"], placeholder="YYYY-MM-DD")
 
-# Útlevél kiállítás helye – lokalizált lista
-if ui_lang == "ru":
-    pass_country_opts = PASS_COUNTRY_RU
-    egyeb_kiadas_label = "Другое место выдачи"
-    egyeb_kiadas_value = "другая страна"
-else:
-    pass_country_opts = PASS_COUNTRY
-    egyeb_kiadas_label = "Egyéb kiadási hely"
-    egyeb_kiadas_value = "egyéb"
+    # Útlevél kiállítás helye – lokalizált lista
+    if ui_lang == "ru":
+        pass_country_opts = PASS_COUNTRY_RU
+        egyeb_kiadas_label = "Другое место выдачи"
+        egyeb_kiadas_value = "другая страна"
+    else:
+        pass_country_opts = PASS_COUNTRY
+        egyeb_kiadas_label = "Egyéb kiadási hely"
+        egyeb_kiadas_value = "egyéb"
 
-utlevel_hely_valaszto = st.selectbox(
-    L["utlevel_helye"],
-    pass_country_opts
-)
+    utlevel_hely_valaszto = st.selectbox(
+        L["utlevel_helye"],
+        pass_country_opts
+    )
 
-egyeb_kiadasi_hely = ""
-if utlevel_hely_valaszto == egyeb_kiadas_value:
-    egyeb_kiadasi_hely = st.text_input(egyeb_kiadas_label)
+    egyeb_kiadasi_hely = ""
+    if utlevel_hely_valaszto == egyeb_kiadas_value:
+        egyeb_kiadasi_hely = st.text_input(egyeb_kiadas_label)
 
-utlevel_helye = (
-    egyeb_kiadasi_hely.strip()
-    if utlevel_hely_valaszto == egyeb_kiadas_value
-    else utlevel_hely_valaszto
-)
+    utlevel_helye = (
+        egyeb_kiadasi_hely.strip()
+        if utlevel_hely_valaszto == egyeb_kiadas_value
+        else utlevel_hely_valaszto
+    )
 
     utlevel_helye = (
         egyeb_kiadasi_hely.strip() 
