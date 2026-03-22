@@ -565,6 +565,12 @@ with st.form("adaturlap", clear_on_submit=False):
     fedezet_osszeg = st.text_input(L["fedezet_osszeg"]) 
 
     # 6) Hozzátartozók
+    
+    st.markdown(f"**{L['section_hozzatartozo']}**")
+    
+    hozz_count = st.number_input(L["hozz_count"], min_value=0, max_value=4, step=1, value=0)
+    hozz = []
+
     hozz = []
 
     if hozz_count > 0:
