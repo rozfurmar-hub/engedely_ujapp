@@ -832,9 +832,9 @@ if submitted:
             record["visszaut_orszag"] = hu_visszaut_orszag or transliterate_to_latin(visszaut_orszag)
 
         kozlekedesi_eszkoz = record.get("kozlekedesi_eszkoz", "")
-            if contains_cyrillic(kozlekedesi_eszkoz):
-                hu_kozlekedesi_eszkoz = translator_translate_to_hungarian(kozlekedesi_eszkoz)
-             record["kozlekedesi_eszkoz"] = hu_kozlekedesi_eszkoz or transliterate_to_latin(kozlekedesi_eszkoz)
+        if contains_cyrillic(kozlekedesi_eszkoz):
+            hu_kozlekedesi_eszkoz = translator_translate_to_hungarian(kozlekedesi_eszkoz)
+            record["kozlekedesi_eszkoz"] = hu_kozlekedesi_eszkoz or transliterate_to_latin(kozlekedesi_eszkoz)
             
         # k) Mo-ra érkezés előtti ország
         elozo_orszag = record.get("elozo_orszag", "")
