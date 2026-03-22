@@ -593,84 +593,7 @@ with st.form("adaturlap", clear_on_submit=False):
     van_anyagi_fedezet_disp = st.selectbox(L["van_anyagi_fedezet"], options=[""] + YESNO_DISP, index=0)
     fedezet_osszeg = st.text_input(L["fedezet_osszeg"]) 
 
-   # 6) Hozzátartozók – dinamikus hozzáadással
-    st.markdown(f"**{L['section_hozzatartozo']}**")
-    
-    # Session state inicializálás (hány hozzátartozót adtunk hozzá ténylegesen)
-    if "hozz_inputs" not in st.session_state:
-        st.session_state["hozz_inputs"] = 0
-    
-    # A felhasználó megadja hány hozzátartozója van
-    hozz_count = st.number_input(L["hozz_count"], min_value=0, max_value=20, step=1, value=0)
-    
-    # Magyarázó szöveg – azonnal jelenjen meg
-    if hozz_count > 0:
-        if ui_lang == "ru":
-            st.info("Если Вы указали, что у вас есть родственники-иждивенцы, добавьте данные о них с помощью кнопки 'Добавить'.")
-        else:
-            st.info("Amennyiben megadta, hogy vannak eltartott hozzátartozói, adja hozzá a rájuk vonatkozó információt a Hozzáadás gombbal.")
-    
-    # HOZZÁADÁS gomb – sima button, NEM submit!
-    if st.button("➕ Hozzáadás / Добавить"):
-        if st.session_state["hozz_inputs"] < hozz_count:
-            st.session_state["hozz_inputs"] += 1
-    
-    # Dinamikus mezők létrehozása
-    hozz = []
-    
-    for i in range(st.session_state["hozz_inputs"]):
-        st.markdown(f"### {i+1}. hozzátartozó / {i+1}. иждивенец")
-    
-        # NEM mező
-        nem_opts = ["férfi", "nő", "egyéb"] if ui_lang == "hu" else ["мужской", "женский", "другое"]
-        hozz_nem = st.selectbox(
-            f"Nem / Пол #{i+1}",
-            nem_opts,
-            key=f"h_nem_{i}"
-        )
-    
-        vezetek = st.text_input(f"Vezetéknév #{i+1}", key=f"h_vezetek_{i}")
-        kereszt = st.text_input(f"Keresztnév #{i+1}", key=f"h_kereszt_{i}")
-    
-        # Rokonsági fok – legördülő
-        if ui_lang == "ru":
-            rokon_opts = ["родитель", "ребенок", "супруг(а)", "брат/сестра", "другое"]
-        else:
-            rokon_opts = ["szülő", "gyermek", "házastárs", "testvér", "egyéb"]
-    
-        rokonsag = st.selectbox(
-            f"Rokonsági fok #{i+1}",
-            rokon_opts,
-            key=f"h_rok_{i}"
-        )
-    
-        szul_hely = st.text_input(f"Születési hely #{i+1}", key=f"h_szulhely_{i}")
-        szul_ido = st.text_input(f"Születési idő (YYYY-MM-DD) #{i+1}", key=f"h_szulido_{i}")
-        anyja_vez = st.text_input(f"Anyja születési vezetékneve #{i+1}", key=f"h_anyja_vez_{i}")
-        anyja_ker = st.text_input(f"Anyja születési keresztneve #{i+1}", key=f"h_anyja_ker_{i}")
-        allamp = st.text_input(f"Állampolgárság #{i+1}", key=f"h_allamp_{i}")
-    
-        tartozkodas_e = st.selectbox(
-            f"Magyarországon tartózkodik-e? #{i+1}",
-            ["igen", "nem"] if ui_lang=="hu" else ["да", "нет"],
-            key=f"h_tartozik_{i}"
-        )
-    
-        okmany = st.text_input(f"Okmányszám #{i+1}", key=f"h_okmany_{i}")
-    
-        hozz.append({
-            "nem": hozz_nem,
-            "vezeteknev": vezetek,
-            "keresztnev": kereszt,
-            "rokonsagi_fok": rokonsag,
-            "szuletesi_hely": szul_hely,
-            "szuletesi_ido": szul_ido,
-            "anyja_vezetek": anyja_vez,
-            "anyja_kereszt": anyja_ker,
-            "allampolgarsag": allamp,
-            "tartozkodik_e": tartozkodas_e,
-            "okmany_szam": okmany
-        })
+   
 
     # 7) Egyéb adatok
     st.markdown(f"**{L['section_egyeb']}**")
@@ -709,6 +632,91 @@ with st.form("adaturlap", clear_on_submit=False):
     selected_labels = st.multiselect(L["select_templates"], options=template_labels, default=defaults)
 
     submitted = st.form_submit_button(L["btn_generate"])
+
+# ==== HOZZÁTARTOZÓK – DINAMIKUS KEZELÉS (FORMON KÍVÜL) ====
+
+st.markdown(f"### {L['section_hozzatartozo']}")
+
+# Session state inicializálás
+if "hozz_inputs" not in st.session_state:
+    st.session_state["hozz_inputs"] = 0
+
+# Hozzátartozók száma (nem a form része!)
+hozz_count = st.number_input(
+    L["hozz_count"],
+    min_value=0,
+    max_value=20,
+    step=1,
+    value=0,
+    key="hozz_count_selector"
+)
+
+# Magyarázó szöveg azonnal
+if hozz_count > 0:
+    if ui_lang == "ru":
+        st.info("Если Вы указали, что у вас есть родственники-иждивенцы, добавьте данные о них с помощью кнопки 'Добавить'.")
+    else:
+        st.info("Amennyiben megadta, hogy vannak eltartott hozzátartozói, adja hozzá a rájuk vonatkozó információt a Hozzáadás gombbal.")
+
+# HOZZÁADÁS gomb (formon kívül lehet button!)
+if st.button("➕ Hozzáadás / Добавить"):
+    if st.session_state["hozz_inputs"] < hozz_count:
+        st.session_state["hozz_inputs"] += 1
+
+# Dinamikus mezők létrehozása
+hozz = []
+
+for i in range(st.session_state["hozz_inputs"]):
+    st.markdown(f"#### {i+1}. hozzátartozó")
+
+    # NEM mező
+    nem_opts = (
+        ["férfi", "nő", "egyéb"]
+        if ui_lang == "hu"
+        else ["мужской", "женский", "другое"]
+    )
+    hozz_nem = st.selectbox(f"Nem / Пол #{i+1}", nem_opts, key=f"h_nem_{i}")
+
+    # Nevek
+    vezetek = st.text_input(f"Vezetéknév #{i+1}", key=f"h_vezetek_{i}")
+    kereszt = st.text_input(f"Keresztnév #{i+1}", key=f"h_kereszt_{i}")
+
+    # Rokonsági fok – legördülő
+    if ui_lang == "ru":
+        rokon_opts = ["родитель", "ребенок", "супруг(а)", "брат/сестра", "другое"]
+    else:
+        rokon_opts = ["szülő", "gyermek", "házastárs", "testvér", "egyéb"]
+
+    rokonsag = st.selectbox(f"Rokonsági fok #{i+1}", rokon_opts, key=f"h_rok_{i}")
+
+    # Egyéb mezők
+    szul_hely = st.text_input(f"Születési hely #{i+1}", key=f"h_szulhely_{i}")
+    szul_ido = st.text_input(f"Születési idő (YYYY-MM-DD) #{i+1}", key=f"h_szulido_{i}")
+    anyja_vez = st.text_input(f"Anyja vezetékneve #{i+1}", key=f"h_anyja_vez_{i}")
+    anyja_ker = st.text_input(f"Anyja keresztneve #{i+1}", key=f"h_anyja_ker_{i}")
+    allamp = st.text_input(f"Állampolgárság #{i+1}", key=f"h_allamp_{i}")
+
+    tartozkodas_e = st.selectbox(
+        f"Magyarországon tartózkodik-e? #{i+1}",
+        ["igen", "nem"] if ui_lang == "hu" else ["да", "нет"],
+        key=f"h_tartozik_{i}"
+    )
+
+    okmany = st.text_input(f"Okmányszám #{i+1}", key=f"h_okmany_{i}")
+
+    hozz.append({
+        "nem": hozz_nem,
+        "vezeteknev": vezetek,
+        "keresztnev": kereszt,
+        "rokonsagi_fok": rokonsag,
+        "szuletesi_hely": szul_hely,
+        "szuletesi_ido": szul_ido,
+        "anyja_vezetek": anyja_vez,
+        "anyja_kereszt": anyja_ker,
+        "allampolgarsag": allamp,
+        "tartozkodik_e": tartozkodas_e,
+        "okmany_szam": okmany
+    })
 
 # =========================
 # Beküldés feldolgozása
