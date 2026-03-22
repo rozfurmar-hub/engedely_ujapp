@@ -871,22 +871,10 @@ if submitted:
         st.error(L["err_fix"] + "\n- " + "\n- ".join(errors))
     else:
         try:
-            # UPSERT kulcs: teljes név + szül. dátum
-            key_name = (record.get("teljes_nev", "").strip().lower())
-            key_dob = (record.get("szuletesi_datum", "").strip())
-            existing = None
-            for r in list_records():
-                if (r.get("teljes_nev", "").strip().lower() == key_name and
-                    (r.get("szuletesi_datum", "").strip() == key_dob)):
-                    existing = r
-                    break
-            if existing:
-                saved = update_record(existing["id"], record)
-                upsert_msg = L["succ_update"].format(id=saved.get("id"), nev=record.get("teljes_nev"))
-            else:
-                saved = create_record(record)
-                upsert_msg = L["succ_new"].format(id=saved.get("id"), nev=record.get("teljes_nev"))
-            st.success(f"Mentve. Rekord ID: {saved.get('id')}")
+
+# Új rekord létrehozása
+saved = create_record(record)
+upsert_msg = L["succ_new"].format(id=saved.get("id"), nev=record.get("teljes_nev"))
 
             # Dokumentumok
             generated_docs = []
@@ -926,28 +914,6 @@ if submitted:
                 )
         except Exception as e:
             st.error(f"Váratlan hiba történt: {e}")
-
-# =========================
-# Alsó szekció – rekordlista
-# =========================
-st.divider()
-st.subheader(L["table_header"]) 
-try:
-    recs = list_records()
-    if recs:
-        L_title_id = L.get("table_col_id","ID")
-        L_title_nev = L.get("table_col_nev","név")
-        L_title_dob = L.get("table_col_dob","szül. dátum")
-        L_title_pass = L.get("table_col_pass","útlevél")
-        miniview = [
-            {L_title_id: r.get("id",""), L_title_nev: r.get("teljes_nev",""), L_title_dob: r.get("szuletesi_datum",""), L_title_pass: r.get("utlevel_szam","")}
-            for r in recs[-20:]
-        ]
-        st.dataframe(miniview, use_container_width=True)
-    else:
-        st.info(L["info_no_records"])
-except Exception as e:
-    st.error(f"Nem sikerült betölteni a rekordokat: {e}")
 
 # =========================
 # Helyőrzők listája (a sablonokhoz) – megjelenítjük is
