@@ -1,6 +1,28 @@
 import streamlit as st
 import uuid
 
+from field_help import load_field_help
+
+def get_kb_answer(question: str, ui_lang: str):
+    """
+    Egyszerű kulcsszavas keresés a tudásbázisban.
+    Ha a kérdés tartalmazza a mező kulcsát → visszaadja a help szöveget.
+    """
+    kb = load_field_help(ui_lang)
+    q = question.lower()
+
+    for key, info in kb.items():
+        if key.lower() in q:
+            # Elsődleges: a help szöveg
+            help_text = info.get("help", "")
+
+            # Ha a label releváns, az is visszaadható:
+            label = info.get("label", "")
+
+            return f"**{label}**\n\n{help_text}"
+
+    return None
+
 # ---- CHAT LOGIKA ----
 def generate_ai_answer(q):
     # Egyelőre minta — ide kerül majd az AI
