@@ -14,8 +14,13 @@ def load_field_help(lang="hu"):
     except:
         return {}
 
+
 def show_field_help(field_name, lang="hu"):
     kb = load_field_help(lang)
     info = kb.get(field_name)
-    if info:
-        st.info(f"**{info['label']}**\n\n{info['help']}")
+    if not info:
+        return
+
+    with st.popover("ℹ️"):
+        st.markdown(f"### {info['label']}")
+        st.write(info["help"])
