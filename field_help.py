@@ -15,12 +15,19 @@ def load_field_help(lang="hu"):
         return {}
 
 
+import streamlit as st
+
 def show_field_help(field_name, lang="hu"):
+    from field_help import load_field_help
     kb = load_field_help(lang)
     info = kb.get(field_name)
+
     if not info:
+        # akkor is jelenjen meg apró ikon — üres popoverrel
+        with st.popover("ℹ️", use_container_width=False):
+            st.write("Nincs elérhető információ.")
         return
 
-    with st.popover("ℹ️"):
+    with st.popover("ℹ️", use_container_width=False):
         st.markdown(f"### {info['label']}")
         st.write(info["help"])
