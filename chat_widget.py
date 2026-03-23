@@ -32,10 +32,30 @@ def generate_response(question, ui_lang):
         return kb_answer
 
     # 2) AI fallback
-    ai_answer = ask_ai(question, ui_lang)
-    return ai_answer
-def ask_ai(question, ui_lang):
-    return "AI válasz (hamarosan részletesebb lesz)."
+    import openai
+
+    def ask_ai(question, ui_lang):
+        # OpenAI kliens inicializálása
+        client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
+    
+        system_prompt_hu = """Segítőkész magyar ügyintéző asszisztens vagy. 
+    Röviden, érthetően, barátságosan válaszolsz. Az űrlapmezők kitöltésével kapcsolatos kérdésekre segítesz."""
+    
+        system_prompt_ru = """Вы — дружелюбный помощник, объясняющий, как заполнять форму.
+    Отвечайте коротко, понятно и дружелюбно, на русском языке."""
+    
+        system_prompt = system_prompt_hu if ui_lang == "hu" else system_prompt_ru
+    
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": question}
+            ],
+            max_tokens=500
+        )
+    
+        return response.choices[0].message.content
 
 def render_chat_ai():
     if "chat_history" not in st.session_state:
