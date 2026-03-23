@@ -2,6 +2,10 @@ import streamlit as st
 import uuid
 
 # ---- CHAT LOGIKA ----
+def generate_ai_answer(q):
+    # Egyelőre minta — ide kerül majd az AI
+    return f"AI válasz (minta): {q}"
+
 def render_chat_ai():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
@@ -15,20 +19,9 @@ def render_chat_ai():
 
     if question:
         st.session_state.chat_history.append(("user", question))
-        # Itt hívod majd az AI válaszoló függvényt:
         answer = generate_ai_answer(question)
         st.session_state.chat_history.append(("assistant", answer))
         st.chat_message("assistant").write(answer)
-
-
-# ---- IDE JÖN MAJD AZ AI MEGHÍVÁSA ----
-def generate_ai_answer(q):
-    # Egyelőre helyettesítő válasz (később AI-ra cseréljük)
-    return (
-        "Ez egy minta válasz. Itt fog megjelenni az AI válasza "
-        "a lebegő chatmodulból."
-    )
-
 
 # ---- FŐ FUNKCIÓ: LEBEGŐ CHAT ----
 def floating_chat():
@@ -38,7 +31,6 @@ def floating_chat():
         f"""
         <style>
 
-        /* Lebegő chat gomb */
         .chat-button-{unique} {{
             position: fixed;
             bottom: 20px;
@@ -56,12 +48,10 @@ def floating_chat():
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }}
 
-        /* Rejtett checkbox */
         #chat-toggle-{unique} {{
             display: none;
         }}
 
-        /* Chat panel */
         .chat-panel-{unique} {{
             position: fixed;
             bottom: 100px;
@@ -75,14 +65,13 @@ def floating_chat():
             box-shadow: 0 6px 16px rgba(0,0,0,0.25);
             z-index: 99999;
             display: none;
+            overflow-y: auto;
         }}
 
-        /* Checkbox bejelölve → panel megjelenik */
         #chat-toggle-{unique}:checked ~ .chat-panel-{unique} {{
             display: block;
         }}
 
-        /* Bezárás gomb */
         .close-btn-{unique} {{
             position: absolute;
             right: 12px;
@@ -91,28 +80,25 @@ def floating_chat():
             cursor: pointer;
             color: #555;
         }}
+
         </style>
 
-        <!-- Csevegésgomb -->
         <label for="chat-toggle-{unique}" class="chat-button-{unique}">
             💬
         </label>
 
-        <!-- Rejtett kapcsoló -->
         <input type="checkbox" id="chat-toggle-{unique}" />
 
-        <!-- Chatpanel -->
         <div class="chat-panel-{unique}">
             <label for="chat-toggle-{unique}" class="close-btn-{unique}">✖</label>
             <div id="chat-content-{unique}">
-                CHAT_CONTENT_PLACEHOLDER
+                <!-- Ide kerül a Streamlit chat -->
             </div>
         </div>
         """,
         unsafe_allow_html=True
     )
 
-    # Streamlit komponens a panel belsejébe
+    # Streamlit chat a panel belsejében
     with st.container():
         render_chat_ai()
-``
