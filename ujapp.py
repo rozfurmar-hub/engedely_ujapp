@@ -18,6 +18,8 @@ import streamlit as st
 from docxtpl import DocxTemplate
 
 from chat_widget import floating_chat
+from field_help import show_field_help
+
 
 # ---- Adatkezelő modul (meglévő környezetből) ----
 from datakezelo import BASE_DIR, create_record, list_records, update_record
