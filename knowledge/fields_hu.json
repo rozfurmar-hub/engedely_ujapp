@@ -1,0 +1,18 @@
+{
+  "vezeteknev": {
+    "label": "Családi név (útlevél szerint)",
+    "help": "A családi név pontosan úgy kerüljön megadásra, ahogy az útlevélben szerepel."
+  },
+  "keresztnev": {
+    "label": "Utónév",
+    "help": "Az utónév latin betűkkel, az útlevélben szereplő formátumban adandó meg."
+  },
+  "utlevel_szam": {
+    "label": "Útlevélszám",
+    "help": "Csak latin betűk és számok használhatók (A–Z, 0–9), és 5–15 karakter hosszú lehet."
+  },
+  "szuletesi_datum": {
+    "label": "Születési dátum",
+    "help": "A dátum ISO-formátumban adandó meg: YYYY-MM-DD."
+  }
+}
