@@ -100,13 +100,13 @@
   "buntet_reszletek": "Bűncselekmény részletei (ország, mikor, miért, büntetés)",
   "volt_kiutasitas": "Kiutasították-e korábban Magyarországról?",
   "kiutasitas_datum": "Kiutasítás dátuma (YYYY-MM-DD)",
-  "fert_beteg": "Szenved-e a felsorolt fertőző betegségek valamelyikében?",
+  "fert_beteg": "Szenved-e a felsorolt fertőző betegségek valamelyikében? (HIV/AIDS, továbbá tbc, hepatitis B, luesz, lepra, hastífusz)",
   "kap_ellatas": "Fertőzőképesség esetén részesül-e kötelező és rendszeres ellátásban?",
-  "section_kiskoru": "8) Kiskorú gyermek utazik együtt",
+  "section_kiskoru": "7) Kiskorú gyermek utazik együtt",
   "kiskoru_utazik": "Az útlevélben szereplő kiskorú gyermek velem együtt utazik",
-  "section_tervezett": "9) Tartózkodás tervezett időtartama és célja",
+  "section_tervezett": "8) Tartózkodás tervezett időtartama és célja",
   "tartozkodas_vege": "Meddig kéri az engedélyt? (YYYY-MM-DD)",
   "tartozkodas_celja": "Tartózkodás célja",
-  "section_fizetes": "Fizetési tranzakció",
+  "section_fizetes": "9) Fizetési tranzakció",
   "tranzakcio_szam": "Elektronikus/banki befizetés tranzakciós száma"
 }
