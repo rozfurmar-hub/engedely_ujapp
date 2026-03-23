@@ -1,262 +1,232 @@
 {
   "vezeteknev": {
-    "label": "Családi név (útlevél szerint)",
-    "help": "Adja meg a családi nevét pontosan úgy, ahogy az útlevélben szerepel."
+    "label": "Фамилия (как в паспорте)",
+    "help": "Введите фамилию латиницей, строго в том виде, как указано в загранпаспорте."
   },
   "keresztnev": {
-    "label": "Utónév (útlevél szerint)",
-    "help": "Adja meg az utónevét az útlevele szerinti formában, latin betűkkel."
+    "label": "Имя (как в паспорте)",
+    "help": "Введите имя латиницей, в соответствии с загранпаспортом."
   },
   "szuletesi_csaladi": {
-    "label": "Születési családi név",
-    "help": "Ha eltér a jelenlegi családi névtől, adja meg az eredeti születési családi nevét."
+    "label": "Фамилия при рождении",
+    "help": "Введите фамилию при рождении, если она отличается от текущей."
   },
   "szuletesi_uto": {
-    "label": "Születési utónév",
-    "help": "Adja meg a születési utónevét, ha eltér a jelenlegitől."
+    "label": "Имя при рождении",
+    "help": "Введите имя при рождении, если оно отличается."
   },
   "anyja_csaladi": {
-    "label": "Anyja születési családi neve",
-    "help": "Adja meg az édesanya születési családi nevét a hivatalos okmányok alapján."
+    "label": "Фамилия матери при рождении",
+    "help": "Введите фамилию матери при рождении латиницей, строго по документам."
   },
   "anyja_uto": {
-    "label": "Anyja születési utóneve",
-    "help": "Adja meg az édesanya születési utónevét, latin betűkkel."
+    "label": "Имя матери при рождении",
+    "help": "Введите имя матери при рождении латиницей."
   },
   "nem": {
-    "label": "Nem",
-    "help": "Válassza ki a biológiai nemét."
+    "label": "Пол",
+    "help": "Выберите биологический пол."
   },
   "allampolgarsag": {
-    "label": "Állampolgárság",
-    "help": "Válassza ki, mely ország állampolgára."
+    "label": "Гражданство",
+    "help": "Укажите страну гражданства."
   },
   "nemzetiseg": {
-    "label": "Nemzetiség",
-    "help": "Nem kötelező mező. Adja meg, ha szeretné feltüntetni a nemzetiségét."
+    "label": "Национальность",
+    "help": "Необязательное поле. Укажите национальность при необходимости."
   },
   "csaladi_allapot": {
-    "label": "Családi állapot",
-    "help": "Válassza ki tényleges családi állapotát."
+    "label": "Семейное положение",
+    "help": "Выберите текущее семейное положение."
   },
   "szuletesi_datum": {
-    "label": "Születési idő",
-    "help": "A dátumot YYYY-MM-DD formátumban adja meg."
+    "label": "Дата рождения",
+    "help": "Введите дату в формате YYYY-MM-DD."
   },
   "szuletesi_hely": {
-    "label": "Születési hely",
-    "help": "Írja be a születési település nevét."
+    "label": "Место рождения",
+    "help": "Введите название населённого пункта, где вы родились."
   },
   "szuletesi_orszag": {
-    "label": "Születési ország",
-    "help": "Adja meg, mely országban született."
+    "label": "Страна рождения",
+    "help": "Укажите страну рождения."
   },
   "vegzettseg": {
-    "label": "Iskolai végzettség",
-    "help": "Válassza ki a legmagasabb iskolai végzettséget."
+    "label": "Образование",
+    "help": "Выберите ваш наивысший уровень образования."
   },
   "szakkepzettseg": {
-    "label": "Szakképzettség",
-    "help": "Adja meg a végzettségéhez kapcsolódó szakmai képesítést."
+    "label": "Профессиональная квалификация",
+    "help": "Укажите имеющуюся профессию или квалификацию."
   },
   "elozo_foglalkozas": {
-    "label": "Érkezés előtti foglalkozás",
-    "help": "Adja meg a Magyarországra érkezés előtti fő foglalkozását."
+    "label": "Профессия до приезда в Венгрию",
+    "help": "Укажите основную профессию, по которой вы работали до приезда в Венгрию."
   },
   "utlevel_szam": {
-    "label": "Útlevélszám",
-    "help": "Csak latin betűk és számok használhatók."
+    "label": "Номер паспорта",
+    "help": "Допускаются только латинские буквы и цифры (A–Z, 0–9)."
   },
   "utlevel_kiadas": {
-    "label": "Útlevél kiállításának dátuma",
-    "help": "Adja meg, mikor állították ki az útlevelét (YYYY-MM-DD)."
+    "label": "Дата выдачи паспорта",
+    "help": "Введите дату выдачи паспорта в формате YYYY-MM-DD."
   },
   "utlevel_helye": {
-    "label": "Kiállítás helye",
-    "help": "Adja meg, mely ország vagy település állította ki az útlevelét."
+    "label": "Место выдачи",
+    "help": "Укажите город или страну, где был выдан паспорт."
   },
   "utlevel_tipus": {
-    "label": "Útlevél típusa",
-    "help": "Válassza ki az útlevél típusát."
+    "label": "Тип паспорта",
+    "help": "Выберите тип паспорта."
   },
   "utlevel_lejarat": {
-    "label": "Útlevél érvényessége",
-    "help": "A lejárati dátumot YYYY-MM-DD formátumban adja meg."
+    "label": "Срок действия паспорта",
+    "help": "Введите дату окончания срока действия (YYYY-MM-DD)."
   },
   "helyrajzi_szam": {
-    "label": "Helyrajzi szám",
-    "help": "Nem kötelező mező. Adja meg a helyrajzi számot, ha ismert."
+    "label": "Кадастровый номер",
+    "help": "Необязательное поле. Укажите кадастровый номер, если он известен."
   },
   "iranyitoszam": {
-    "label": "Irányítószám",
-    "help": "Adja meg a magyarországi szálláshely irányítószámát."
+    "label": "Почтовый индекс",
+    "help": "Введите почтовый индекс адреса проживания в Венгрии."
   },
   "telepules": {
-    "label": "Település",
-    "help": "Írja be a település nevét."
+    "label": "Населённый пункт",
+    "help": "Введите название населённого пункта."
   },
   "kozterulet_nev": {
-    "label": "Közterület neve",
-    "help": "Adja meg az utcanevet, térnevet stb."
+    "label": "Название улицы",
+    "help": "Введите название улицы, площади и т.д."
   },
   "kozterulet_jelleg": {
-    "label": "Közterület jellege",
-    "help": "Pl.: utca, tér, köz, út, park stb."
+    "label": "Тип улицы",
+    "help": "Например: utca (улица), tér (площадь), út (дорога) и др."
   },
   "hazszam": {
-    "label": "Házszám",
-    "help": "Adja meg a házszámot."
+    "label": "Номер дома",
+    "help": "Введите номер дома."
   },
   "epulet": {
-    "label": "Épület",
-    "help": "Nem kötelező mező. Tömb, épület megjelölése."
+    "label": "Корпус / здание",
+    "help": "Необязательное поле."
   },
   "lepcsohaz": {
-    "label": "Lépcsőház",
-    "help": "Nem kötelező mező."
+    "label": "Подъезд",
+    "help": "Необязательное поле."
   },
   "emelet": {
-    "label": "Emelet",
-    "help": "Nem kötelező mező."
+    "label": "Этаж",
+    "help": "Необязательное поле."
   },
   "ajto": {
-    "label": "Ajtó",
-    "help": "Nem kötelező mező."
+    "label": "Квартира",
+    "help": "Необязательное поле."
   },
   "szallas_jogcim": {
-    "label": "Tartózkodás jogcíme",
-    "help": "Válassza ki, milyen jogcímen lakik az adott címen."
+    "label": "Правовое основание проживания",
+    "help": "Укажите, на каком основании вы проживаете по указанному адресу."
   },
   "elso_beutazas_helye": {
-    "label": "Beutazás helye",
-    "help": "Csak első kérelemnél kötelező. Adja meg, hol lépett be Magyarországra."
+    "label": "Место въезда",
+    "help": "Укажите, через какой пункт въехали в Венгрию (для первого заявления)."
   },
   "elso_beutazas_datuma": {
-    "label": "Beutazás dátuma",
-    "help": "YYYY-MM-DD formátumban adandó meg."
+    "label": "Дата въезда",
+    "help": "Введите дату въезда в формате YYYY-MM-DD."
   },
   "hossz_engedely_szam": {
-    "label": "Engedély száma",
-    "help": "Hosszabbításnál kötelező mező."
+    "label": "Номер разрешения",
+    "help": "Укажите номер действующего разрешения (для продления)."
   },
   "hossz_engedely_ervenyes": {
-    "label": "Engedély érvényessége",
-    "help": "Adja meg a jelenlegi tartózkodási engedély lejáratát."
+    "label": "Срок действия разрешения",
+    "help": "Введите срок действия текущего разрешения."
   },
   "atvetel_mod": {
-    "label": "Átvétel módja",
-    "help": "Válassza ki, hogyan szeretné átvenni a kész okmányt."
+    "label": "Способ получения документа",
+    "help": "Выберите, как вы хотите получить готовый документ."
   },
   "postai_cim_tipus": {
-    "label": "Postai kézbesítés címe",
-    "help": "Válassza ki, melyik címre kér kézbesítést."
+    "label": "Адрес почтовой доставки",
+    "help": "Выберите адрес для доставки, если выбрана почтовая доставка."
   },
   "egeszseg_biztositas": {
-    "label": "Egészségbiztosítás",
-    "help": "Rendelkezik-e teljes körű egészségbiztosítással."
+    "label": "Медицинская страховка",
+    "help": "Укажите, имеется ли у вас полная медицинская страховка."
   },
   "egeszseg_egyeb": {
-    "label": "Egészségügyi megjegyzés",
-    "help": "Nem kötelező mező. Biztosítás típusa, egyéb információ."
+    "label": "Комментарий по страховке",
+    "help": "Дополнительная информация (необязательно)."
   },
   "visszaut_orszag": {
-    "label": "Visszautazás országa",
-    "help": "Adja meg, hova készül továbbutazni vagy visszatérni."
+    "label": "Страна возвращения",
+    "help": "Укажите страну, в которую планируете вернуться или продолжить путь."
   },
   "kozlekedesi_eszkoz": {
-    "label": "Közlekedési eszköz",
-    "help": "Pl.: repülő, busz, vonat, autó."
+    "label": "Транспорт",
+    "help": "Например: самолёт, автобус, поезд, автомобиль."
   },
   "van_utlevel": {
-    "label": "Rendelkezik útlevéllel?",
-    "help": "Jelölje meg, hogy rendelkezik-e érvényes útlevéllel."
+    "label": "Есть действующий паспорт?",
+    "help": "Укажите, имеется ли у вас действующий паспорт."
   },
   "van_vizum": {
-    "label": "Van vízuma?",
-    "help": "Adja meg, hogy rendelkezik-e érvényes vízummal."
+    "label": "Есть виза?",
+    "help": "Укажите, имеется ли у вас действующая виза."
   },
   "van_menetjegy": {
-    "label": "Van menetjegye?",
-    "help": "Van-e érvényes menetjegye a vissza- vagy továbbutazáshoz."
+    "label": "Есть билет?",
+    "help": "Укажите, имеется ли билет для возврата или дальнейшей поездки."
   },
   "van_anyagi_fedezet": {
-    "label": "Rendelkezik anyagi fedezettel?",
-    "help": "Jelölje meg, hogy rendelkezik-e elegendő anyagi fedezettel."
+    "label": "Есть финансовые средства?",
+    "help": "Укажите, располагаете ли достаточными финансовыми средствами."
   },
   "fedezet_osszeg": {
-    "label": "Anyagi fedezet összege",
-    "help": "Adja meg az elérhető anyagi fedezet mértékét."
+    "label": "Сумма средств",
+    "help": "Укажите сумму доступных финансовых средств."
   },
   "elozo_orszag": {
-    "label": "Érkezés előtti ország",
-    "help": "Melyik országból érkezett Magyarországra."
+    "label": "Страна проживания до приезда",
+    "help": "Из какой страны вы прибыли в Венгрию."
   },
   "elozo_telepules": {
-    "label": "Érkezés előtti település",
-    "help": "A település neve, ahonnan érkezett."
+    "label": "Город проживания до приезда",
+    "help": "Введите название населённого пункта."
   },
   "elozo_cim": {
-    "label": "Érkezés előtti cím",
-    "help": "Nem kötelező mező. Írja le az előző lakcímet."
+    "label": "Предыдущий адрес",
+    "help": "Необязательное поле."
   },
   "mas_schengen_okmany": {
-    "label": "Van más schengeni tartózkodási okmánya?",
-    "help": "Adja meg, ha valamely más schengeni ország érvényes engedélyével is rendelkezik."
+    "label": "Есть другой шенгенский документ?",
+    "help": "Укажите, если у вас есть разрешение другой шенгенской страны."
   },
   "mas_schengen_tipus": {
-    "label": "Okmány típusa",
-    "help": "Pl.: tartózkodási engedély, munkavállalási engedély."
+    "label": "Тип документа",
+    "help": "Например: ВНЖ, разрешение на работу и др."
   },
   "mas_schengen_szam": {
-    "label": "Okmányszám",
-    "help": "Adja meg az engedély számát."
+    "label": "Номер документа",
+    "help": "Введите номер документа."
   },
   "mas_schengen_ervenyes": {
-    "label": "Érvényességi idő",
-    "help": "YYYY-MM-DD formátumban."
+    "label": "Срок действия документа",
+    "help": "Введите срок действия (YYYY-MM-DD)."
   },
   "volt_elutasitas": {
-    "label": "Volt elutasított kérelme?",
-    "help": "Jelölje meg, ha korábban elutasítottak kérelmét."
+    "label": "Было ли отказано ранее?",
+    "help": "Укажите, был ли ранее отказ в заявлении."
   },
   "volt_buntetve": {
-    "label": "Volt büntetve?",
-    "help": "Jelölje meg, ha volt büntetőeljárás alatt."
+    "label": "Были ли судимости?",
+    "help": "Укажите, были ли вы ранее осуждены."
   },
   "buntet_reszletek": {
-    "label": "Bűncselekmény részletei",
-    "help": "Nem kötelező mező. Írja le az eset részleteit."
+    "label": "Подробности правонарушения",
+    "help": "Укажите детали (необязательное поле)."
   },
   "volt_kiutasitas": {
-    "label": "Kiutasították?",
-    "help": "Adja meg, ha volt korábban kiutasítva Magyarországról."
-  },
-  "kiutasitas_datum": {
-    "label": "Kiutasítás dátuma",
-    "help": "YYYY-MM-DD formátumban."
-  },
-  "fert_beteg": {
-    "label": "Fertőző betegség",
-    "help": "Van-e a felsorolt fertőző betegségek valamelyike?"
-  },
-  "kap_ellatas": {
-    "label": "Részesül ellátásban?",
-    "help": "Kap-e kötelező és rendszeres egészségügyi ellátást."
-  },
-  "kiskoru_utazik": {
-    "label": "Kiskorú utazik együtt?",
-    "help": "Jelölje meg, ha a kérelmezővel kiskorú gyermek is utazik."
-  },
-  "tartozkodas_vege": {
-    "label": "Engedély kért érvényessége",
-    "help": "Adja meg, meddig kéri a tartózkodási engedélyt."
-  },
-  "tartozkodas_celja": {
-    "label": "Tartózkodás célja",
-    "help": "Válassza ki a tartózkodás célját (munka, tanulás, stb.)."
-  },
-  "tranzakcio_szam": {
-    "label": "Befizetés tranzakciószáma",
-    "help": "Adja meg a befizetés azonosítóját."
-  }
+    "label": "Было ли выдворение?",
 }
