@@ -528,11 +528,17 @@ with st.form("adaturlap", clear_on_submit=False):
     # 1) Személyes
     st.markdown(f"**{L['section_personal']}**")
     vezeteknev = st.text_input(L["vezeteknev"])  # családi
+    show_field_help("vezeteknev", ui_lang)
     keresztnev = st.text_input(L["keresztnev"])  # utónév
-    szuletesi_csaladi = st.text_input(L["szuletesi_csaladi"]) 
+    show_field_help("keresztnev", ui_lang)
+    szuletesi_csaladi = st.text_input(L["szuletesi_csaladi"])
+    show_field_help("szuletesi_csaladi", ui_lang)
     szuletesi_uto = st.text_input(L["szuletesi_uto"]) 
-    anyja_csaladi = st.text_input(L["anyja_csaladi"]) 
+    show_field_help("szuletesi_uto", ui_lang)
+    anyja_csaladi = st.text_input(L["anyja_csaladi"])
+    show_field_help("anyja_csaladi", ui_lang)
     anyja_uto = st.text_input(L["anyja_uto"]) 
+    show_field_help("anyja_uto", ui_lang)
     nem_disp = st.selectbox(L["nem"], options=[""] + GENDER_DISP, index=0)
     csaladi_allapot_disp = st.selectbox(L["csaladi_allapot"], options=[""] + FAMILY_DISP, index=0)
     
@@ -570,10 +576,12 @@ with st.form("adaturlap", clear_on_submit=False):
     vegzettseg_disp = st.selectbox(L["vegzettseg"], options=[""] + EDU_DISP, index=0)
     szakkepzettseg = st.text_input(L["szakkepzettseg"], placeholder="pl. villanyszerelő / бухгалтер")
     elozo_foglalkozas = st.text_input(L["elozo_foglalkozas"], placeholder="pl. hegesztő / водитель")
+    show_field_help("elozo_foglalkozas", ui_lang)
 
     # 2) Útlevél
     st.markdown(f"**{L['section_passport']}**")
     utlevel_szam = st.text_input(L["utlevel_szam"], placeholder="AB1234567")
+    show_field_help("elozo_foglalkozas", ui_lang)
     utlevel_kiadas = st.text_input(L["utlevel_kiadas"], placeholder="YYYY-MM-DD")
 
     # Útlevél kiállítás helye – lokalizált lista
@@ -639,12 +647,19 @@ with st.form("adaturlap", clear_on_submit=False):
     # 5) Vissza-/továbbutazás
     st.markdown(f"**{L['section_visszaut']}**")
     visszaut_orszag = st.text_input(L["visszaut_orszag"]) 
+    show_field_help("visszaut_orszag", ui_lang)
     kozlekedesi_eszkoz = st.text_input(L["kozlekedesi_eszkoz"]) 
+    show_field_help("kozlekedesi_eszkoz", ui_lang)
     van_utlevel_disp = st.selectbox(L["van_utlevel"], options=[""] + YESNO_DISP, index=0)
+    show_field_help("van_utlevel", ui_lang)
     van_vizum_disp = st.selectbox(L["van_vizum"], options=[""] + YESNO_DISP, index=0)
+    show_field_help("van_vizum", ui_lang)
     van_menetjegy_disp = st.selectbox(L["van_menetjegy"], options=[""] + YESNO_DISP, index=0)
+    show_field_help("van_menetjegy", ui_lang)
     van_anyagi_fedezet_disp = st.selectbox(L["van_anyagi_fedezet"], options=[""] + YESNO_DISP, index=0)
+    show_field_help("van_anyagi_fedezet", ui_lang)
     fedezet_osszeg = st.text_input(L["fedezet_osszeg"]) 
+    show_field_help("fedezet_osszeg", ui_lang)
 
    
 
