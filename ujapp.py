@@ -585,7 +585,7 @@ with st.form("adaturlap", clear_on_submit=False):
     szuletesi_orszag = st.text_input(L["szuletesi_orszag"]) 
     vegzettseg_disp = st.selectbox(L["vegzettseg"], options=[""] + EDU_DISP, index=0)
     szakkepzettseg = st.text_input(L["szakkepzettseg"], placeholder="pl. villanyszerelő / бухгалтер")
-    elozo_foglalkozas = st.text_input(L[("elozo_foglalkozas"], placeholder="pl. hegesztő / водитель")
+    elozo_foglalkozas = st.text_input(L["elozo_foglalkozas"], placeholder="pl. hegesztő / водитель")
    
     # 2) Útlevél
     st.markdown(f"**{L['section_passport']}**")
