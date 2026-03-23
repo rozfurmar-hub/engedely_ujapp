@@ -15,4 +15,18 @@
     "label": "Születési dátum",
     "help": "A dátum ISO-formátumban adandó meg: YYYY-MM-DD."
   }
+  {
+  "anyja_csaladi": {
+    "label": "Anyja születési családi neve",
+    "help": "Adja meg az édesanya születési családi nevét pontosan úgy, ahogy a hivatalos okmányokban szerepel."
+  },
+  "anyja_uto": {
+    "label": "Anyja születési utóneve",
+    "help": "Az édesanya születési utónevét adja meg latin betűkkel."
+  },
+  "elozo_foglalkozas": {
+    "label": "Korábbi foglalkozás",
+    "help": "Adja meg a Magyarországra érkezés előtti fő foglalkozását."
+  }
+}
 }
