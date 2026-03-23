@@ -24,10 +24,16 @@ def get_kb_answer(question: str, ui_lang: str):
     return None
 
 # ---- CHAT LOGIKA ----
-def generate_ai_answer(q):
-    # Egyelőre minta — ide kerül majd az AI
-    return f"AI válasz (minta): {q}"
+def generate_response(question, ui_lang):
+    # 1) Tudásbázis (mezőmagyarázat)
+    kb_answer = get_kb_answer(question, ui_lang)
+    if kb_answer:
+        return kb_answer
 
+    # 2) AI fallback
+    ai_answer = ask_ai(question, ui_lang)
+    return ai_answer
+    
 def render_chat_ai():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
