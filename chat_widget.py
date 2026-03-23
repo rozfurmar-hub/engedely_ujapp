@@ -58,17 +58,17 @@ def generate_response(question, ui_lang):
         return response.choices[0].message.content
 
 def render_chat_ai():
-    ui_lang = st.session_state.get
-    if "chat_history" not in st.session_state:
+        if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
-
+        
+        ui_lang = st.session_state.get
+    
     st.markdown("### 💬 Kérdezzen bátran")
 
     for role, msg in st.session_state.chat_history:
         st.chat_message(role).write(msg)
 
     question = st.chat_input("Írja ide kérdését… / Введите свой вопрос…")
-
     if question:
         st.session_state.chat_history.append(("user", question))
         answer = generate_response(question, ui_lang)
