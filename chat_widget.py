@@ -33,7 +33,9 @@ def generate_response(question, ui_lang):
     # 2) AI fallback
     ai_answer = ask_ai(question, ui_lang)
     return ai_answer
-    
+def ask_ai(question, ui_lang):
+    return "AI válasz (hamarosan részletesebb lesz)."
+
 def render_chat_ai():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
