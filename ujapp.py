@@ -21,7 +21,7 @@ from chat_widget import floating_chat
 from field_help import show_field_help
 
 def render_text_field(key, label, ui_lang, placeholder=""):
-    col1, col2 = st.columns([6, 1])
+    col1, col2 = st.columns([10, 1])
     with col1:
         st.markdown(f"**{label}**")
     with col2:
@@ -29,7 +29,7 @@ def render_text_field(key, label, ui_lang, placeholder=""):
     return st.text_input("", key=key, placeholder=placeholder)
 
 def render_select_field(key, label, options, ui_lang, index=0):
-    col1, col2 = st.columns([6, 1])
+    col1, col2 = st.columns([10, 1])
     with col1:
         st.markdown(f"**{label}**")
     with col2:
