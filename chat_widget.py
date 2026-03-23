@@ -27,12 +27,10 @@ def render_chat_ai():
 def floating_chat():
     unique = str(uuid.uuid4()).replace("-", "")
 
-    # HTML + CSS megjelenítése
     st.markdown(
         f"""
         <style>
 
-        /* Lebegő chat gomb */
         .chat-button-{unique} {{
             position: fixed;
             bottom: 20px;
@@ -50,12 +48,10 @@ def floating_chat():
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }}
 
-        /* Rejtett checkbox */
         #chat-toggle-{unique} {{
             display: none;
         }}
 
-        /* Chat panel (felugró ablak) */
         .chat-panel-{unique} {{
             position: fixed;
             bottom: 100px;
@@ -72,12 +68,10 @@ def floating_chat():
             overflow-y: auto;
         }}
 
-        /* Panel megnyitása jelölésre */
         #chat-toggle-{unique}:checked ~ .chat-panel-{unique} {{
             display: block;
         }}
 
-        /* Bezárás gomb */
         .close-btn-{unique} {{
             position: absolute;
             right: 12px;
@@ -89,20 +83,16 @@ def floating_chat():
 
         </style>
 
-        <!-- Gomb -->
         <label for="chat-toggle-{unique}" class="chat-button-{unique}">
             💬
         </label>
 
-        <!-- Checkbox -->
         <input type="checkbox" id="chat-toggle-{unique}" />
 
-        <!-- Panel -->
         <div class="chat-panel-{unique}">
             <label for="chat-toggle-{unique}" class="close-btn-{unique}">✖</label>
             <div id="chat-frame-{unique}"></div>
         </div>
-
         """,
         unsafe_allow_html=True
     )
@@ -112,4 +102,3 @@ def floating_chat():
 
     with chat_placeholder.container():
         render_chat_ai()
-``
