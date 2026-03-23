@@ -43,6 +43,23 @@ from datakezelo import BASE_DIR, create_record, list_records, update_record
 # ---- Oldal beállítás ----
 st.set_page_config(page_title="Tartózkodási engedély – adatbekérő", page_icon="📝", layout="centered")
 
+# ---- Itt kell lennie a CSS-nek ----
+st.markdown("""
+<style>
+button[data-testid="stPopoverButton"] {
+    padding: 0 !important;
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    border-radius: 50% !important;
+    font-size: 16px !important;
+    line-height: 22px !important;
+    text-align: center !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 DATA_DIR = BASE_DIR / "data"
 TEMPLATES_DIR = BASE_DIR / "templates"
 
