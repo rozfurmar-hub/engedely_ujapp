@@ -17,6 +17,8 @@ from dateutil.parser import parse as parse_date
 import streamlit as st
 from docxtpl import DocxTemplate
 
+from chat_widget import
+
 # ---- Adatkezelő modul (meglévő környezetből) ----
 from datakezelo import BASE_DIR, create_record, list_records, update_record
 
@@ -452,6 +454,9 @@ ui_lang = st.session_state["ui_lang"]
 L = load_labels(ui_lang)
 
 st.title(L["app_title"]) 
+
+floating_chat()
+
 st.caption(L["app_caption"])
 
 # Oldalsáv: sablonok
