@@ -160,8 +160,8 @@ HU = {
     "van_anyagi_fedezet": "Rendelkezik anyagi fedezettel?",
     "fedezet_osszeg": "Anyagi fedezet összege",
 
-    "section_hozzatartozo": "6) Eltartott házastárs/gyermek/szülő (max. 8 fő)",
-    "hozz_count": "Hozzátartozók száma",
+    "section_hozzatartozo": "Eltartott házastárs/gyermek/szülő (max. 8 fő)",
+    "hozz_count": "Eltartott hozzátartozók száma",
 
     "section_egyeb": "7) Egyéb adatok",
     "elozo_orszag": "(Érkezés előtti) Ország",
@@ -489,11 +489,11 @@ st.subheader(L["form_header"])
 if "hozz_inputs" not in st.session_state:
     st.session_state["hozz_inputs"] = 0
 
-# Hozzátartozók száma
+# Eltartott hozzátartozók száma
 hozz_count = st.number_input(
     L["hozz_count"],
     min_value=0,
-    max_value=20,
+    max_value=8,
     step=1,
     value=0,
     key="hozz_count_selector"
