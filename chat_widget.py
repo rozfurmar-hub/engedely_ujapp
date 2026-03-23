@@ -49,7 +49,7 @@ def render_chat_ai():
 
     if question:
         st.session_state.chat_history.append(("user", question))
-        answer = generate_ai_answer(question)
+        answer = generate_response(question, ui_lang)
         st.session_state.chat_history.append(("assistant", answer))
         st.chat_message("assistant").write(answer)
 
