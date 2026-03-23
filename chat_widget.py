@@ -58,6 +58,7 @@ def generate_response(question, ui_lang):
         return response.choices[0].message.content
 
 def render_chat_ai():
+    ui_lang = st.session_state.get
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
