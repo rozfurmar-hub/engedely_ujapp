@@ -17,7 +17,7 @@ from dateutil.parser import parse as parse_date
 import streamlit as st
 from docxtpl import DocxTemplate
 
-from chat_widget import
+from chat_widget import floating_chat
 
 # ---- Adatkezelő modul (meglévő környezetből) ----
 from datakezelo import BASE_DIR, create_record, list_records, update_record
