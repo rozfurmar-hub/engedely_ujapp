@@ -97,125 +97,108 @@ def render_chat_ai():
 # 6) Lebegő buborék PANEL — végre helyesen
 # =========================================================
 def floating_chat():
-    # Nyitott / csukott állapot
+
+    # --- Panel megnyitása / bezárása ---
     if "messenger_open" not in st.session_state:
         st.session_state.messenger_open = False
 
-    # ===== CSS: Messenger stílus =====
+    # --- CSS a Messenger stílushoz ---
     st.markdown("""
     <style>
+        .floating-button {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            z-index: 9999;
+            border-radius: 50%;
+        }
 
-    .messenger-button {
-        position: fixed;
-        bottom: 22px;
-        right: 22px;
-        background: #0084ff;
-        color: white;
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        text-align: center;
-        font-size: 32px;
-        line-height: 64px;
-        cursor: pointer;
-        z-index: 10000;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    }
+        .messenger-panel {
+            position: fixed;
+            bottom: 100px;
+            right: 22px;
+            width: 360px;
+            height: 480px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            z-index: 9998;
+            padding: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .messenger-panel {
-        position: fixed;
-        bottom: 100px;
-        right: 22px;
-        width: 360px;
-        height: 520px;
-        background: white;
-        border-radius: 14px;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-        z-index: 10001;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-        animation: fadeIn 0.25s ease-out;
-    }
+        .chat-scroll {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
 
-    @keyframes fadeIn {
-        from {opacity: 0; transform: translateY(10px);}
-        to {opacity: 1; transform: translateY(0);}
-    }
+        .bubble-user {
+            background: #0084ff;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 16px;
+            max-width: 80%;
+            align-self: flex-end;
+            margin-bottom: 8px;
+        }
 
-    .chat-scroll {
-        padding: 12px;
-        overflow-y: auto;
-        flex-grow: 1;
-        background: #f4f5f7;
-    }
-
-    .bubble-user {
-        background: #0084ff;
-        padding: 10px 14px;
-        color: white;
-        border-radius: 16px;
-        margin-bottom: 10px;
-        max-width: 80%;
-        align-self: flex-end;
-        border-bottom-right-radius: 4px;
-    }
-    .bubble-ai {
-        background: #e8e8ea;
-        padding: 10px 14px;
-        color: #222;
-        border-radius: 16px;
-        margin-bottom: 10px;
-        max-width: 80%;
-        align-self: flex-start;
-        border-bottom-left-radius: 4px;
-    }
-
+        .bubble-ai {
+            background: #e5e5ea;
+            color: #222;
+            padding: 10px 14px;
+            border-radius: 16px;
+            max-width: 80%;
+            align-self: flex-start;
+            margin-bottom: 8px;
+        }
     </style>
     """, unsafe_allow_html=True)
 
-    # ====== Lebegő gomb ======
-    btn_col = st.empty()
-    with btn_col:
-        # Streamlit button
-        if st.button("💬", key="messenger_btn", help="Üzenet küldése"):
+    # --- Lebegő buborék gomb ---
+    button_placeholder = st.empty()
+    with button_placeholder.container():
+        if st.button("💬", key="chat_open_btn"):
             st.session_state.messenger_open = not st.session_state.messenger_open
 
-        # Pozicionálás CSS-sel
+        # Buborék pozicionálása CSS-sel
         st.markdown("""
             <script>
-            var btn = window.parent.document.querySelector('[data-testid="stButton"]');
-            if (btn) { btn.parentElement.classList.add('messenger-button'); }
+                const btn = window.parent.document.querySelector('[data-testid="chat_open_btn"]');
+                if (btn) btn.parentElement.classList.add("floating-button");
             </script>
         """, unsafe_allow_html=True)
 
-    # ====== Ha zárva van, kilépünk ======
+    # --- Ha zárva van, kilépünk ---
     if not st.session_state.messenger_open:
         return
 
-    # ===== Panel =====
-    panel = st.container()
-    with panel:
+    # --- Lebegő chatpanel ---
+    panel = st.empty()
+    with panel.container():
         st.markdown('<div class="messenger-panel">', unsafe_allow_html=True)
 
-        # Chat történet megjelenítése
+        # Chat tartalom
         if "chat_history" not in st.session_state:
             st.session_state.chat_history = []
 
         st.markdown('<div class="chat-scroll">', unsafe_allow_html=True)
+
         for role, msg in st.session_state.chat_history:
             if role == "user":
                 st.markdown(f'<div class="bubble-user">{msg}</div>', unsafe_allow_html=True)
             else:
                 st.markdown(f'<div class="bubble-ai">{msg}</div>', unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
-        # Üzenet mező
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        # Chat input
         user_msg = st.chat_input("Írj üzenetet…")
-
         if user_msg:
             st.session_state.chat_history.append(("user", user_msg))
             answer = generate_response(user_msg, st.session_state.get("ui_lang", "hu"))
             st.session_state.chat_history.append(("assistant", answer))
 
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
