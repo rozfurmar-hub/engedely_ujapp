@@ -8,42 +8,43 @@ from field_help import load_field_help
 # 1) Tudásbázis kereső
 # =========================================================
 def get_kb_answer(question: str, ui_lang: str):
-    """
-    Egyszerű kulcsszavas keresés a tudásbázisban.
-    Ha a kérdés tartalmazza a mező kulcsát → visszaadja a help szöveget.
-    """
     kb = load_field_help(ui_lang)
     q = question.lower()
-
     for key, info in kb.items():
         if key.lower() in q:
-            label = info.get("label", "")
-            help_text = info.get("help", "")
-            return f"**{label}**\n\n{help_text}"
-
+            return f"**{info.get('label','')}**\n\n{info.get('help','')}"
     return None
 
 
 # =========================================================
-# 2) AI válaszgeneráló (OpenAI API)
+# 2) Nyelvfelismerés a kérdésből
+# =========================================================
+def detect_lang(text: str):
+    # nagyon egyszerű: cirill = RU, különben HU
+    for c in text:
+        if "\u0400" <= c <= "\u04FF":
+            return "ru"
+    return "hu"
+
+
+# =========================================================
+# 3) AI fallback
 # =========================================================
 def ask_ai(question, ui_lang):
-    """
-    AI fallback, ha a tudásbázis nem talál releváns mezőt.
-    GPT‑4o-mini gyors, olcsó, jó minőség.
-    """
+    # automatikus felülírás: ha RU kérdést írtak → ruszki választ kérünk
+    detected = detect_lang(question)
+    ui_lang = detected
 
     client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 
     system_prompt_hu = (
         "Segítőkész magyar ügyintéző asszisztens vagy. "
-        "Röviden, érthetően, barátságosan válaszolsz. "
-        "Az űrlapmezők kitöltésével kapcsolatos kérdésekre segítesz."
+        "Rövid, világos, barátságos válaszokat adsz."
     )
 
     system_prompt_ru = (
-        "Вы — дружелюбный помощник, который помогает правильно заполнить форму. "
-        "Отвечайте коротко, понятно и доброжелательно, на русском языке."
+        "Вы — дружелюбный помощник. "
+        "Отвечайте коротко и понятно, на русском языке."
     )
 
     system_prompt = system_prompt_hu if ui_lang == "hu" else system_prompt_ru
@@ -54,55 +55,46 @@ def ask_ai(question, ui_lang):
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": question}
         ],
-        max_tokens=500
+        max_tokens=400
     )
 
     return response.choices[0].message.content
 
 
 # =========================================================
-# 3) Központi döntési logika: Tudásbázis → AI
+# 4) Tudásbázis → AI válaszoló logika
 # =========================================================
 def generate_response(question, ui_lang):
-    # 1) Tudásbázis
     kb_answer = get_kb_answer(question, ui_lang)
     if kb_answer:
         return kb_answer
-
-    # 2) AI fallback
     return ask_ai(question, ui_lang)
 
 
 # =========================================================
-# 4) Chat UI
+# 5) Chat UI
 # =========================================================
 def render_chat_ai():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
-    # UI nyelv lekérése (kötelező!)
     ui_lang = st.session_state.get("ui_lang", "hu")
 
-    st.markdown("### 💬 Kérdezzen bátran")
-
-    # Előzmények kiírása
+    # chat előzmények kiírása
     for role, msg in st.session_state.chat_history:
         st.chat_message(role).write(msg)
 
-    # Új kérdés
+    # új kérdés
     question = st.chat_input("Írja ide kérdését… / Введите свой вопрос…")
     if question:
         st.session_state.chat_history.append(("user", question))
-
-        # Válasz generálása
         answer = generate_response(question, ui_lang)
-
         st.session_state.chat_history.append(("assistant", answer))
         st.chat_message("assistant").write(answer)
 
 
 # =========================================================
-# 5) Lebegő chat panel
+# 6) Lebegő buborék PANEL — végre helyesen
 # =========================================================
 def floating_chat():
     unique = str(uuid.uuid4()).replace("-", "")
@@ -143,8 +135,8 @@ def floating_chat():
             padding: 12px;
             box-shadow: 0 6px 16px rgba(0,0,0,0.25);
             z-index: 99999;
-            display: none;
             overflow-y: auto;
+            display: none;
         }}
 
         #chat-toggle-{unique}:checked ~ .chat-panel-{unique} {{
@@ -163,15 +155,14 @@ def floating_chat():
 
         <label for="chat-toggle-{unique}" class="chat-button-{unique}">💬</label>
         <input type="checkbox" id="chat-toggle-{unique}" />
+
         <div class="chat-panel-{unique}">
             <label for="chat-toggle-{unique}" class="close-btn-{unique}">✖</label>
-            <div id="chat-frame-{unique}">
         """,
         unsafe_allow_html=True
     )
 
-    # ★★★★★ ITT A CHAT – EZ FONTOS! ★★★★★
+    # IGEN: a chatet most tényleg a panel **BELSEJÉBE** tesszük
     render_chat_ai()
 
-    # Záró HTML
-    st.markdown("</div></div>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
