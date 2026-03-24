@@ -99,70 +99,60 @@ def render_chat_ai():
 def floating_chat():
     unique = str(uuid.uuid4()).replace("-", "")
 
+    # 1) Külső HTML a lebegő pozicionáláshoz
     st.markdown(
         f"""
         <style>
-        .chat-button-{unique} {{
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #4a7bd8;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            text-align: center;
-            font-size: 28px;
-            line-height: 60px;
-            cursor: pointer;
-            z-index: 99998;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }}
-
-        #chat-toggle-{unique} {{
-            display: none;
-        }}
-
-        .chat-panel-{unique} {{
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            width: 90%;
-            max-width: 380px;
-            height: 70%;
-            background: white;
-            border-radius: 12px;
-            padding: 12px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-            z-index: 99999;
-            overflow-y: auto;
-            display: none;
-        }}
-
-        #chat-toggle-{unique}:checked ~ .chat-panel-{unique} {{
-            display: block;
-        }}
-
-        .close-btn-{unique} {{
-            position: absolute;
-            right: 12px;
-            top: 6px;
-            font-size: 26px;
-            cursor: pointer;
-            color: #555;
-        }}
+            .floating-container-{unique} {{
+                position: fixed;
+                bottom: 100px;
+                right: 20px;
+                width: 90%;
+                max-width: 380px;
+                height: 70%;
+                background: white;
+                border-radius: 12px;
+                padding: 12px;
+                box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+                z-index: 99999;
+                display: none;
+            }}
+            .floating-button-{unique} {{
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #4a7bd8;
+                color: white;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                text-align: center;
+                font-size: 28px;
+                line-height: 60px;
+                cursor: pointer;
+                z-index: 99998;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            }}
         </style>
+        <script>
+            function toggleChat{unique}() {{
+                var panel = document.getElementById("chat-box-{unique}");
+                panel.style.display = (panel.style.display === "block") ? "none" : "block";
+            }}
+        </script>
 
-        <label for="chat-toggle-{unique}" class="chat-button-{unique}">💬</label>
-        <input type="checkbox" id="chat-toggle-{unique}" />
-
-        <div class="chat-panel-{unique}">
-            <label for="chat-toggle-{unique}" class="close-btn-{unique}">✖</label>
+        <div class="floating-button-{unique}" onclick="toggleChat{unique}()">💬</div>
         """,
         unsafe_allow_html=True
     )
 
-    # IGEN: a chatet most tényleg a panel **BELSEJÉBE** tesszük
-    render_chat_ai()
+    # 2) Itt hozzuk létre a lebegő Streamlit konténert
+    container = st.container()
+
+    # 3) HTML wrapper a konténer fölé
+    st.markdown(f'<div id="chat-box-{unique}" class="floating-container-{unique}">', unsafe_allow_html=True)
+
+    with container:
+        render_chat_ai()
 
     st.markdown("</div>", unsafe_allow_html=True)
