@@ -177,7 +177,7 @@ button[data-testid="chat_toggle_btn"] {
 """, unsafe_allow_html=True)
 
     # STREAMLIT TOGGLE BUTTON (hidden but JS-clickable)
-    toggled = st.button("toggle", key="chat_toggle_btn")
+    toggled = st.button("CHAT", key="chat_toggle_btn")
     if toggled:
         st.session_state.chat_open = not st.session_state.chat_open
 
