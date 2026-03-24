@@ -14,7 +14,7 @@ from pathlib import Path
 from datetime import datetime, date
 from dateutil.parser import parse as parse_date
 
-import streamlit as stf
+import streamlit as st
 from docxtpl import DocxTemplate
 
 from chat_widget import floating_chat
@@ -44,11 +44,6 @@ from datakezelo import BASE_DIR, create_record, list_records, update_record
 st.set_page_config(page_title="Tartózkodási engedély – adatbekérő", page_icon="📝", layout="centered")
 
 
-# ---- Oldal beállítás ----
-st.set_page_config(
-    page_title="Tartózkodási engedély – adatbekérő",
-    page_icon="📝",
-    layout="centered"
 )
 
 # 🔥 FONTOS: A chat KÜLÖN, önálló blokkban fusson, NEM with alatt
