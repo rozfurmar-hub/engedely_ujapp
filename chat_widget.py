@@ -97,7 +97,69 @@ def render_chat_ai():
 # 6) Lebegő buborék PANEL — végre helyesen
 # =========================================================
 def floating_chat():
+st.markdown("""
+<style>
+/* MINDIG jobb alsó sarokra rögzített buborék */
+.floating-chat-btn {
+    position: fixed !important;
+    bottom: 24px !important;
+    right: 24px !important;
+    z-index: 99999 !important;
+}
 
+/* Nagyobb Messenger-gomb */
+.floating-chat-btn button {
+    width: 80px !important;
+    height: 80px !important;
+    font-size: 40px !important;
+    border-radius: 50% !important;
+    background: #0084ff !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25) !important;
+}
+
+/* Messenger panel */
+.messenger-panel {
+    position: fixed !important;
+    bottom: 120px !important;
+    right: 24px !important;
+    width: 380px !important;
+    height: 520px !important;
+    background: white !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3) !important;
+    padding: 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    z-index: 99998 !important;
+}
+
+/* Üzenet buborékok */
+.bubble-user {
+    background: #0084ff !important;
+    color: #fff !important;
+    padding: 10px 14px !important;
+    border-radius: 16px !important;
+    max-width: 80% !important;
+    margin-left: auto !important;
+    margin-bottom: 10px !important;
+}
+
+.bubble-ai {
+    background: #e9e9eb !important;
+    color: #111 !important;
+    padding: 10px 14px !important;
+    border-radius: 16px !important;
+    max-width: 80% !important;
+    margin-right: auto !important;
+    margin-bottom: 10px !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
+    
     # --- Panel megnyitása / bezárása ---
     if "messenger_open" not in st.session_state:
         st.session_state.messenger_open = False
