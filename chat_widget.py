@@ -100,6 +100,15 @@ def floating_chat():
     if "show_chat" not in st.session_state:
         st.session_state.show_chat = False
 
+    st.markdown("""
+<style>
+/* Rejtse el a fő tartalmi chat konténert */
+.block-container > div:has(.stChatInputContainer) {
+    display: none !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
     # Lebegő gomb st.button-ként (NEM HTML!)
     chat_button_style = """
     <style>
