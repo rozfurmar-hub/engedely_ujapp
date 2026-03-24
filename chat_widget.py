@@ -227,6 +227,5 @@ def floating_chat():
             st.session_state.chat_messages.append(("assistant", ai))
 
             # clear input
-            st.session_state.msg_input = ""
-
+            st.session_state.pop("msg_input", None)
         st.markdown("</div>", unsafe_allow_html=True)
