@@ -93,54 +93,62 @@ def render_chat_ai():
         st.chat_message("assistant").write(answer)
 
 
-# =========================================================
-# 6) TELJES MESSENGER-SZERŰ LEBEGŐ CHAT – VÉGLEGES VERZIÓ
+# # =========================================================
+# 6) TELJES, HIBAMENTES, KATTINTHATÓ MESSENGER CHAT
 # =========================================================
 
 def floating_chat():
-    # Init state
+
+    # ------------------------------
+    # STATE
+    # ------------------------------
     if "chat_open" not in st.session_state:
         st.session_state.chat_open = False
+
     if "chat_messages" not in st.session_state:
         st.session_state.chat_messages = []
 
-    # FIXED HTML ROOT
+
+    # ------------------------------
+    # FIXED OVERLAY HTML + CSS
+    # ------------------------------
     st.markdown("""
     <style>
+        /* ROOT: always fixed to bottom-right */
         #chat-root {
             position: fixed;
             bottom: 0;
             right: 0;
             z-index: 999999;
-            pointer-events: none;   /* fontos: a háttér továbbra is passzív */
+            pointer-events: none; /* background passive */
         }
-        
-        .chat-bubble, 
-        .chat-bubble * {
-            pointer-events: auto;   /* MOSTANTÓL kattintható a buborék */
-        }
-        
-        .chat-panel,
-        .chat-panel * {
-            pointer-events: auto;   /* a felugró panel is kattintható */
+
+        /* BUBBLE always clickable */
+        .chat-bubble, .chat-bubble * {
+            pointer-events: auto;
         }
 
         .chat-bubble {
             position: absolute;
             bottom: 24px;
             right: 24px;
-            pointer-events: auto;
         }
+
         .chat-bubble button {
             width: 80px;
             height: 80px;
             border-radius: 50%;
             font-size: 40px;
             border: none;
-            background: #0084ff;
+            background: #0084FF;
             color: white;
             cursor: pointer;
             box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+
+        /* PANEL */
+        .chat-panel, .chat-panel * {
+            pointer-events: auto;
         }
 
         .chat-panel {
@@ -150,18 +158,17 @@ def floating_chat():
             width: 380px;
             height: 520px;
             background: white;
-            padding: 14px;
             border-radius: 16px;
+            padding: 14px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.25);
             display: flex;
             flex-direction: column;
-            pointer-events: auto;
         }
 
         .chat-scroll {
             flex-grow: 1;
             overflow-y: auto;
-            padding-right: 8px;
+            padding-right: 10px;
         }
 
         .bubble-user {
@@ -173,6 +180,7 @@ def floating_chat():
             margin-bottom: 8px;
             max-width: 80%;
         }
+
         .bubble-ai {
             background: #e5e5ea;
             color: #111;
@@ -183,38 +191,58 @@ def floating_chat():
             max-width: 80%;
         }
     </style>
-    <div id="chat-root">
-      <div class="chat-bubble">
-        <button onclick="document.getElementById('chat_toggle_btn').click()">💬</button>
-      </div>
-    </
-    if st.button("open_chat", key="chat_toggle_btn"):
-        st.session_state.chat_open = not st.session_state.chat_open
 
+    <!-- FIXED ROOT -->
+    <div id="chat-root">
+
+        <!-- BUBBLE -->
+        <div class="chat-bubble">
+            <button onclick="document.getElementById('chat_toggle_btn').click()">💬</button>
+        </div>
+
+    </div>
     """, unsafe_allow_html=True)
 
-    # Invisible Streamlit toggle
-    toggle = st.checkbox("toggle_chat", key="chat_open", label_visibility="collapsed")
 
-    # Chat panel rendering
+    # ------------------------------------------------------
+    # INVISIBLE STREAMLIT BUTTON FOR TOGGLING CHAT PANEL
+    # ------------------------------------------------------
+    toggle_pressed = st.button("toggle", key="chat_toggle_btn", help="hidden-toggle", type="secondary")
+    if toggle_pressed:
+        st.session_state.chat_open = not st.session_state.chat_open
+
+
+    # ------------------------------------------------------
+    # RENDER CHAT PANEL IF OPEN
+    # ------------------------------------------------------
     if not st.session_state.chat_open:
         return
 
     panel = st.container()
     with panel:
+
         st.markdown('<div class="chat-panel">', unsafe_allow_html=True)
 
+        # --------- CHAT HISTORY ----------
         st.markdown('<div class="chat-scroll">', unsafe_allow_html=True)
-        for role, msg in st.session_state.chat_messages:
-            css = "bubble-user" if role == "user" else "bubble-ai"
-            st.markdown(f'<div class="{css}">{msg}</div>', unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
-        text = st.text_input("Írj üzenetet…", key="chat_msg", label_visibility="collapsed")
-        if text:
-            st.session_state.chat_messages.append(("user", text))
-            ai = generate_response(text, st.session_state.get("ui_lang", "hu"))
-            st.session_state.chat_messages.append(("assistant", ai))
-            st.session_state.chat_msg = ""
+        for role, text in st.session_state.chat_messages:
+            css = "bubble-user" if role == "user" else "bubble-ai"
+            st.markdown(f'<div class="{css}">{text}</div>', unsafe_allow_html=True)
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        # --------- INPUT ----------
+        inp = st.text_input("Írj üzenetet…", key="chat_input_text", label_visibility="collapsed")
+        if inp:
+            # user message
+            st.session_state.chat_messages.append(("user", inp))
+
+            # AI answer
+            ans = generate_response(inp, st.session_state.get("ui_lang", "hu"))
+            st.session_state.chat_messages.append(("assistant", ans))
+
+            # clear input
+            st.session_state.chat_input_text = ""
 
         st.markdown("</div>", unsafe_allow_html=True)
