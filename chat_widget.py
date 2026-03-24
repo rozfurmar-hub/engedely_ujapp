@@ -107,7 +107,6 @@ def render_chat_ai():
 def floating_chat():
     unique = str(uuid.uuid4()).replace("-", "")
 
-    # Gomb + panel CSS / HTML
     st.markdown(
         f"""
         <style>
@@ -127,9 +126,11 @@ def floating_chat():
             z-index: 99998;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }}
+
         #chat-toggle-{unique} {{
             display: none;
         }}
+
         .chat-panel-{unique} {{
             position: fixed;
             bottom: 100px;
@@ -145,9 +146,11 @@ def floating_chat():
             display: none;
             overflow-y: auto;
         }}
+
         #chat-toggle-{unique}:checked ~ .chat-panel-{unique} {{
             display: block;
         }}
+
         .close-btn-{unique} {{
             position: absolute;
             right: 12px;
@@ -158,21 +161,17 @@ def floating_chat():
         }}
         </style>
 
-        <label for="chat-toggle-{unique}" class="chat-button-{unique}">
-            💬
-        </label>
-
+        <label for="chat-toggle-{unique}" class="chat-button-{unique}">💬</label>
         <input type="checkbox" id="chat-toggle-{unique}" />
-
         <div class="chat-panel-{unique}">
             <label for="chat-toggle-{unique}" class="close-btn-{unique}">✖</label>
-            <div id="chat-frame-{unique}"></div>
-        </div>
+            <div id="chat-frame-{unique}">
         """,
         unsafe_allow_html=True
     )
 
-    # Chat render a panelben
-    chat_placeholder = st.empty()
-    with chat_placeholder.container():
-        render_chat_ai()
+    # ★★★★★ ITT A CHAT – EZ FONTOS! ★★★★★
+    render_chat_ai()
+
+    # Záró HTML
+    st.markdown("</div></div>", unsafe_allow_html=True)
