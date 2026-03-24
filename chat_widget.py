@@ -152,6 +152,7 @@ def floating_chat():
 
 /* hidden toggle button */
 button[data-testid="chat_toggle_btn"] {
+    display: none !important;    
     opacity: 0 !important;
     width: 1px !important;
     height: 1px !important;
@@ -165,14 +166,6 @@ button[data-testid="chat_toggle_btn"] {
 
 </style>
 
-<div id="chat-root">
-    <div class="chat-bubble">
-        <button onclick="
-            [...window.parent.document.querySelectorAll('[data-testid=\\'chat_toggle_btn\\']')]
-            .forEach(btn => btn.click());
-        ">💬</button>
-    </div>
-</div>
 
 """, unsafe_allow_html=True)
 
@@ -186,21 +179,36 @@ button[data-testid="chat_toggle_btn"] {
         return
 
     # CHAT PANEL
+       
     panel = st.container()
     with panel:
         st.markdown('<div class="chat-panel">', unsafe_allow_html=True)
-
+    
+        # Scroll area
         st.markdown('<div class="chat-scroll">', unsafe_allow_html=True)
-        for role, txt in st.session_state.chat_messages:
-            css = "bubble-user" if role == "user" else "bubble-ai"
-            st.markdown(f'<div class="{css}">{txt}</div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-        user_msg = st.text_input("Írj üzenetet…", key="chat_input_text", label_visibility="collapsed")
+    
+        # Placeholder (ha nincsenek üzenetek)
+        if not st.session_state.chat_messages:
+            st.markdown(
+                '<div class="bubble-ai" style="opacity:0.6;">Tegye fel kérdését! / Задайте вопрос!</div>',
+                unsafe_allow_html=True
+            )
+        else:
+            for role, txt in st.session_state.chat_messages:
+                css = "bubble-user" if role == "user" else "bubble-ai"
+                st.markdown(f'<div class="{css}">{txt}</div>', unsafe_allow_html=True)
+    
+        st.markdown("</div>", unsafe_allow_html=True)
+    
+        # Input mező
+        user_msg = st.text_input(
+            "",
+            key="chat_input_text",
+            placeholder="Tegye fel kérdését! / Задайте вопрос!"
+        )
+    
         if user_msg:
             st.session_state.chat_messages.append(("user", user_msg))
             ai = generate_response(user_msg, st.session_state.get("ui_lang", "hu"))
             st.session_state.chat_messages.append(("assistant", ai))
             st.session_state.chat_input_text = ""
-
-        st.markdown('</div>', unsafe_allow_html=True)
