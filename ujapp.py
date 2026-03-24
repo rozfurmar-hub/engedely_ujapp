@@ -55,25 +55,6 @@ st.markdown("""
 
 
 
-
-
-
-st.markdown("""
-<style>
-button[data-testid="stPopoverButton"] {
-    padding: 0 !important;
-    width: 22px !important;
-    height: 22px !important;
-    min-width: 22px !important;
-    min-height: 22px !important;
-    border-radius: 50% !important;
-    font-size: 16px !important;
-    line-height: 22px !important;
-    text-align: center !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
 DATA_DIR = BASE_DIR / "data"
 TEMPLATES_DIR = BASE_DIR / "templates"
 
