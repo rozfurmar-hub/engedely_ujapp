@@ -485,8 +485,6 @@ L = load_labels(ui_lang)
 
 st.title(L["app_title"]) 
 
-floating_chat()
-
 st.caption(L["app_caption"])
 
 # Oldalsáv: sablonok
@@ -1131,3 +1129,5 @@ PLACEHOLDERS = [
 
 with st.expander("📌 Helyőrzők (templates) – kattintson a listához", expanded=False):
     st.code("\n".join(PLACEHOLDERS), language="text")
+
+floating_chat()
