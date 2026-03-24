@@ -43,9 +43,6 @@ from datakezelo import BASE_DIR, create_record, list_records, update_record
 # ---- Oldal beállítás ----
 st.set_page_config(page_title="Tartózkodási engedély – adatbekérő", page_icon="📝", layout="centered")
 
-
-)
-
 # 🔥 FONTOS: A chat KÜLÖN, önálló blokkban fusson, NEM with alatt
 floating_chat()
 
