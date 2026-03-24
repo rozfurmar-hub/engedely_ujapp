@@ -190,7 +190,7 @@ button[data-testid="chat_toggle_btn"] {
         # Placeholder (ha nincsenek üzenetek)
         if not st.session_state.chat_messages:
             st.markdown(
-                '<div class="bubble-ai" style="opacity:0.6;">Tegye fel kérdését! / Задайте вопрос!</div>',
+                '<div class="bubble-ai" style="opacity:0.6;">Tegyen fel kérdést! / Задайте вопрос!</div>',
                 unsafe_allow_html=True
             )
         else:
