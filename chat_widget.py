@@ -99,133 +99,105 @@ def render_chat_ai():
 
 def floating_chat():
 
-    # --- Init state ---
-    if "messenger_open" not in st.session_state:
-        st.session_state.messenger_open = False
-
+    # state
+    if "chat_open" not in st.session_state:
+        st.session_state.chat_open = False
     if "chat_messages" not in st.session_state:
-        st.session_state.chat_messages = []   # (role, text)
+        st.session_state.chat_messages = []
 
-    # --- CSS ---
+    # CSS
     st.markdown("""
     <style>
+        .chat-button {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 99998;
+        }
+        .chat-button button {
+            width: 75px !important;
+            height: 75px !important;
+            border-radius: 50% !important;
+            background: #0084ff !important;
+            color: white !important;
+            font-size: 38px !important;
+            border: none !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+        }
 
-    /* Lebegő gomb */
-    .chat-bubble {
-        position: fixed;
-        bottom: 26px;
-        right: 26px;
-        z-index: 99998;
-    }
-    .chat-bubble button {
-        width: 80px !important;
-        height: 80px !important;
-        font-size: 42px !important;
-        border-radius: 50% !important;
-        background: #0084ff !important;
-        color: white !important;
-        border: none !important;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-    }
+        .chat-panel {
+            position: fixed;
+            bottom: 120px;
+            right: 24px;
+            width: 380px;
+            height: 520px;
+            z-index: 99997;
+            background: white;
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+        }
 
-    /* Chat panel */
-    .chat-panel {
-        position: fixed;
-        bottom: 120px;
-        right: 26px;
-        width: 380px;
-        height: 520px;
-        background: white;
-        border-radius: 16px;
-        padding: 14px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.30);
-        z-index: 99997;
-        display: flex;
-        flex-direction: column;
-    }
+        .chat-scroll {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
 
-    /* Scroll */
-    .chat-scroll {
-        flex-grow: 1;
-        overflow-y: auto;
-        padding-right: 8px;
-    }
+        .bubble-user {
+            background: #0084ff;
+            color: white;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            max-width: 80%;
+            border-radius: 16px;
+            margin-left: auto;
+        }
 
-    /* Bubbles */
-    .bubble-user {
-        background: #0084ff;
-        color: white;
-        padding: 10px 14px;
-        border-radius: 16px;
-        max-width: 80%;
-        margin-left: auto;
-        margin-bottom: 8px;
-    }
-    .bubble-ai {
-        background: #e5e5ea;
-        color: #111;
-        padding: 10px 14px;
-        border-radius: 16px;
-        max-width: 80%;
-        margin-right: auto;
-        margin-bottom: 8px;
-    }
-
+        .bubble-ai {
+            background: #e5e5ea;
+            color: #111;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            max-width: 80%;
+            border-radius: 16px;
+            margin-right: auto;
+        }
     </style>
     """, unsafe_allow_html=True)
 
-    # --- Bubble button ---
-    btn = st.empty()
-    with btn.container():
-        if st.button("💬", key="open_msg_btn"):
-            st.session_state.messenger_open = not st.session_state.messenger_open
 
-        st.markdown("""
-        <script>
-        const btn = window.parent.document.querySelector('button[data-testid="open_msg_btn"]');
-        if (btn) btn.parentElement.classList.add("chat-bubble");
-        </script>
-        """, unsafe_allow_html=True)
+    # --- FIX, statikus konténer a gombnak ---
+    bubble_container = st.container()
+    with bubble_container:
+        st.markdown('<div class="chat-button">', unsafe_allow_html=True)
+        if st.button("💬", key="msg_btn"):
+            st.session_state.chat_open = not st.session_state.chat_open
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    # If closed → exit
-    if not st.session_state.messenger_open:
+    # --- Panel megjelenítése ---
+    if not st.session_state.chat_open:
         return
 
-    # --- Chat panel ---
-    panel = st.empty()
-    with panel.container():
+    panel_container = st.container()
+    with panel_container:
         st.markdown('<div class="chat-panel">', unsafe_allow_html=True)
 
         st.markdown('<div class="chat-scroll">', unsafe_allow_html=True)
-
-        # Bubbles
-        for role, text in st.session_state.chat_messages:
+        for role, msg in st.session_state.chat_messages:
             if role == "user":
-                st.markdown(f'<div class="bubble-user">{text}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="bubble-user">{msg}</div>', unsafe_allow_html=True)
             else:
-                st.markdown(f'<div class="bubble-ai">{text}</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="bubble-ai">{msg}</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-        st.markdown("</div>", unsafe_allow_html=True)
+        msg = st.text_input("Írj üzenetet…", key="msg_input", label_visibility="collapsed")
+        if msg:
+            st.session_state.chat_messages.append(("user", msg))
+            answer = generate_response(msg, st.session_state.get("ui_lang", "hu"))
+            st.session_state.chat_messages.append(("assistant", answer))
+            st.session_state.msg_input = ""
 
-        # --- Input field ---
-        user_msg = st.text_input(
-            "Írj üzenetet…",
-            key="msg_input",
-            label_visibility="collapsed",
-            placeholder="Írd be az üzeneted…"
-        )
-
-        if user_msg:
-            # add user msg
-            st.session_state.chat_messages.append(("user", user_msg))
-
-            # generate AI answer
-            ai = generate_response(
-                user_msg,
-                st.session_state.get("ui_lang", "hu")
-            )
-            st.session_state.chat_messages.append(("assistant", ai))
-
-            # clear input
-            st.session_state.pop("msg_input", None)
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
