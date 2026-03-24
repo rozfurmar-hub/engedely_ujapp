@@ -97,63 +97,142 @@ def render_chat_ai():
 # 6) Lebegő buborék PANEL — végre helyesen
 # =========================================================
 def floating_chat():
-    if "show_chat" not in st.session_state:
-        st.session_state.show_chat = False
+    # Chat panel állapot
+    if "messenger_open" not in st.session_state:
+        st.session_state.messenger_open = False
 
+    # ======== Messenger-szerű CSS ========
     st.markdown("""
-<style>
-/* Rejtse el a fő tartalmi chat konténert */
-.block-container > div:has(.stChatInputContainer) {
-    display: none !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
-    # Lebegő gomb st.button-ként (NEM HTML!)
-    chat_button_style = """
     <style>
-        .floating-chat-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 10000;
-        }
-        .floating-chat-panel {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 360px;
-            height: 480px;
-            background: white;
-            border-radius: 12px;
-            padding: 10px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-            z-index: 10001;
-            overflow-y: auto;
-        }
+
+    /* Messenger gomb */
+    .messenger-button {
+        position: fixed;
+        bottom: 22px;
+        right: 22px;
+        background: #0084FF;
+        color: white;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 32px;
+        line-height: 64px;
+        cursor: pointer;
+        z-index: 10000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    /* Felugró panel */
+    .messenger-panel {
+        position: fixed;
+        bottom: 100px;
+        right: 22px;
+        width: 360px;
+        height: 520px;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        z-index: 10001;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(10px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* Chat scroll area */
+    .chat-scroll {
+        padding: 12px;
+        overflow-y: auto;
+        flex-grow: 1;
+        background: #f4f5f7;
+    }
+
+    /* Üzenet buborékok */
+    .bubble-user {
+        background: #0084FF;
+        padding: 10px 14px;
+        color: white;
+        border-radius: 16px;
+        margin-bottom: 10px;
+        max-width: 80%;
+        align-self: flex-end;
+        border-bottom-right-radius: 4px;
+    }
+    .bubble-ai {
+        background: #E8E8EA;
+        padding: 10px 14px;
+        color: #222;
+        border-radius: 16px;
+        margin-bottom: 10px;
+        max-width: 80%;
+        align-self: flex-start;
+        border-bottom-left-radius: 4px;
+    }
+
     </style>
-    """
-    st.markdown(chat_button_style, unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-    # lebegő gomb container
-    chat_button_container = st.container()
-    with chat_button_container:
-        st.markdown('<div class="floating-chat-btn">', unsafe_allow_html=True)
-        if st.button("💬", key="open_chat"):
-            st.session_state.show_chat = not st.session_state.show_chat
-        st.markdown("</div>", unsafe_allow_html=True)
+    # ======== Lebegő gomb Streamlit alatt ========
+    btn_container = st.container()
+    with btn_container:
+        st.markdown('<div class="messenger-button" onclick="toggleMessenger()">💬</div>',
+                    unsafe_allow_html=True)
 
-    # Ha nincs megnyitva → kilépünk
-    if not st.session_state.show_chat:
+    # ======== Javascript toggle ========
+    st.markdown("""
+    <script>
+        function toggleMessenger() {
+            fetch('/_stcore/messenger_toggle', {method: 'POST'});
+        }
+    </script>
+    """, unsafe_allow_html=True)
+
+    # ========= Rejtett API hívás Streamlithez =========
+    # Streamlit hack: server_request → session_state toggle
+    from streamlit.runtime.scriptrunner import get_script_run_ctx
+    from streamlit.web.server.websocket_headers import ServerNotInitialized
+
+    try:
+        ctx = get_script_run_ctx()
+        if ctx and ctx.request and ctx.request.path == "/_stcore/messenger_toggle":
+            st.session_state.messenger_open = not st.session_state.messenger_open
+    except ServerNotInitialized:
+        pass
+
+    # ========= Panel megjelenítése =========
+    if not st.session_state.messenger_open:
         return
 
-    # A lebegő panel tényleges Streamlit konténere
     panel = st.container()
-
     with panel:
-        st.markdown('<div class="floating-chat-panel">', unsafe_allow_html=True)
+        st.markdown('<div class="messenger-panel">', unsafe_allow_html=True)
 
-        # ITT jelenik meg a chat! → ez most működni fog
-        render_chat_ai()
+        # Belül: chat scroll area
+        st.markdown('<div class="chat-scroll">', unsafe_allow_html=True)
+
+        # CHAT KIÍRÁSA MESSENGER-BUBORÉKOKKAL
+        if "chat_history" not in st.session_state:
+            st.session_state.chat_history = []
+
+        for role, msg in st.session_state.chat_history:
+            if role == "user":
+                st.markdown(f'<div class="bubble-user">{msg}</div>', unsafe_allow_html=True)
+            else:
+                st.markdown(f'<div class="bubble-ai">{msg}</div>', unsafe_allow_html=True)
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        # Üzenet írás mező
+        user_msg = st.chat_input("Írj üzenetet…")
+        if user_msg:
+            st.session_state.chat_history.append(("user", user_msg))
+            answer = generate_response(user_msg, st.session_state.get("ui_lang", "hu"))
+            st.session_state.chat_history.append(("assistant", answer))
 
         st.markdown('</div>', unsafe_allow_html=True)
