@@ -97,62 +97,54 @@ def render_chat_ai():
 # 6) Lebegő buborék PANEL — végre helyesen
 # =========================================================
 def floating_chat():
-    unique = str(uuid.uuid4()).replace("-", "")
+    if "show_chat" not in st.session_state:
+        st.session_state.show_chat = False
 
-    # 1) Külső HTML a lebegő pozicionáláshoz
-    st.markdown(
-        f"""
-        <style>
-            .floating-container-{unique} {{
-                position: fixed;
-                bottom: 100px;
-                right: 20px;
-                width: 90%;
-                max-width: 380px;
-                height: 70%;
-                background: white;
-                border-radius: 12px;
-                padding: 12px;
-                box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-                z-index: 99999;
-                display: none;
-            }}
-            .floating-button-{unique} {{
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: #4a7bd8;
-                color: white;
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                text-align: center;
-                font-size: 28px;
-                line-height: 60px;
-                cursor: pointer;
-                z-index: 99998;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            }}
-        </style>
-        <script>
-            function toggleChat{unique}() {{
-                var panel = document.getElementById("chat-box-{unique}");
-                panel.style.display = (panel.style.display === "block") ? "none" : "block";
-            }}
-        </script>
+    # Lebegő gomb st.button-ként (NEM HTML!)
+    chat_button_style = """
+    <style>
+        .floating-chat-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+        .floating-chat-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 360px;
+            height: 480px;
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+            z-index: 10001;
+            overflow-y: auto;
+        }
+    </style>
+    """
+    st.markdown(chat_button_style, unsafe_allow_html=True)
 
-        <div class="floating-button-{unique}" onclick="toggleChat{unique}()">💬</div>
-        """,
-        unsafe_allow_html=True
-    )
+    # lebegő gomb container
+    chat_button_container = st.container()
+    with chat_button_container:
+        st.markdown('<div class="floating-chat-btn">', unsafe_allow_html=True)
+        if st.button("💬", key="open_chat"):
+            st.session_state.show_chat = not st.session_state.show_chat
+        st.markdown("</div>", unsafe_allow_html=True)
 
-    # 2) Itt hozzuk létre a lebegő Streamlit konténert
-    container = st.container()
+    # Ha nincs megnyitva → kilépünk
+    if not st.session_state.show_chat:
+        return
 
-    # 3) HTML wrapper a konténer fölé
-    st.markdown(f'<div id="chat-box-{unique}" class="floating-container-{unique}">', unsafe_allow_html=True)
+    # A lebegő panel tényleges Streamlit konténere
+    panel = st.container()
 
-    with container:
+    with panel:
+        st.markdown('<div class="floating-chat-panel">', unsafe_allow_html=True)
+
+        # ITT jelenik meg a chat! → ez most működni fog
         render_chat_ai()
 
-    st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
