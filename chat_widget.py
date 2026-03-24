@@ -99,140 +99,134 @@ def render_chat_ai():
 
 def floating_chat():
 
-    # ===== 0) Streamlit default chatpanel elrejtése (fontos!) =====
-    st.markdown("""
-    <style>
-        /* Rejtsük el a Streamlit saját chat-keretét */
-        [data-testid="stChat"] {
-            display: none !important;
-        }
-    </style>
-    """, unsafe_allow_html=True)
-
-    # ===== 1) Chat ablak állapot =====
+    # --- Init state ---
     if "messenger_open" not in st.session_state:
         st.session_state.messenger_open = False
 
-    if "chat_history" not in st.session_state:
-        st.session_state.chat_history = []
+    if "chat_messages" not in st.session_state:
+        st.session_state.chat_messages = []   # (role, text)
 
-    # ===== 2) Messenger-stílusú CSS =====
+    # --- CSS ---
     st.markdown("""
     <style>
-        /* Lebegő buborék */
-        .floating-chat-btn {
-            position: fixed !important;
-            bottom: 26px !important;
-            right: 26px !important;
-            z-index: 99999 !important;
-        }
-        .floating-chat-btn button {
-            width: 80px !important;
-            height: 80px !important;
-            font-size: 42px !important;
-            border-radius: 50% !important;
-            background: #0084ff !important;
-            color: white !important;
-            border: none !important;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.25) !important;
-        }
 
-        /* Messenger panel */
-        .messenger-panel {
-            position: fixed !important;
-            bottom: 120px !important;
-            right: 26px !important;
-            width: 380px !important;
-            height: 520px !important;
-            background: white !important;
-            border-radius: 16px !important;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.30) !important;
-            z-index: 99998 !important;
-            padding: 14px !important;
-            display: flex !important;
-            flex-direction: column !important;
-        }
+    /* Lebegő gomb */
+    .chat-bubble {
+        position: fixed;
+        bottom: 26px;
+        right: 26px;
+        z-index: 99998;
+    }
+    .chat-bubble button {
+        width: 80px !important;
+        height: 80px !important;
+        font-size: 42px !important;
+        border-radius: 50% !important;
+        background: #0084ff !important;
+        color: white !important;
+        border: none !important;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    }
 
-        /* Scroll area */
-        .chat-scroll {
-            flex-grow: 1 !important;
-            overflow-y: auto !important;
-            padding-right: 6px !important;
-        }
+    /* Chat panel */
+    .chat-panel {
+        position: fixed;
+        bottom: 120px;
+        right: 26px;
+        width: 380px;
+        height: 520px;
+        background: white;
+        border-radius: 16px;
+        padding: 14px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.30);
+        z-index: 99997;
+        display: flex;
+        flex-direction: column;
+    }
 
-        /* Üzenet buborékok */
-        .bubble-user {
-            background: #0084ff !important;
-            color: white !important;
-            padding: 10px 14px !important;
-            border-radius: 16px !important;
-            max-width: 80% !important;
-            margin-left: auto !important;
-            margin-bottom: 8px !important;
-        }
-        .bubble-ai {
-            background: #e5e5ea !important;
-            color: #111 !important;
-            padding: 10px 14px !important;
-            border-radius: 16px !important;
-            max-width: 80% !important;
-            margin-right: auto !important;
-            margin-bottom: 8px !important;
-        }
+    /* Scroll */
+    .chat-scroll {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding-right: 8px;
+    }
+
+    /* Bubbles */
+    .bubble-user {
+        background: #0084ff;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 16px;
+        max-width: 80%;
+        margin-left: auto;
+        margin-bottom: 8px;
+    }
+    .bubble-ai {
+        background: #e5e5ea;
+        color: #111;
+        padding: 10px 14px;
+        border-radius: 16px;
+        max-width: 80%;
+        margin-right: auto;
+        margin-bottom: 8px;
+    }
+
     </style>
     """, unsafe_allow_html=True)
 
-    # ===== 3) Lebegő buborék gomb =====
-    btn_holder = st.empty()
-    with btn_holder.container():
-        if st.button("💬", key="messenger_btn"):
+    # --- Bubble button ---
+    btn = st.empty()
+    with btn.container():
+        if st.button("💬", key="open_msg_btn"):
             st.session_state.messenger_open = not st.session_state.messenger_open
 
-        # CSS osztály hozzárendelése a gombhoz
         st.markdown("""
         <script>
-        const btn = window.parent.document.querySelector('button[data-testid="messenger_btn"]');
-        if (btn) btn.parentElement.classList.add("floating-chat-btn");
+        const btn = window.parent.document.querySelector('button[data-testid="open_msg_btn"]');
+        if (btn) btn.parentElement.classList.add("chat-bubble");
         </script>
         """, unsafe_allow_html=True)
 
-    # Ha a chatablak zárva van → vége
+    # If closed → exit
     if not st.session_state.messenger_open:
         return
 
-    # ===== 4) A lebegő panel megjelenítése =====
+    # --- Chat panel ---
     panel = st.empty()
-
     with panel.container():
-        st.markdown('<div class="messenger-panel">', unsafe_allow_html=True)
+        st.markdown('<div class="chat-panel">', unsafe_allow_html=True)
 
-        # Scroll tartalom
         st.markdown('<div class="chat-scroll">', unsafe_allow_html=True)
 
-        # Üzenetek kirajzolása
-        for role, msg in st.session_state.chat_history:
+        # Bubbles
+        for role, text in st.session_state.chat_messages:
             if role == "user":
-                st.markdown(
-                    f'<div class="bubble-user">{msg}</div>',
-                    unsafe_allow_html=True
-                )
+                st.markdown(f'<div class="bubble-user">{text}</div>', unsafe_allow_html=True)
             else:
-                st.markdown(
-                    f'<div class="bubble-ai">{msg}</div>',
-                    unsafe_allow_html=True
-                )
+                st.markdown(f'<div class="bubble-ai">{text}</div>', unsafe_allow_html=True)
 
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        # ===== 5) Üzenet küldése =====
-        user_msg = st.chat_input("Írja ide üzenetét…")
+        # --- Input field ---
+        user_msg = st.text_input(
+            "Írj üzenetet…",
+            key="msg_input",
+            label_visibility="collapsed",
+            placeholder="Írd be az üzeneted…"
+        )
 
         if user_msg:
-            st.session_state.chat_history.append(("user", user_msg))
-            answer = generate_response(
+            # add user msg
+            st.session_state.chat_messages.append(("user", user_msg))
+
+            # generate AI answer
+            ai = generate_response(
                 user_msg,
                 st.session_state.get("ui_lang", "hu")
             )
-            st.session_state.chat_history.append(("assistant", answer))
+            st.session_state.chat_messages.append(("assistant", ai))
 
-        st.markdown('</div>', unsafe_allow_html=True)
+            # clear input
+            st.session_state.msg_input = ""
+
+        st.markdown("</div>", unsafe_allow_html=True)
