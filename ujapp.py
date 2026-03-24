@@ -46,6 +46,20 @@ st.set_page_config(page_title="Tartózkodási engedély – adatbekérő", page_
 # ---- Itt kell lennie a CSS-nek ----
 st.markdown("""
 <style>
+/* Rejtsük el a Streamlit alap chat-ablakát */
+[data-testid="stChat"] {
+    display: none !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
+
+
+
+
+st.markdown("""
+<style>
 button[data-testid="stPopoverButton"] {
     padding: 0 !important;
     width: 22px !important;
