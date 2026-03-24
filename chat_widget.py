@@ -183,12 +183,14 @@ def floating_chat():
             max-width: 80%;
         }
     </style>
-
     <div id="chat-root">
-        <div class="chat-bubble">
-            <button onclick="document.getElementById('chat-toggle').click()">💬</button>
-        </div>
-    </div>
+      <div class="chat-bubble">
+        <button onclick="document.getElementById('chat_toggle_btn').click()">💬</button>
+      </div>
+    </
+    if st.button("open_chat", key="chat_toggle_btn"):
+        st.session_state.chat_open = not st.session_state.chat_open
+
     """, unsafe_allow_html=True)
 
     # Invisible Streamlit toggle
