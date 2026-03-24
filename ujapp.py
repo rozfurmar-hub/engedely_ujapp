@@ -44,9 +44,9 @@ from datakezelo import BASE_DIR, create_record, list_records, update_record
 st.set_page_config(page_title="Tartózkodási engedély – adatbekérő", page_icon="📝", layout="centered")
 
 floating_chat()
-root_placeholder = st.empty()
-with root_placeholder:
-    floating_chat()
+    root_placeholder = st.empty()
+    with root_placeholder:
+        floating_chat()
 
 # ---- Itt kell lennie a CSS-nek ----
 st.markdown("""
