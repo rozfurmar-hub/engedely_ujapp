@@ -112,7 +112,17 @@ def floating_chat():
             bottom: 0;
             right: 0;
             z-index: 999999;
-            pointer-events: none;
+            pointer-events: none;   /* fontos: a háttér továbbra is passzív */
+        }
+        
+        .chat-bubble, 
+        .chat-bubble * {
+            pointer-events: auto;   /* MOSTANTÓL kattintható a buborék */
+        }
+        
+        .chat-panel,
+        .chat-panel * {
+            pointer-events: auto;   /* a felugró panel is kattintható */
         }
 
         .chat-bubble {
