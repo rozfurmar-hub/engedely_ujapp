@@ -197,7 +197,10 @@ def floating_chat():
 
         <!-- BUBBLE -->
         <div class="chat-bubble">
-            <button onclick="document.getElementById('chat_toggle_btn').click()">💬</button>
+            <button onclick="
+                [...window.parent.document.querySelectorAll('[data-testid=\\'chat_toggle_btn\\']')]
+                .forEach(btn => btn.click());
+            ">💬</button>
         </div>
 
     </div>
