@@ -43,6 +43,8 @@ from datakezelo import BASE_DIR, create_record, list_records, update_record
 # ---- Oldal beállítás ----
 st.set_page_config(page_title="Tartózkodási engedély – adatbekérő", page_icon="📝", layout="centered")
 
+floating_chat()
+
 # ---- Itt kell lennie a CSS-nek ----
 st.markdown("""
 <style>
@@ -1130,4 +1132,4 @@ PLACEHOLDERS = [
 with st.expander("📌 Helyőrzők (templates) – kattintson a listához", expanded=False):
     st.code("\n".join(PLACEHOLDERS), language="text")
 
-floating_chat()
+
