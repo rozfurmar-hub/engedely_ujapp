@@ -79,7 +79,7 @@ def floating_chat():
     # ======================================================
     # FIX OVERLAY + CSS
     # ======================================================
-    st.markdown(""
+    st.markdown("""
     <style>
 
         /* ROOT LAYER */
@@ -107,3 +107,4 @@ def floating_chat():
             height: 80px;
             border-radius: 50%;
             font-size: 40px;
+    """, unsafe_allow_html=True)
