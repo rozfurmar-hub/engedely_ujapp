@@ -46,11 +46,13 @@ def ask_ai(question, ui_lang):
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": question}
+            {"role": "user", "content": question},
         ],
-        max_tokens=400
+        max_tokens=400,
     )
+
     return response.choices[0].message.content
+
 
 # =========================================================
 # 4) Tudásbázis → AI válasz
@@ -61,33 +63,35 @@ def generate_response(question, ui_lang):
         return kb_answer
     return ask_ai(question, ui_lang)
 
+
 # =========================================================
-# 5) Messenger-szerű lebegő chat (VÉGLEGES, MŰKÖDŐ)
+# 5) Messenger-szerű lebegő chat – VÉGLEGES, MŰKÖDŐ VERZIÓ
 # =========================================================
 def floating_chat():
 
-    # ------------------------------
-    # STATE
-    # ------------------------------
+    # ---- init state ----
     if "chat_open" not in st.session_state:
         st.session_state.chat_open = False
 
     if "chat_messages" not in st.session_state:
         st.session_state.chat_messages = []
 
-    # ------------------------------
-    # CSS + HTML overlay
-    # ------------------------------
+    # ======================================================
+    # FIX OVERLAY + CSS
+    # ======================================================
     st.markdown("""
     <style>
+
+        /* ROOT LAYER */
         #chat-root {
             position: fixed;
             bottom: 0;
             right: 0;
             z-index: 999999;
-            pointer-events: none;
+            pointer-events: none; 
         }
 
+        /* BUBORÉK */
         .chat-bubble, .chat-bubble * {
             pointer-events: auto;
         }
@@ -102,94 +106,4 @@ def floating_chat():
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: #0084FF;
-            color: white;
             font-size: 40px;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-        }
-
-        .chat-panel, .chat-panel * {
-            pointer-events: auto;
-        }
-
-        .chat-panel {
-            position: absolute;
-            bottom: 120px;
-            right: 24px;
-            width: 380px;
-            height: 520px;
-            background: white;
-            border-radius: 16px;
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-        }
-
-        .chat-scroll {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding-right: 10px;
-        }
-
-        .bubble-user {
-            background: #0084ff;
-            color: white;
-            padding: 10px 14px;
-            border-radius: 16px;
-            max-width: 80%;
-            margin-left: auto;
-            margin-bottom: 8px;
-        }
-
-        .bubble-ai {
-            background: #e5e5ea;
-            color: #111;
-            padding: 10px 14px;
-            border-radius: 16px;
-            max-width: 80%;
-            margin-right: auto;
-            margin-bottom: 8px;
-        }
-    </style>
-
-    <div id="chat-root">
-        <div class="chat-bubble">
-            <button onclick="
-                [...window.parent.document.querySelectorAll('[data-testid=\\'chat_toggle_btn\\']')]
-                .forEach(btn => btn.click());
-            ">💬</button>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # ------------------------------
-    # Láthatatlan Streamlit toggle gomb
-    # ------------------------------
-    toggle_pressed = st.button("toggle", key="chat_toggle_btn", help="hidden toggle", type="secondary")
-    if toggle_pressed:
-        st.session_state.chat_open = not st.session_state.chat_open
-
-    # ------------------------------
-    # Panel megjelenítése
-    # ------------------------------
-    if not st.session_state.chat_open:
-        return
-
-    panel = st.container()
-    with panel:
-        st.markdown('<div class="chat-panel">', unsafe_allow_html=True)
-
-        # --- történelem ---
-        st.markdown('<div class="chat-scroll">', unsafe_allow_html=True)
-        for role, text in st.session_state.chat_messages:
-            css = "bubble-user" if role == "user" else "bubble-ai"
-            st.markdown(f'<div class="{css}">{text}</div>', unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        # --- input mező ---
-        msg = st.text_input("Írj üzenetet…", key="chat_input_text", label_visibility="collapsed")
-        if msg:
-            st.session_state.chat_messages.append(("user", msg))
