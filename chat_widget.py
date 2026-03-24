@@ -98,21 +98,21 @@ def render_chat_ai():
 # =========================================================
 
 def floating_chat():
-    # Init
+    # Init state
     if "chat_open" not in st.session_state:
         st.session_state.chat_open = False
     if "chat_messages" not in st.session_state:
         st.session_state.chat_messages = []
 
-    # FIX overlay root (HTML) – mindig ott lesz a képernyő jobb alsó sarkán
+    # FIXED HTML ROOT
     st.markdown("""
     <style>
-        #floating-chat-root {
+        #chat-root {
             position: fixed;
             bottom: 0;
             right: 0;
-            z-index: 999999; /* mindig a legfelső réteg */
-            pointer-events: none; /* fontos! a belső elemeknél majd felülírjuk */
+            z-index: 999999;
+            pointer-events: none;
         }
 
         .chat-bubble {
@@ -126,11 +126,11 @@ def floating_chat():
             height: 80px;
             border-radius: 50%;
             font-size: 40px;
+            border: none;
             background: #0084ff;
             color: white;
-            border: none;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
             cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
         }
 
         .chat-panel {
@@ -140,8 +140,8 @@ def floating_chat():
             width: 380px;
             height: 520px;
             background: white;
-            border-radius: 16px;
             padding: 14px;
+            border-radius: 16px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.25);
             display: flex;
             flex-direction: column;
@@ -158,67 +158,51 @@ def floating_chat():
             background: #0084ff;
             color: white;
             padding: 10px 14px;
+            border-radius: 16px;
+            margin-left: auto;
             margin-bottom: 8px;
             max-width: 80%;
-            margin-left: auto;
-            border-radius: 16px;
         }
-
         .bubble-ai {
             background: #e5e5ea;
             color: #111;
             padding: 10px 14px;
+            border-radius: 16px;
+            margin-right: auto;
             margin-bottom: 8px;
             max-width: 80%;
-            margin-right: auto;
-            border-radius: 16px;
         }
     </style>
 
-    <div id="floating-chat-root">
+    <div id="chat-root">
         <div class="chat-bubble">
-            <button id="chat-toggle-btn">💬</button>
+            <button onclick="document.getElementById('chat-toggle').click()">💬</button>
         </div>
-        <div id="chat-panel-container"></div>
     </div>
-
-    <script>
-        const toggleBtn = document.getElementById("chat-toggle-btn");
-        const panelContainer = document.getElementById("chat-panel-container");
-
-        toggleBtn.onclick = function() {
-            fetch("/_toggle_chat", {method: "POST"});
-        };
-    </script>
     """, unsafe_allow_html=True)
 
+    # Invisible Streamlit toggle
+    toggle = st.checkbox("toggle_chat", key="chat_open", label_visibility="collapsed")
 
-    # STREAMLIT OLDALI PATCH — handle toggle request
-    from streamlit.runtime.scriptrunner import get_script_run_ctx
-    ctx = get_script_run_ctx()
-    if ctx and ctx.request and ctx.request.path == "/_toggle_chat":
-        st.session_state.chat_open = not st.session_state.chat_open
-
-    # If closed → do not render chat UI
+    # Chat panel rendering
     if not st.session_state.chat_open:
         return
 
-    # PANEL RENDERELÉSE a fixed helyre
     panel = st.container()
     with panel:
         st.markdown('<div class="chat-panel">', unsafe_allow_html=True)
 
         st.markdown('<div class="chat-scroll">', unsafe_allow_html=True)
-        for role, txt in st.session_state.chat_messages:
-            bubble = "bubble-user" if role == "user" else "bubble-ai"
-            st.markdown(f'<div class="{bubble}">{txt}</div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        for role, msg in st.session_state.chat_messages:
+            css = "bubble-user" if role == "user" else "bubble-ai"
+            st.markdown(f'<div class="{css}">{msg}</div>', unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        msg = st.text_input("Írj üzenetet…", key="chat_input_text", label_visibility="collapsed")
-        if msg:
-            st.session_state.chat_messages.append(("user", msg))
-            ai = generate_response(msg, st.session_state.get("ui_lang", "hu"))
+        text = st.text_input("Írj üzenetet…", key="chat_msg", label_visibility="collapsed")
+        if text:
+            st.session_state.chat_messages.append(("user", text))
+            ai = generate_response(text, st.session_state.get("ui_lang", "hu"))
             st.session_state.chat_messages.append(("assistant", ai))
-            st.session_state.chat_input_text = ""
+            st.session_state.chat_msg = ""
 
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
