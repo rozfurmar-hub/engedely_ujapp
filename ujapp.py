@@ -133,7 +133,6 @@ HU = {
     "section_contact": "Elérhetőség",
     "phone": "Telefonszám",
     "email": "E-mail cím",
-
     "section_personal": "1) Személyes adatok",
     "vezeteknev": "Családi név (útlevél szerint)",
     "keresztnev": "Utónév (útlevél szerint)",
@@ -555,7 +554,7 @@ with st.form("adaturlap", clear_on_submit=False):
     email = st.text_input(L["email"], placeholder="nev@example.com")
 
     # 1) Személyes
-    
+    st.markdown(f"**{L['section_personal']}**")
     vezeteknev = render_text_field("vezeteknev", L["vezeteknev"], ui_lang)
     keresztnev = render_text_field("keresztnev", L["keresztnev"], ui_lang)
     szuletesi_csaladi = render_text_field("szuletesi_csaladi", L["szuletesi_csaladi"], ui_lang)
