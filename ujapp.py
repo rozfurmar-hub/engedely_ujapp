@@ -814,7 +814,7 @@ with st.form("adaturlap", clear_on_submit=False):
         })
     
     # 12) Sablonválasztó szekció
-    st.markdown(f"**12) {L['select_templates']} és hozza létre a dokumentumokat!**")
+    st.markdown(f"**12) {L['select_templates']}**")
 
     
     # Sablonválasztás
