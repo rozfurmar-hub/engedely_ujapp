@@ -222,8 +222,8 @@ HU = {
     "tartozkodas_celja": "Tartózkodás célja",
 
     "section_fizetes": "11) Fizetési tranzakció",
-    "tranzakcio_szam": "Elektronikus/banki befizetés tranzakciós száma",
-}
+    "tranzakcio_szam": "Elektronikus/banki befizetés tranzakciós száma. Az engedélykérelmi eljárásokban vannak fizetős eljárások, ahol előre meg kell fizetni a díjat. Ezt csak abban az esetben kell kitölteni, ha az Ön által választott eljárás díjköteles."
+  }
 
 RU = {
     **HU,
