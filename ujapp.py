@@ -812,7 +812,11 @@ with st.form("adaturlap", clear_on_submit=False):
             "tartozkodik_e": tartozkodas_e,
             "okmany_szam": okmany
         })
+    
+    # 12) Sablonválasztó szekció
+    st.markdown(f"**12) {L['select_templates']} és hozza létre a dokumentumokat!**")
 
+    
     # Sablonválasztás
     template_labels = [p.name for p in available_templates]
     defaults = [name for name in template_labels if name in DEFAULT_TEMPLATE_NAMES]
