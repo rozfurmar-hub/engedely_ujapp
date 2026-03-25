@@ -1,8 +1,7 @@
 import streamlit as st
 import openai
 from field_help import load_field_help
-import os
-st.write("KB_EXISTS:", os.path.exists("engedely_ujapp/knowledge/fields_hu.json"))
+
 
 # =========================================================
 # Tudásbázis kereső
