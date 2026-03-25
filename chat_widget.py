@@ -7,10 +7,21 @@ from field_help import load_field_help
 # =========================================================
 def get_kb_answer(question: str, ui_lang: str):
     kb = load_field_help(ui_lang)
-    q = question.lower()
+
+    import unicodedata
+
+    def normalize(s):
+        return ''.join(
+            c for c in unicodedata.normalize('NFD', s.lower())
+            if unicodedata.category(c) != 'Mn'
+        )
+    
+    q = normalize(question)
+    
     for key, info in kb.items():
-        if key.lower() in q:
-            return f"**{info.get('label','')}**\n\n{info.get('help','')}"
+        if normalize(key) in q:
+            return f"**{info['label']}**\n\n{info['help']}"
+
     return None
 
 # =========================================================
