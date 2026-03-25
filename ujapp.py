@@ -172,21 +172,21 @@ HU = {
     "ajto": "Ajtó",
     "szallas_jogcim": "A szálláshelyen tartózkodás jogcíme",
 
-    "section_elso_vagy_hossz": "Első kérelem / Hosszabbítás",
+    "section_elso_vagy_hossz": "4) Első kérelem / Hosszabbítás",
     "elso_beutazas_helye": "Első kérelemnél: beutazás helye",
     "elso_beutazas_datuma": "Első kérelemnél: beutazás ideje (YYYY-MM-DD)",
     "hossz_engedely_szam": "Hosszabbításnál: engedély száma",
     "hossz_engedely_ervenyes": "Hosszabbításnál: engedély érvényessége (YYYY-MM-DD)",
 
-    "section_atvetel": "Okmány átvétele",
+    "section_atvetel": "5) Okmány átvétele",
     "atvetel_mod": "Átvétel módja",
     "postai_cim_tipus": "Postai kézbesítés címe",
 
-    "section_egeszseg": "4) Teljes körű egészségbiztosítás",
+    "section_egeszseg": "6) Teljes körű egészségbiztosítás",
     "egeszseg_biztositas": "Rendelkezik teljes körű egészségbiztosítással?",
     "egeszseg_egyeb": "Egyéb (biztosítás típusa, megjegyzés)",
 
-    "section_visszaut": "5) Vissza-/továbbutazás feltételei",
+    "section_visszaut": "7) Vissza-/továbbutazás feltételei",
     "visszaut_orszag": "Vissza-/továbbutazás országa",
     "kozlekedesi_eszkoz": "Közlekedési eszköz",
     "van_utlevel": "Rendelkezik útlevéllel?",
@@ -198,7 +198,7 @@ HU = {
     "section_hozzatartozo": "Eltartott házastárs/gyermek/szülő (max. 8 fő)",
     "hozz_count": "Eltartott hozzátartozók száma",
 
-    "section_egyeb": "7) Egyéb adatok",
+    "section_egyeb": "8) Egyéb adatok",
     "elozo_orszag": "(Érkezés előtti) Ország",
     "elozo_telepules": "(Érkezés előtti) Település",
     "elozo_cim": "(Érkezés előtti) Cím",
@@ -214,14 +214,14 @@ HU = {
     "fert_beteg": "Szenved-e a felsorolt fertőző betegségek valamelyikében? Tudomása szerint szenved-e gyógykezelésre szoruló HIV/AIDS, továbbá tbc, hepatitis B, luesz, lepra, hastífusz fertőző betegségekben?",
     "kap_ellatas": "Fertőzőképesség esetén részesül-e kötelező és rendszeres ellátásban?",
 
-    "section_kiskoru": "8) Kiskorú gyermek utazik együtt",
+    "section_kiskoru": "9) Kiskorú gyermek utazik együtt",
     "kiskoru_utazik": "Az útlevélben szereplő kiskorú gyermek velem együtt utazik",
 
-    "section_tervezett": "9) Tartózkodás tervezett időtartama és célja",
+    "section_tervezett": "10) Tartózkodás tervezett időtartama és célja",
     "tartozkodas_vege": "Meddig kéri az engedélyt? (YYYY-MM-DD)",
     "tartozkodas_celja": "Tartózkodás célja",
 
-    "section_fizetes": "Fizetési tranzakció",
+    "section_fizetes": "11) Fizetési tranzakció",
     "tranzakcio_szam": "Elektronikus/banki befizetés tranzakciós száma",
 }
 
