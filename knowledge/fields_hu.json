@@ -273,6 +273,6 @@
 
   "tranzakcio_szam": {
     "label": "Tranzakció száma",
-    "help": "A befizetési tranzakció azonosító száma."
+    "help": "A befizetési tranzakció azonosító száma. Az engedélykérelmi eljárásokban vannak fizetős eljárások, ahol előre meg kell fizetni a díjat. Ezt csak abban az esetben kell kitölteni, ha az Ön által választott eljárás díjköteles."
   }
 }
