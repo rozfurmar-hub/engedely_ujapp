@@ -820,7 +820,11 @@ with st.form("adaturlap", clear_on_submit=False):
     # Sablonválasztás
     template_labels = [p.name for p in available_templates]
     defaults = [name for name in template_labels if name in DEFAULT_TEMPLATE_NAMES]
-    selected_labels = st.multiselect(L["select_templates"], options=template_labels, default=defaults)
+    selected_labels = st.multiselect(
+    "",
+    options=template_labels,
+    default=defaults
+    )
 
     submitted = st.form_submit_button(L["btn_generate"])
 
