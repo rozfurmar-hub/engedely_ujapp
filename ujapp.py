@@ -31,7 +31,7 @@ def render_text_field(key, label, ui_lang, placeholder=""):
 def render_select_field(key, label, options, ui_lang, index=0):
     col1, col2 = st.columns([10, 1])
     with col1:
-        st.markdown(f"**{label}**")
+        st.markdown(f"{label}")
     with col2:
         show_field_help(key, ui_lang)
     return st.selectbox("", options=options, index=index, key=key)
