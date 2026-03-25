@@ -72,6 +72,10 @@ def floating_chat():
     if "chat_messages" not in st.session_state:
         st.session_state.chat_messages = []
 
+# ⭐ ÚJ: input mező widget kulcsának számlálója
+    if "chat_input_key" not in st.session_state:
+        st.session_state.chat_input_key = 0
+
     # CSS + HTML overlay
     st.markdown("""
 <style>
@@ -201,24 +205,24 @@ button[data-testid="chat_toggle_btn"] {
         st.markdown("</div>", unsafe_allow_html=True)
 
 
-        # --- Input előkészítés (mindig töröljük, ha kell) ---
-        if st.session_state.get("clear_chat_input", False):
-            st.session_state.pop("chat_input_text", None)
-            st.session_state["clear_chat_input"] = False
-        
-        # --- Chat Input mező ---
+        # --- CHAT INPUT ---
         user_msg = st.text_input(
             "",
-            key="chat_input_text",
+            key=f"chat_input_{st.session_state.chat_input_key}",
             placeholder="Tegye fel kérdését! / Задайте вопрос!"
         )
         
+        # --- Üzenet beküldése ---
         if user_msg:
+            # Üzenet eltárolása
             st.session_state.chat_messages.append(("user", user_msg))
+        
+            # AI válasz
             ai = generate_response(user_msg, st.session_state.get("ui_lang", "hu"))
             st.session_state.chat_messages.append(("assistant", ai))
         
-            # Következő ciklusban üríteni kell az inputot
-            st.session_state["clear_chat_input"] = True
+            # 🔥 Következő input widget kulcsa = új, tiszta input mező
+            st.session_state.chat_input_key += 1
         
+            # 🔁 Újrarender
             st.rerun()
