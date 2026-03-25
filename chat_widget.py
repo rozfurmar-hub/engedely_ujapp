@@ -171,19 +171,32 @@ def floating_chat():
     margin-bottom: 8px;
 }
 
-/* hidden toggle button */
+/* CHAT gomb rögzítése a képernyő jobb alsó sarkához */
 button[data-testid="chat_toggle_btn"] {
-    display: none !important;    
-    opacity: 0 !important;
-    width: 1px !important;
-    height: 1px !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 999999 !important;
+    pointer-events: auto !important;
+
+    background: #0084FF !important;
+    color: white !important;
+    border-radius: 50px !important;
+    padding: 10px 18px !important;
+    font-weight: 600 !important;
     border: none !important;
-    background: transparent !important;
-    color: transparent !important;
-    pointer-events: none !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25) !important;
 }
+
+/* Mobilbarát pozíció */
+@media (max-width: 600px) {
+  button[data-testid="chat_toggle_btn"] {
+      bottom: 15px !important;
+      right: 15px !important;
+      padding: 8px 14px !important;
+  }
+}
+
 
 </style>
 
