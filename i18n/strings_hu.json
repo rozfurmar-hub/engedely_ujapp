@@ -8,7 +8,7 @@
   "ru_latin_notice": "⚠️ Orosz nyelvű felület esetén kérjük *latin* betűkkel (A–Z, 0–9) kitölteni. A cirill szövegeket automatikusan latinra írjuk át, kivéve néhány mezőt, amelyeket magyarra fordítunk.",
   "form_header": "Adatbekérő űrlap",
   "btn_generate": "📄 Dokumentum(ok) generálása",
-  "select_templates": "Válasszon sablon(oka)t a lenyíló menüből és hozza létre a dokumentumo(ka)t.",
+  "select_templates": "12) Válasszon sablon(oka)t a lenyíló menüből és hozza létre a dokumentumo(ka)t.",
   "err_no_templates": "Nincs sablon a templates/ mappában.",
   "err_no_selection": "Nem választott ki sablont.",
   "err_fix": "Kérjük, javítsa az alábbi hibá(ka)t:",
