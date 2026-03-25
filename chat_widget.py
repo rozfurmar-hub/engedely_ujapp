@@ -212,3 +212,5 @@ button[data-testid="chat_toggle_btn"] {
             ai = generate_response(user_msg, st.session_state.get("ui_lang", "hu"))
             st.session_state.chat_messages.append(("assistant", ai))
             st.session_state.pop("chat_input_text", None)
+
+            st.rerun()
