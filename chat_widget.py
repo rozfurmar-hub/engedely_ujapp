@@ -5,24 +5,29 @@ from field_help import load_field_help
 # =========================================================
 # Tudásbázis kereső
 # =========================================================
+import unicodedata
+
+def normalize(s: str) -> str:
+    """Ékezetek eltávolítása + kisbetű + nem alfanumerikus jelek törlése."""
+    if not s:
+        return ""
+    s = s.lower()
+    s = unicodedata.normalize('NFD', s)
+    s = ''.join(c for c in s if unicodedata.category(c) != 'Mn')
+    s = ''.join(c for c in s if c.isalnum())  # pl. "_" törlése
+    return s
+
 def get_kb_answer(question: str, ui_lang: str):
     kb = load_field_help(ui_lang)
-
-    import unicodedata
-
-    def normalize(s):
-        return ''.join(
-            c for c in unicodedata.normalize('NFD', s.lower())
-            if unicodedata.category(c) != 'Mn'
-        )
-    
     q = normalize(question)
-    
+
     for key, info in kb.items():
-        if normalize(key) in q:
+        k = normalize(key)
+        if k in q:          # most már működik ékezetesen is
             return f"**{info['label']}**\n\n{info['help']}"
 
     return None
+
 
 # =========================================================
 # Nyelvfelismerés
