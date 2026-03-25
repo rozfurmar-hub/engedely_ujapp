@@ -201,28 +201,24 @@ button[data-testid="chat_toggle_btn"] {
         st.markdown("</div>", unsafe_allow_html=True)
 
 
-        # Ha korábbi üzenet törlésre vár (az előző ciklusból)
-        if "chat_input_text" in st.session_state and st.session_state.chat_input_text:
-            # Ha épp most fejeztünk be egy üzenetet, töröljük mielőtt megjelenne az input
-            if st.session_state.get("clear_chat_input", False):
-                st.session_state.pop("chat_input_text", None)
-                st.session_state["clear_chat_input"] = False
-
+        # --- Input előkészítés (mindig töröljük, ha kell) ---
+        if st.session_state.get("clear_chat_input", False):
+            st.session_state.pop("chat_input_text", None)
+            st.session_state["clear_chat_input"] = False
         
-        # Chat Input mező
-
+        # --- Chat Input mező ---
         user_msg = st.text_input(
             "",
             key="chat_input_text",
             placeholder="Tegye fel kérdését! / Задайте вопрос!"
         )
-    
+        
         if user_msg:
             st.session_state.chat_messages.append(("user", user_msg))
             ai = generate_response(user_msg, st.session_state.get("ui_lang", "hu"))
             st.session_state.chat_messages.append(("assistant", ai))
-
-            # Jelöljük, hogy a következő renderciklus előtt üríteni kell az inputot
+        
+            # Következő ciklusban üríteni kell az inputot
             st.session_state["clear_chat_input"] = True
-
+        
             st.rerun()
