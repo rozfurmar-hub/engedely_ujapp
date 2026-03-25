@@ -23,7 +23,7 @@ from field_help import show_field_help
 def render_text_field(key, label, ui_lang, placeholder=""):
     col1, col2 = st.columns([10, 1])
     with col1:
-        st.markdown(f"**{label}**")
+        st.markdown(f"{label}")
     with col2:
         show_field_help(key, ui_lang)
     return st.text_input("", key=key, placeholder=placeholder)
