@@ -1,28 +1,41 @@
 import streamlit as st
 import openai
+import unicodedata
 from field_help import load_field_help
 
+
 # =========================================================
-# Tudásbázis kereső
+# Tudásbázis kulcs-normalizáló függvény
+# =========================================================
+def normalize(s: str) -> str:
+    """
+    Kisbetű, ékezetek eltávolítása, nem alfanumerikus karakterek törlése.
+    Így: 'tranzakció szám' -> 'tranzakcioszam'
+    """
+    if not s:
+        return ""
+
+    s = s.lower()
+    s = unicodedata.normalize('NFD', s)
+    s = ''.join(c for c in s if unicodedata.category(c) != "Mn")
+    s = ''.join(c for c in s if c.isalnum())
+    return s
+
+
+# =========================================================
+# Tudásbázis kereső (javított)
 # =========================================================
 def get_kb_answer(question: str, ui_lang: str):
     kb = load_field_help(ui_lang)
-
-    import unicodedata
-
-    def normalize(s):
-        return ''.join(
-            c for c in unicodedata.normalize('NFD', s.lower())
-            if unicodedata.category(c) != 'Mn'
-        )
-    
     q = normalize(question)
-    
+
     for key, info in kb.items():
-        if normalize(key) in q:
+        k = normalize(key)
+        if k in q:
             return f"**{info['label']}**\n\n{info['help']}"
 
     return None
+
 
 # =========================================================
 # Nyelvfelismerés
@@ -33,8 +46,9 @@ def detect_lang(text: str):
             return "ru"
     return "hu"
 
+
 # =========================================================
-# AI fallback
+# AI fallback (csak ha NINCS tudásbázis találat)
 # =========================================================
 def ask_ai(question, ui_lang):
     detected = detect_lang(question)
@@ -43,12 +57,15 @@ def ask_ai(question, ui_lang):
     client = openai.OpenAI(api_key=st.secrets["openai"]["api_key"])
 
     system_prompt_hu = (
-        "Segítőkész magyar ügyintéző asszisztens vagy. "
-        "Rövid, világos, barátságos válaszokat adsz."
+        "Segítőkész magyar ügyintéző vagy. "
+        "Csak az adatlap kitöltésével kapcsolatos kérdésekre válaszolj. "
+        "Ha a kérdés nem kapcsolódik az űrlaphoz, tereld vissza udvariasan."
     )
+
     system_prompt_ru = (
-        "Вы — дружелюбный помощник. "
-        "Отвечайте коротко и понятно."
+        "Вы — вежливый помощник. "
+        "Отвечайте только на вопросы, связанные с заполнением формы. "
+        "Если вопрос не по теме, мягко верните пользователя к заполнению формы."
     )
 
     system_prompt = system_prompt_hu if ui_lang == "hu" else system_prompt_ru
@@ -59,12 +76,14 @@ def ask_ai(question, ui_lang):
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": question},
         ],
-        max_tokens=400,
+        max_tokens=300,
     )
+
     return response.choices[0].message.content
 
+
 # =========================================================
-# Tudásbázis → AI válasz
+# Tudásbázis → vagy AI fallback
 # =========================================================
 def generate_response(question, ui_lang):
     kb_answer = get_kb_answer(question, ui_lang)
@@ -72,168 +91,75 @@ def generate_response(question, ui_lang):
         return kb_answer
     return ask_ai(question, ui_lang)
 
+
 # =========================================================
-# Messenger-szerű lebegő chat — stabil verzió
+# Messenger-szerű lebegő chat
 # =========================================================
 def floating_chat():
 
-    # STATE
+    # ------ STATE inicializálása ------
     if "chat_open" not in st.session_state:
         st.session_state.chat_open = False
+
     if "chat_messages" not in st.session_state:
         st.session_state.chat_messages = []
 
-# ⭐ ÚJ: input mező widget kulcsának számlálója
+    # új: input mező egyedi kulcs számlálója
     if "chat_input_key" not in st.session_state:
         st.session_state.chat_input_key = 0
 
-    # CSS + HTML overlay
-    st.markdown("""
-<style>
+    # ------ CHAT TOGGLE GOMB ------
+    toggled = st.button("CHAT", key="chat_toggle_btn")
 
-#chat-root {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    z-index: 999999;
-    pointer-events: none;
-}
-
-.chat-bubble, .chat-bubble * {
-    pointer-events: auto;
-}
-
-.chat-bubble {
-    position: absolute;
-    bottom: 24px;
-    right: 24px;
-}
-
-.chat-bubble button {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    font-size: 40px;
-    background: #0084FF;
-    color: white;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-}
-
-.chat-panel, .chat-panel * {
-    pointer-events: auto;
-}
-
-.chat-panel {
-    position: absolute;
-    bottom: 120px;
-    right: 24px;
-    width: 380px;
-    height: 520px;
-    background: white;
-    border-radius: 16px;
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-}
-
-.chat-scroll {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding-right: 10px;
-}
-
-.bubble-user {
-    background: #0084ff;
-    color: white;
-    padding: 10px 14px;
-    border-radius: 16px;
-    max-width: 80%;
-    margin-left: auto;
-    margin-bottom: 8px;
-}
-
-.bubble-ai {
-    background: #e5e5ea;
-    color: #111;
-    padding: 10px 14px;
-    border-radius: 16px;
-    max-width: 80%;
-    margin-right: auto;
-    margin-bottom: 8px;
-}
-
-/* hidden toggle button */
-button[data-testid="chat_toggle_btn"] {
-    display: none !important;    
-    opacity: 0 !important;
-    width: 1px !important;
-    height: 1px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
-    background: transparent !important;
-    color: transparent !important;
-    pointer-events: none !important;
-}
-
-</style>
-
-
-""", unsafe_allow_html=True)
-
-    # STREAMLIT TOGGLE BUTTON (hidden but JS-clickable)
-    toggled = st.button("???  CHAT  ???", key="chat_toggle_btn")
     if toggled:
         st.session_state.chat_open = not st.session_state.chat_open
 
-    # If closed → exit
     if not st.session_state.chat_open:
-        return
+        return  # panel nem látszik, kilépünk
 
-    # CHAT PANEL
-       
+    # ------ CHAT PANEL ------
     panel = st.container()
+
     with panel:
         st.markdown('<div class="chat-panel">', unsafe_allow_html=True)
-    
-        # Scroll area
+
+        # --- scroll ---
         st.markdown('<div class="chat-scroll">', unsafe_allow_html=True)
-    
-        # Placeholder (ha nincsenek üzenetek)
+
         if not st.session_state.chat_messages:
             st.markdown(
-                '<div class="bubble-ai" style="opacity:0.6;">Kérdése van? / Есть вопросы?</div>',
+                '<div style="opacity:0.6; padding:10px;">'
+                'Tegye fel kérdését! / Задайте вопрос!'
+                '</div>',
                 unsafe_allow_html=True
             )
         else:
+            # meglévő üzenetek kirajzolása
             for role, txt in st.session_state.chat_messages:
                 css = "bubble-user" if role == "user" else "bubble-ai"
                 st.markdown(f'<div class="{css}">{txt}</div>', unsafe_allow_html=True)
-    
-        st.markdown("</div>", unsafe_allow_html=True)
 
+        st.markdown('</div>', unsafe_allow_html=True)
 
-        # --- CHAT INPUT ---
+        # ------ CHAT INPUT MEZŐ ------
         user_msg = st.text_input(
             "",
             key=f"chat_input_{st.session_state.chat_input_key}",
             placeholder="Tegye fel kérdését! / Задайте вопрос!"
         )
-        
-        # --- Üzenet beküldése ---
+
+        # ------ ÜZENET BEKÜLDÉSE ------
         if user_msg:
-            # Üzenet eltárolása
+            # felhasználó üzenete
             st.session_state.chat_messages.append(("user", user_msg))
-        
-            # AI válasz
+            # AI vagy tudásbázis válasza
             ai = generate_response(user_msg, st.session_state.get("ui_lang", "hu"))
             st.session_state.chat_messages.append(("assistant", ai))
-        
-            # 🔥 Következő input widget kulcsa = új, tiszta input mező
+
+            # új input mező kulcsa (hogy üres legyen)
             st.session_state.chat_input_key += 1
-        
-            # 🔁 Újrarender
+
+            # teljes újrarender – AZONNAL megjelenik a válasz
             st.rerun()
+
+        st.markdown('</div>', unsafe_allow_html=True)
