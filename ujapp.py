@@ -249,7 +249,7 @@ RU = {
     "hozz_okmany_szam": "Номер документа",
     
     # Поля — переводы (HU kulcsok fordítása fent átírva RU-ra)
-}
+ }
 
 # A beépített HU/RU szótárakat elérhetővé tesszük a patch-elt load_labels számára
 try:
