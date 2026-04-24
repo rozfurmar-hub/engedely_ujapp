@@ -1196,7 +1196,7 @@ if submitted:
         "NR_FIZETES_TRANZAKCIO": (NR_FIZETES_TRANZAKCIO or "").strip(),
         
         # összetett név (a fájlnevekhez)
-        "teljes_nev": f"{(vezeteknev or '').strip()} {(keresztnev or '').strip()}".strip(),
+        "teljes_nev": f"{(TXT_CSALADI_NEV or '').strip()} {(TXT_UTONEV or '').strip()}".strip(),
     }
 
     # ====== Hozzátartozók (ELT1–ELT4) Word mezők ======
