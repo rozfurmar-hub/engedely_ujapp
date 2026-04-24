@@ -550,20 +550,21 @@ if st.button("➕ Hozzáadás / Добавить"):
 with st.form("adaturlap", clear_on_submit=False):
     # 0) Elérhetőség
     st.markdown(f"**{L['section_contact']}**")
-    phone = st.text_input(L["phone"], placeholder="+36…")
-    email = st.text_input(L["email"], placeholder="nev@example.com")
+    TXT_TELEFON = st.text_input(L["phone"], key="TXT_TELEFON")
+    TXT_EMAIL = st.text_input(L["email"], key="TXT_EMAIL")
+
 
     # 1) Személyes
     st.markdown(f"**{L['section_personal']}**")
+
     vezeteknev = render_text_field("vezeteknev", L["vezeteknev"], ui_lang)
     keresztnev = render_text_field("keresztnev", L["keresztnev"], ui_lang)
     szuletesi_csaladi = render_text_field("szuletesi_csaladi", L["szuletesi_csaladi"], ui_lang)
     szuletesi_uto = render_text_field("szuletesi_uto", L["szuletesi_uto"], ui_lang)
     anyja_csaladi = render_text_field("anyja_csaladi", L["anyja_csaladi"], ui_lang)
     anyja_uto = render_text_field("anyja_uto", L["anyja_uto"], ui_lang)
-    nem_disp = st.selectbox(L["nem"], options=[""] + GENDER_DISP, index=0)
-    csaladi_allapot_disp = st.selectbox(L["csaladi_allapot"], options=[""] + FAMILY_DISP, index=0)
-    
+
+
     # Állampolgárság – lokalizált lista
     if ui_lang == "ru":
         allamp_opts = CITIZENSHIP_DISP_RU
@@ -666,13 +667,14 @@ with st.form("adaturlap", clear_on_submit=False):
 
     # 5) Vissza-/továbbutazás
     st.markdown(f"**{L['section_visszaut']}**")
-    visszaut_orszag = render_text_field("visszaut_orszag", L["visszaut_orszag"], ui_lang) 
-    kozlekedesi_eszkoz = render_text_field("kozlekedesi_eszkoz", L["kozlekedesi_eszkoz"], ui_lang)
-    van_utlevel_disp = render_select_field("van_utlevel", L["van_utlevel"], [""] + YESNO_DISP, ui_lang)   
-    van_vizum_disp = render_select_field("van_vizum", L["van_vizum"], [""] + YESNO_DISP, ui_lang)
-    van_menetjegy_disp = render_select_field("van_menetjegy", L["van_menetjegy"], [""] + YESNO_DISP, ui_lang)  
-    van_anyagi_fedezet_disp = render_select_field("van_anyagi_fedezet", L["van_anyagi_fedezet"], [""] + YESNO_DISP, ui_lang)    
-    fedezet_osszeg = render_text_field("fedezet_osszeg", L["fedezet_osszeg"], ui_lang)
+
+    TXT_VISSZA_UTAZASI_ORSZAG = render_text_field(
+        "TXT_VISSZA_UTAZASI_ORSZAG", L["visszaut_orszag"], ui_lang
+    )
+    TXT_KOZLEKEDESI_ESZKOZ = render_text_field(
+        "TXT_KOZLEKEDESI_ESZKOZ", L["kozlekedesi_eszkoz"], ui_lang
+    )
+
 
    
 
@@ -705,8 +707,9 @@ with st.form("adaturlap", clear_on_submit=False):
 
     # Fizetési tranzakció
     st.markdown(f"**{L['section_fizetes']}**")
-    tranzakcio_szam = st.text_input(L["tranzakcio_szam"]) 
-
+    NR_FIZETES_TRANZAKCIO = st.text_input(
+        L["tranzakcio_szam"], key="NR_FIZETES_TRANZAKCIO"
+    )
     # ====== HOZZÁTARTOZÓK – DINAMIKUS MEZŐK A FORMON BELÜL (HU/RU i18n) ======
     
     hozz = []
@@ -863,16 +866,20 @@ if submitted:
     tartozkodas_celja = to_canonical(ui_lang, "cel", tartozkodas_celja_disp)
 
     record = {
-        # elérhetőség
-        "phone": (phone or "").strip(),
-        "email": (email or "").strip(),
-        # személyes
-        "vezeteknev": (vezeteknev or "").strip(),
-        "keresztnev": (keresztnev or "").strip(),
-        "szuletesi_csaladi": (szuletesi_csaladi or "").strip(),
-        "szuletesi_uto": (szuletesi_uto or "").strip(),
-        "anyja_csaladi": (anyja_csaladi or "").strip(),
-        "anyja_uto": (anyja_uto or "").strip(),
+        
+        # Kapcsolattartás
+        "TXT_TELEFON": (TXT_TELEFON or "").strip(),
+        "TXT_EMAIL": (TXT_EMAIL or "").strip(),
+
+        # személyes adatok
+        
+        "TXT_CSALADI_NEV": (TXT_CSALADI_NEV or "").strip(),
+        "TXT_UTONEV": (TXT_UTONEV or "").strip(),
+        "TXT_SZUL_CSALADI_NEV": (TXT_SZUL_CSALADI_NEV or "").strip(),
+        "TXT_SZUL_UTONEV": (TXT_SZUL_UTONEV or "").strip(),
+        "TXT_ANYA_CSALADI_NEV": (TXT_ANYA_CSALADI_NEV or "").strip(),
+        "TXT_ANYA_UTONEV": (TXT_ANYA_UTONEV or "").strip(),
+
         "nem": nem,
         "allampolgarsag": (allampolgarsag or "").strip(),
         "nemzetiseg": (nemzetiseg or "").strip(),
@@ -913,8 +920,11 @@ if submitted:
         "egeszseg_biztositas": egeszseg_biztositas,
         "egeszseg_egyeb": (egeszseg_egyeb or "").strip(),
         # visszautazás
-        "visszaut_orszag": (visszaut_orszag or "").strip(),
-        "kozlekedesi_eszkoz": (kozlekedesi_eszkoz or "").strip(),
+        
+        "TXT_VISSZA_UTAZASI_ORSZAG": (TXT_VISSZA_UTAZASI_ORSZAG or "").strip(),
+        "TXT_KOZLEKEDESI_ESZKOZ": (TXT_KOZLEKEDESI_ESZKOZ or "").strip(),
+
+        
         "van_utlevel": van_utlevel,
         "van_vizum": van_vizum,
         "van_menetjegy": van_menetjegy,
@@ -943,7 +953,8 @@ if submitted:
         "tartozkodas_vege": (tartozkodas_vege or "").strip(),
         "tartozkodas_celja": tartozkodas_celja,
         # fizetés
-        "tranzakcio_szam": (tranzakcio_szam or "").strip(),
+        "NR_FIZETES_TRANZAKCIO": (NR_FIZETES_TRANZAKCIO or "").strip(),
+        
         # összetett név (a fájlnevekhez)
         "teljes_nev": f"{(vezeteknev or '').strip()} {(keresztnev or '').strip()}".strip(),
     }
@@ -1140,4 +1151,272 @@ PLACEHOLDERS = [
 with st.expander("📌 Helyőrzők (templates) – kattintson a listához", expanded=False):
     st.code("\n".join(PLACEHOLDERS), language="text")
 
+# =====================================================================
+# KANONIKUS WORD / JSON MEZŐLISTA (TELJES – „236-os lista”)
+# Forrás: OIF Tartózkodási engedély sablon
+#
+# FELHASZNÁLÁS:
+# - Word sablon {{MEZŐ}} ellenőrzés
+# - Streamlit key-ek validálása
+# - docxtpl context ellenőrzés
+# =====================================================================
 
+WORD_CANONICAL_FIELDS = {
+    "kapcsolattartas": [
+        "TXT_TELEFON",
+        "TXT_EMAIL"
+    ],
+
+        {
+      "kapcsolattartas": [
+        "TXT_TELEFON",
+        "TXT_EMAIL"
+     ],
+    
+      "engedely_tipus": [
+        "X_ENGED_ELSO",
+        "TXT_BEUT_HELY",
+        "DT_BEUT_EV",
+        "DT_BEUT_HO",
+        "DT_BEUT_NAP",
+    
+        "X_ENGED_HOSSZ",
+        "NR_ENGED_SZAM",
+        "DT_ENGED_ERV_EV",
+        "DT_ENGED_ERV_HO",
+        "DT_ENGED_ERV_NAP"
+      ],
+    
+      "szemelyes_adatok": [
+        "TXT_CSALADI_NEV",
+        "TXT_UTONEV",
+        "TXT_SZUL_CSALADI_NEV",
+        "TXT_SZUL_UTONEV",
+        "TXT_ANYA_CSALADI_NEV",
+        "TXT_ANYA_UTONEV",
+    
+        "X_NEM_FERFI",
+        "X_NEM_NO",
+    
+        "X_ALLAPOT_NOTLEN_HAJADON",
+        "X_ALLAPOT_HAZAS",
+        "X_ALLAPOT_ELVALT",
+        "X_ALLAPOT_OZVEGY",
+    
+        "DT_SZUL_EV",
+        "DT_SZUL_HO",
+        "DT_SZUL_NAP",
+    
+        "TXT_SZUL_HELY",
+        "TXT_SZUL_ORSZAG",
+    
+        "TXT_ALLAMPOLGARSAG",
+        "TXT_NEMZETISEG",
+    
+        "TXT_SZAKKEPZETTSEG",
+    
+        "X_ISKOLA_ALAP",
+        "X_ISKOLA_KOZEP",
+        "X_ISKOLA_FELSO",
+    
+        "TXT_ELOZO_FOGLALKOZAS"
+      ],
+    
+      "utlevel": [
+        "NR_UTLEVEL_SZAM",
+    
+        "DT_UTLEVEL_KIALL_EV",
+        "DT_UTLEVEL_KIALL_HO",
+        "DT_UTLEVEL_KIALL_NAP",
+        "TXT_UTLEVEL_KIALL_HELY",
+    
+        "X_UTLEVEL_MAGAN",
+        "X_UTLEVEL_SZOLG",
+        "X_UTLEVEL_DIPLO",
+        "X_UTLEVEL_EGYEB",
+    
+        "DT_UTLEVEL_ERV_EV",
+        "DT_UTLEVEL_ERV_HO",
+        "DT_UTLEVEL_ERV_NAP"
+      ],
+    
+      "szallashely": [
+        "TXT_HRSZ",
+        "TXT_IRSZAM",
+        "TXT_TELEPULES",
+        "TXT_KOZTERULET_NEV",
+        "TXT_KOZTERULET_JELLEG",
+        "TXT_HAZSZAM",
+        "TXT_EPULET",
+        "TXT_LEPCSO",
+        "TXT_EMELET",
+        "TXT_AJTO",
+    
+        "X_SZALLAS_TULAJ",
+        "X_SZALLAS_BERLO",
+        "X_SZALLAS_CSALADTAG",
+        "X_SZALLAS_SZIVES",
+        "X_SZALLAS_EGYEB",
+        "TXT_SZALLAS_EGYEB"
+      ],
+    
+      "okmany_atvetele": [
+        "X_ATVETEL_POSTA",
+        "X_POSTA_SZALLASHELY",
+        "X_POSTA_MEGHATALMAZOTT",
+        "X_ATVETEL_SZEMELY"
+      ],
+    
+      "egeszsegbiztositas": [
+        "X_EGEBIZT_FOGL",
+        "X_EGEBIZT_FEDEZET",
+        "X_EGEBIZT_TELJESKORU",
+        "X_EGEBIZT_EGYEB",
+        "TXT_EGEBIZT_EGYEB"
+      ],
+    
+      "visszautazas": [
+        "TXT_VISSZA_UTAZASI_ORSZAG",
+        "TXT_KOZLEKEDESI_ESZKOZ",
+    
+        "X_UTLEVEL_IGEN",
+        "X_UTLEVEL_NEM",
+    
+        "X_VIZUM_IGEN",
+        "X_VIZUM_NEM",
+    
+        "X_MENETJEGY_IGEN",
+        "X_MENETJEGY_NEM",
+    
+        "X_ANYAGI_FEDEZET_IGEN",
+        "X_ANYAGI_FEDEZET_NEM",
+        "TXT_ANYAGI_FEDEZET_OSSZEG"
+      ],
+    
+      "eltartottak": {
+        "ELT1": [
+          "TXT_ELT1_VEZETEKNEV",
+          "TXT_ELT1_KERESZTNEV",
+          "TXT_ELT1_ROKONSAG",
+          "TXT_ELT1_SZUL_HELY",
+          "DT_ELT1_SZUL_EV",
+          "DT_ELT1_SZUL_HO",
+          "DT_ELT1_SZUL_NAP",
+          "TXT_ELT1_ALLAMPOLGARSAG",
+    
+          "X_ELT1_JOGCIM_VIZUM",
+          "X_ELT1_JOGCIM_TART",
+          "X_ELT1_JOGCIM_IDEIGLENES_LET",
+          "X_ELT1_JOGCIM_EK_LET",
+          "X_ELT1_JOGCIM_IDEIGLENES_KARTYA",
+          "X_ELT1_JOGCIM_EU_KARTYA",
+          "X_ELT1_JOGCIM_NEMZETI_KARTYA",
+          "X_ELT1_JOGCIM_EGYEB",
+          "TXT_ELT1_JOGCIM_EGYEB",
+    
+          "X_ELT1_OKMANY_VIZUM",
+          "X_ELT1_OKMANY_LET",
+          "X_ELT1_OKMANY_NEMZETI_LET",
+          "X_ELT1_OKMANY_BEVAND",
+          "X_ELT1_OKMANY_EU_KEK",
+          "NR_ELT1_TARTOZK_OKMANY",
+          "X_ELT1_NEM_TARTOZK_MO"
+        ],
+    
+        "ELT2": "ugyanaz, ELT2_ prefixszel",
+        "ELT3": "ugyanaz, ELT3_ prefixszel",
+        "ELT4": "ugyanaz, ELT4_ prefixszel"
+      },
+    
+      "egyeb_adatok": [
+        "TXT_ELOZO_TART_ORSZAG",
+        "TXT_ELOZO_TART_TELEPULES",
+        "TXT_ELOZO_TART_KOZTERULET",
+        "TXT_ELOZO_TART_KOZTER_JELLEG",
+        "TXT_ELOZO_TART_HAZSZAM",
+    
+        "X_SCHENGEN_OKMANY_IGEN",
+        "X_SCHENGEN_OKMANY_NEM",
+        "TXT_SCHENGEN_ENGED_TIPUS",
+        "NR_SCHENGEN_ENGED_SZAM",
+        "DT_SCHENGEN_ERV_EV",
+        "DT_SCHENGEN_ERV_HO",
+        "DT_SCHENGEN_ERV_NAP",
+    
+        "X_ELUTASITOTT_IGEN",
+        "X_ELUTASITOTT_NEM",
+    
+        "X_BUNTETT_IGEN",
+        "X_BUNTETT_NEM",
+        "TXT_BUNTETT_RESZLETEK",
+    
+        "X_KIUTASITOTT_IGEN",
+        "X_KIUTASITOTT_NEM",
+        "DT_KIUTASIT_EV",
+        "DT_KIUTASIT_HO",
+        "DT_KIUTASIT_NAP",
+    
+        "X_FERT_BETEGSEG_IGEN",
+        "X_FERT_BETEGSEG_NEM",
+        "X_EU_ELLATAS_IGEN",
+        "X_EU_ELLATAS_NEM"
+      ],
+    
+      "kiskoru": [
+        "X_GYERMEK_UTAZIK_IGEN",
+        "X_GYERMEK_UTAZIK_NEM"
+      ],
+    
+      "tartozkodas": [
+        "DT_TARTOZKODAS_EV",
+        "DT_TARTOZKODAS_HO",
+        "DT_TARTOZKODAS_NAP",
+    
+        "X_CEL_VENDEG_ONFOGL",
+        "X_CEL_VENDEG_BEF",
+        "X_CEL_SZEZON",
+        "X_CEL_BERUHAZAS",
+        "X_CEL_FOGLALKOZTATAS",
+        "X_CEL_VENDEGMUNKAS",
+        "X_CEL_MAGYAR_KARTYA",
+        "X_CEL_EU_KEK_KARTYA",
+        "X_CEL_VALLALATON_BELULI",
+        "X_CEL_KUTATAS",
+        "X_CEL_NEMZETI_KARTYA",
+        "X_CEL_TANULMANY",
+        "X_CEL_ALLASKERES",
+        "X_CEL_KEPZES",
+        "X_CEL_GYAKORNOK",
+        "X_CEL_HIVATALOS",
+        "X_CEL_FEHER_KARTYA",
+        "X_CEL_KIKULDETES",
+        "X_CEL_GYOGYKEZELES",
+        "X_CEL_ONKENTES",
+        "X_CEL_NEMZETI_ERDEK",
+        "X_CEL_CSALADI"
+      ],
+    
+      "zaro_nyilatkozat": [
+        "TXT_BETETLAP_SZAM"
+      ],
+    
+      "pont_12": [
+        "X_12_SZOKASOS_ALLAM",
+        "X_12_ALLAMPOLGARSAG_ALLAM",
+        "X_12_EGYEB_ALLAM",
+    
+        "TXT_12_ORSZAG_1",
+        "TXT_12_ENGED_TIPUS_1",
+        "TXT_12_ENGED_SZAM_1",
+    
+        "TXT_12_ORSZAG_2",
+        "TXT_12_ENGED_TIPUS_2",
+        "TXT_12_ENGED_SZAM_2"
+      ],
+    
+      "fizetes": [
+        "NR_FIZETES_TRANZAKCIO"
+      ]
+    }
+    }
+    
