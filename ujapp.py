@@ -385,14 +385,24 @@ def iso_date(s: str) -> str:
     return dt.date().isoformat()
 
 
-def validate_record(r: dict, L: dict, ui_lang: str) -> list[str]:
-    errors = []
-    if not ((r.get("TXT_CSALADI_NEV") or "").strip() and (r.get("TXT_UTONEV") or "").strip()):
-        errors.append(L.get("err_required_name"))
-    if r.get("NR_UTLEVEL_SZAM") and not RE_PASSPORT.match(r["NR_UTLEVEL_SZAM"]):
-        base_err = L.get("err_bad_passport")
-        hint = "Elvárt: 5–15 karakter, A–Z és 0–9." if ui_lang == "hu" else "Ожидается 5–15 символов латиницей/цифрами."
-        errors.append(f"{base_err} {hint}")
+    def validate_record(r: dict, L: dict, ui_lang: str) -> list[str]:
+        errors = []
+    
+        # Kötelező név ellenőrzés
+        if not ((r.get("TXT_CSALADI_NEV") or "").strip() and (r.get("TXT_UTONEV") or "").strip()):
+            errors.append(L.get("err_required_name"))
+    
+        # Útlevélszám formátum ellenőrzés
+        if r.get("NR_UTLEVEL_SZAM") and not RE_PASSPORT.match(r["NR_UTLEVEL_SZAM"]):
+            base_err = L.get("err_bad_passport")
+            hint = (
+                "Elvárt: 5–15 karakter, A–Z és 0–9."
+                if ui_lang == "hu"
+                else "Ожидается 5–15 символов латиницей/цифрами."
+            )
+            errors.append(f"{base_err} {hint}")
+    
+        return errors
    
 
 # =========================
