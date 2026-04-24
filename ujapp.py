@@ -557,13 +557,26 @@ with st.form("adaturlap", clear_on_submit=False):
     # 1) Személyes
     st.markdown(f"**{L['section_personal']}**")
 
-    vezeteknev = render_text_field("vezeteknev", L["vezeteknev"], ui_lang)
-    keresztnev = render_text_field("keresztnev", L["keresztnev"], ui_lang)
-    szuletesi_csaladi = render_text_field("szuletesi_csaladi", L["szuletesi_csaladi"], ui_lang)
-    szuletesi_uto = render_text_field("szuletesi_uto", L["szuletesi_uto"], ui_lang)
-    anyja_csaladi = render_text_field("anyja_csaladi", L["anyja_csaladi"], ui_lang)
-    anyja_uto = render_text_field("anyja_uto", L["anyja_uto"], ui_lang)
+    TXT_CSALADI_NEV = render_text_field("TXT_CSALADI_NEV", L["vezeteknev"], ui_lang)
+    TXT_UTONEV = render_text_field("TXT_UTONEV", L["keresztnev"], ui_lang)
+    TXT_SZUL_CSALADI_NEV = render_text_field("TXT_SZUL_CSALADI_NEV", L["szuletesi_csaladi"], ui_lang)
+    TXT_SZUL_UTONEV = render_text_field("TXT_SZUL_UTONEV", L["szuletesi_uto"], ui_lang)
+    TXT_ANYA_CSALADI_NEV = render_text_field("TXT_ANYA_CSALADI_NEV", L["anyja_csaladi"], ui_lang)
+    TXT_ANYA_UTONEV = render_text_field("TXT_ANYA_UTONEV", L["anyja_uto"], ui_lang)
 
+    # Nem (kötelező Word X mezők miatt)
+    nem_disp = st.selectbox(
+        L["nem"],
+        options=[""] + GENDER_DISP,
+        index=0
+    )
+    
+    # Családi állapot (kötelező Word X mezők miatt)
+    csaladi_allapot_disp = st.selectbox(
+        L["csaladi_allapot"],
+        options=[""] + FAMILY_DISP,
+        index=0
+    )
 
     # Állampolgárság – lokalizált lista
     if ui_lang == "ru":
