@@ -387,27 +387,13 @@ def iso_date(s: str) -> str:
 
 def validate_record(r: dict, L: dict, ui_lang: str) -> list[str]:
     errors = []
-    if not ((r.get("vezeteknev") or "").strip() and (r.get("keresztnev") or "").strip()):
+    if not ((r.get("TXT_CSALADI_NEV") or "").strip() and (r.get("TXT_UTONEV") or "").strip()):
         errors.append(L.get("err_required_name"))
-    if r.get("utlevel_szam") and not RE_PASSPORT.match(r["utlevel_szam"]):
+    if r.get("NR_UTLEVEL_SZAM") and not RE_PASSPORT.match(r["NR_UTLEVEL_SZAM"]):
         base_err = L.get("err_bad_passport")
         hint = "Elvárt: 5–15 karakter, A–Z és 0–9." if ui_lang == "hu" else "Ожидается 5–15 символов латиницей/цифрами."
         errors.append(f"{base_err} {hint}")
-    # dátumok normalizálása és jövőbeni követelmények
-    for key in [
-        "szuletesi_datum", "utlevel_kiadas", "utlevel_lejarat", "elso_beutazas_datuma",
-        "hossz_engedely_ervenyes", "mas_schengen_ervenyes", "kiutasitas_datum", "tartozkodas_vege"
-    ]:
-        if r.get(key):
-            try:
-                r[key] = iso_date(r[key])
-            except Exception:
-                errors.append(L.get("err_invalid_date").format(field=key))
-    today = date.today().isoformat()
-    for key in ["utlevel_lejarat", "tartozkodas_vege"]:
-        if r.get(key) and r[key] <= today:
-            errors.append(L.get("err_past_date").format(field=key))
-    return errors
+   
 
 # =========================
 # DOCX sablonkezelés és ZIP
