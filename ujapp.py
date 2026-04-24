@@ -964,20 +964,20 @@ if submitted:
         
         record.update({
         
-            # Alapadatok
-            f"TXT_{prefix}_VEZETEKNEV": get_elt(idx, "vezeteknev"),
-            f"TXT_{prefix}_KERESZTNEV": get_elt(idx, "keresztnev"),
-            f"TXT_{prefix}_ROKONSAG": get_elt(idx, "rokonsagi_fok"),
-            f"TXT_{prefix}_SZUL_HELY": get_elt(idx, "szuletesi_hely"),
+        # Alapadatok
+        f"TXT_{prefix}_VEZETEKNEV": get_elt(idx, "vezeteknev"),
+        f"TXT_{prefix}_KERESZTNEV": get_elt(idx, "keresztnev"),
+        f"TXT_{prefix}_ROKONSAG": get_elt(idx, "rokonsagi_fok"),
+        f"TXT_{prefix}_SZUL_HELY": get_elt(idx, "szuletesi_hely"),
         
-            f"DT_{prefix}_SZUL_EV": szul_ev,
-            f"DT_{prefix}_SZUL_HO": szul_ho,
-            f"DT_{prefix}_SZUL_NAP": szul_nap,
-            f"TXT_{prefix}_ALLAMPOLGARSAG": get_elt(idx, "allampolgarsag"),
+        f"DT_{prefix}_SZUL_EV": szul_ev,
+        f"DT_{prefix}_SZUL_HO": szul_ho,
+        f"DT_{prefix}_SZUL_NAP": szul_nap,
+        f"TXT_{prefix}_ALLAMPOLGARSAG": get_elt(idx, "allampolgarsag"),
         
-            # Tartózkodás
-            f"X_{prefix}_NEM_TARTOZK_MO": "X" if get_elt(idx, "tartozkodik_e") == "nem" else "",
-            f"NR_{prefix}_TARTOZK_OKMANY": get_elt(idx, "okmany_szam"),
+        # Tartózkodás
+        f"X_{prefix}_NEM_TARTOZK_MO": "X" if get_elt(idx, "tartozkodik_e") == "nem" else "",
+        f"NR_{prefix}_TARTOZK_OKMANY": get_elt(idx, "okmany_szam"),
         })
             
     record = {
