@@ -717,7 +717,7 @@ with st.form("adaturlap", clear_on_submit=False):
     TXT_KOZLEKEDESI_ESZKOZ = render_text_field(
         "TXT_KOZLEKEDESI_ESZKOZ", L["kozlekedesi_eszkoz"], ui_lang
     )
-
+    van_utlevel_disp = st.selectbox(L["van_utlevel"], options=[""] + YESNO_DISP, index=0)
 
    
 
