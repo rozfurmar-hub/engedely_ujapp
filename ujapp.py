@@ -648,12 +648,38 @@ with st.form("adaturlap", clear_on_submit=False):
     ajto = st.text_input(L["ajto"]) 
     szallas_jogcim_disp = st.selectbox(L["szallas_jogcim"], options=[""] + JOGCIM_DISP, index=0)
 
-    # Első/hosszabbítás
+    # Első kérelem / Hosszabbítás
     st.markdown(f"**{L['section_elso_vagy_hossz']}**")
-    elso_beutazas_helye = st.text_input(L["elso_beutazas_helye"]) 
-    elso_beutazas_datuma = st.text_input(L["elso_beutazas_datuma"], placeholder="YYYY-MM-DD")
-    hossz_engedely_szam = st.text_input(L["hossz_engedely_szam"]) 
-    hossz_engedely_ervenyes = st.text_input(L["hossz_engedely_ervenyes"], placeholder="YYYY-MM-DD")
+    
+    # Választás: első kérelem vagy hosszabbítás
+    engedely_tipus_disp = st.selectbox(
+        L["section_elso_vagy_hossz"],
+        options=["", "első", "hosszabbítás"]
+    )
+    
+    # Első kérelem esetén
+    TXT_BEUT_HELY = render_text_field(
+        "TXT_BEUT_HELY",
+        L["elso_beutazas_helye"],
+        ui_lang
+    )
+    
+    beutazas_datum = st.text_input(
+        L["elso_beutazas_datuma"],
+        placeholder="YYYY-MM-DD"
+    )
+    
+    # Hosszabbítás esetén
+    NR_ENGED_SZAM = st.text_input(
+        L["hossz_engedely_szam"],
+        key="NR_ENGED_SZAM"
+    )
+    
+    engedely_ervenyes = st.text_input(
+        L["hossz_engedely_ervenyes"],
+        placeholder="YYYY-MM-DD"
+    )
+
 
     # Átvétel
     st.markdown(f"**{L['section_atvetel']}**")
@@ -866,6 +892,23 @@ if submitted:
     tartozkodas_celja = to_canonical(ui_lang, "cel", tartozkodas_celja_disp)
 
     record = {
+
+        # ---- Első kérelem / Hosszabbítás (Word kompatibilis) ----
+        "X_ENGED_ELSO": "X" if engedely_tipus_disp == "első" else "",
+        "X_ENGED_HOSSZ": "X" if engedely_tipus_disp == "hosszabbítás" else "",
+        
+        "TXT_BEUT_HELY": (TXT_BEUT_HELY or "").strip(),
+        
+        "DT_BEUT_EV": beutazas_datum[:4] if (engedely_tipus_disp == "első" and beutazas_datum) else "",
+        "DT_BEUT_HO": beutazas_datum[5:7] if (engedely_tipus_disp == "első" and beutazas_datum) else "",
+        "DT_BEUT_NAP": beutazas_datum[8:10] if (engedely_tipus_disp == "első" and beutazas_datum) else "",
+        
+        "NR_ENGED_SZAM": (NR_ENGED_SZAM or "").strip(),
+        
+        "DT_ENGED_ERV_EV": engedely_ervenyes[:4] if (engedely_tipus_disp == "hosszabbítás" and engedely_ervenyes) else "",
+        "DT_ENGED_ERV_HO": engedely_ervenyes[5:7] if (engedely_tipus_disp == "hosszabbítás" and engedely_ervenyes) else "",
+        "DT_ENGED_ERV_NAP": engedely_ervenyes[8:10] if (engedely_tipus_disp == "hosszabbítás" and engedely_ervenyes) else "",
+
         
         # Kapcsolattartás
         "TXT_TELEFON": (TXT_TELEFON or "").strip(),
