@@ -717,30 +717,41 @@ with st.form("adaturlap", clear_on_submit=False):
     TXT_KOZLEKEDESI_ESZKOZ = render_text_field(
         "TXT_KOZLEKEDESI_ESZKOZ", L["kozlekedesi_eszkoz"], ui_lang
     )
-    van_utlevel_disp = st.selectbox(L["van_utlevel"], options=[""] + YESNO_DISP, index=0)
+    
+    van_utlevel_disp = st.selectbox(
+        L["van_utlevel"],
+        options=[""] + YESNO_DISP,
+        index=0,
+        key="van_utlevel_disp"
+    )
+
     van_utlevel_disp = st.selectbox(
         L["van_utlevel"],
         options=[""] + YESNO_DISP,
         index=0
     )
-        
+    
     van_vizum_disp = st.selectbox(
         L["van_vizum"],
         options=[""] + YESNO_DISP,
-        index=0
+        index=0,
+        key="van_vizum_disp"
     )
-        
+    
     van_menetjegy_disp = st.selectbox(
         L["van_menetjegy"],
         options=[""] + YESNO_DISP,
-        index=0
+        index=0,
+        key="van_menetjegy_disp"
     )
-        
+    
     van_anyagi_fedezet_disp = st.selectbox(
         L["van_anyagi_fedezet"],
         options=[""] + YESNO_DISP,
-        index=0
+        index=0,
+        key="van_anyagi_fedezet_disp"
     )
+    
     fedezet_osszeg = st.text_input(
         L["fedezet_osszeg"],
         placeholder="pl. 2000 EUR"
@@ -896,7 +907,7 @@ with st.form("adaturlap", clear_on_submit=False):
     options=template_labels,
     default=defaults
     )
-
+   
     submitted = st.form_submit_button(L["btn_generate"])
 
 
