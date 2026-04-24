@@ -1067,7 +1067,7 @@ if submitted:
         "DT_ENGED_ERV_HO": engedely_ervenyes[5:7] if engedely_ervenyes else "",
         "DT_ENGED_ERV_NAP": engedely_ervenyes[8:10] if engedely_ervenyes else "",
        
-        "hossz_engedely_szam": (hossz_engedely_szam or "").strip(),
+        "NR_ENGED_SZAM": (NR_ENGED_SZAM or "").strip(),
         
         
         # Okmány átvétele – Word X mezők
