@@ -1330,8 +1330,15 @@ if submitted:
             except Exception:
                 pass
 
+    # Validáció előtt
+    if not isinstance(errors, list):
+        errors = []
+        
     # Validáció + dátumnormalizálás
-    errors.extend(validate_record(record, L, ui_lang))
+    val_errors = validate_record(record, L, ui_lang)
+    if isinstance(val_errors, list) and val_errors:
+        errors.extend(val_errors)
+
 
     if errors:
         st.error(L["err_fix"] + "\n- " + "\n- ".join(errors))
