@@ -1605,7 +1605,7 @@ WORD_CANONICAL_FIELDS = {
         "ELT2": "ugyanaz, ELT2_ prefixszel",
         "ELT3": "ugyanaz, ELT3_ prefixszel",
         "ELT4": "ugyanaz, ELT4_ prefixszel"
-      },
+          },
     
       "egyeb_adatok": [
         "TXT_ELOZO_TART_ORSZAG",
