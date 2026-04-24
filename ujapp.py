@@ -386,9 +386,12 @@ def iso_date(s: str) -> str:
 
 
     
+
+    ## ✅ 2️⃣ TELJES, HELYES `validate_record` (EGYBEN)
+    
+    
     def validate_record(r: dict, L: dict, ui_lang: str):
         errors = []
-
     
         # Kötelező családi és utónév
         if not ((r.get("TXT_CSALADI_NEV") or "").strip() and (r.get("TXT_UTONEV") or "").strip()):
