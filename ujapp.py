@@ -944,39 +944,17 @@ if submitted:
     kiskoru_utazik = to_canonical(ui_lang, "yesno", kiskoru_utazik_disp)
     tartozkodas_celja = to_canonical(ui_lang, "cel", tartozkodas_celja_disp)
 
-
-     # ====== Hozzátartozók (ELT1–ELT4) Word mezők ======
-        
+    # ====== Hozzátartozók segédfüggvények ======
+    
     def get_elt(i, key, default=""):
         try:
             return hozz[i].get(key, default)
         except IndexError:
             return ""
-        
+    
     def split_date(d):
         return (d[:4], d[5:7], d[8:10]) if d and len(d) >= 10 else ("", "", "")
-        
-    for idx in range(4):  # ELT1–ELT4
-        p = idx + 1
-        prefix = f"ELT{p}"
-        
-        szul_ev, szul_ho, szul_nap = split_date(get_elt(idx, "szuletesi_ido"))
-        
-        record.update({
-            f"TXT_{prefix}_VEZETEKNEV": get_elt(idx, "vezeteknev"),
-            f"TXT_{prefix}_KERESZTNEV": get_elt(idx, "keresztnev"),
-            f"TXT_{prefix}_ROKONSAG": get_elt(idx, "rokonsagi_fok"),
-            f"TXT_{prefix}_SZUL_HELY": get_elt(idx, "szuletesi_hely"),
-            
-            f"DT_{prefix}_SZUL_EV": szul_ev,
-            f"DT_{prefix}_SZUL_HO": szul_ho,
-            f"DT_{prefix}_SZUL_NAP": szul_nap,
-            f"TXT_{prefix}_ALLAMPOLGARSAG": get_elt(idx, "allampolgarsag"),
-        
-        # Tartózkodás
-        f"X_{prefix}_NEM_TARTOZK_MO": "X" if get_elt(idx, "tartozkodik_e") == "nem" else "",
-        f"NR_{prefix}_TARTOZK_OKMANY": get_elt(idx, "okmany_szam"),
-        })
+
             
     record = {
 
@@ -1221,7 +1199,30 @@ if submitted:
         "teljes_nev": f"{(vezeteknev or '').strip()} {(keresztnev or '').strip()}".strip(),
     }
 
-   
+    # ====== Hozzátartozók (ELT1–ELT4) Word mezők ======
+    
+    for idx in range(4):  # ELT1–ELT4
+        p = idx + 1
+        prefix = f"ELT{p}"
+    
+        szul_ev, szul_ho, szul_nap = split_date(get_elt(idx, "szuletesi_ido"))
+    
+        record.update({
+            f"TXT_{prefix}_VEZETEKNEV": get_elt(idx, "vezeteknev"),
+            f"TXT_{prefix}_KERESZTNEV": get_elt(idx, "keresztnev"),
+            f"TXT_{prefix}_ROKONSAG": get_elt(idx, "rokonsagi_fok"),
+            f"TXT_{prefix}_SZUL_HELY": get_elt(idx, "szuletesi_hely"),
+    
+            f"DT_{prefix}_SZUL_EV": szul_ev,
+            f"DT_{prefix}_SZUL_HO": szul_ho,
+            f"DT_{prefix}_SZUL_NAP": szul_nap,
+    
+            f"TXT_{prefix}_ALLAMPOLGARSAG": get_elt(idx, "allampolgarsag"),
+    
+            f"X_{prefix}_NEM_TARTOZK_MO": "X" if get_elt(idx, "tartozkodik_e") == "nem" else "",
+            f"NR_{prefix}_TARTOZK_OKMANY": get_elt(idx, "okmany_szam"),
+        })
+    
     # CIRILL SZÖVEG FORDÍTÁSA + TRANSLIT MINDIG (UI nyelvétől függetlenül)
     if True:
         
