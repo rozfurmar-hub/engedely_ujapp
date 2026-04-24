@@ -1223,12 +1223,7 @@ WORD_CANONICAL_FIELDS = {
         "TXT_EMAIL"
     ],
 
-        {
-      "kapcsolattartas": [
-        "TXT_TELEFON",
-        "TXT_EMAIL"
-     ],
-    
+           
       "engedely_tipus": [
         "X_ENGED_ELSO",
         "TXT_BEUT_HELY",
