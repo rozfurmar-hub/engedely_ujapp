@@ -388,11 +388,11 @@ def iso_date(s: str) -> str:
     def validate_record(r: dict, L: dict, ui_lang: str) -> list[str]:
         errors = []
     
-        # Kötelező név ellenőrzés
+        # Kötelező családi és utónév
         if not ((r.get("TXT_CSALADI_NEV") or "").strip() and (r.get("TXT_UTONEV") or "").strip()):
             errors.append(L.get("err_required_name"))
     
-        # Útlevélszám formátum ellenőrzés
+        # Útlevélszám formátum
         if r.get("NR_UTLEVEL_SZAM") and not RE_PASSPORT.match(r["NR_UTLEVEL_SZAM"]):
             base_err = L.get("err_bad_passport")
             hint = (
@@ -403,7 +403,9 @@ def iso_date(s: str) -> str:
             errors.append(f"{base_err} {hint}")
     
         return errors
+
    
+
 
 # =========================
 # DOCX sablonkezelés és ZIP
