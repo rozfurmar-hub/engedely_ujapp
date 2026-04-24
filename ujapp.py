@@ -1000,8 +1000,8 @@ if submitted:
         "TXT_SZUL_ORSZAG": (szuletesi_orszag or "").strip(),
         "TXT_SZAKKEPZETTSEG": (szakkepzettseg or "").strip(),
 
+        "TXT_ELOZO_FOGLALKOZAS": (elozo_foglalkozas or "").strip(),
         
-        "magyarorszagra_erkezese_elotti_foglalkozas": (elozo_foglalkozas or "").strip(),
         
         # útlevél
         
@@ -1030,62 +1030,191 @@ if submitted:
         "X_UTLEVEL_EGYEB": "X" if utlevel_tipus == "egyéb" else "",
 
         
-        # szállás
-        "helyrajzi_szam": (helyrajzi_szam or "").strip(),
-        "iranyitoszam": (iranyitoszam or "").strip(),
-        "telepules": (telepules or "").strip(),
-        "kozterulet_nev": (kozterulet_nev or "").strip(),
-        "kozterulet_jelleg": (kozterulet_jelleg or "").strip(),
-        "hazszam": (hazszam or "").strip(),
-        "epulet": (epulet or "").strip(),
-        "lepcsohaz": (lepcsohaz or "").strip(),
-        "emelet": (emelet or "").strip(),
-        "ajto": (ajto or "").strip(),
-        "szallas_jogcim": szallas_jogcim,
+        # Szálláshely – cím adatok (Word mezők)
+        "TXT_HRSZ": (helyrajzi_szam or "").strip(),
+        "TXT_IRSZAM": (iranyitoszam or "").strip(),
+        "TXT_TELEPULES": (telepules or "").strip(),
+        "TXT_KOZTERULET_NEV": (kozterulet_nev or "").strip(),
+        "TXT_KOZTERULET_JELLEG": (kozterulet_jelleg or "").strip(),
+        "TXT_HAZSZAM": (hazszam or "").strip(),
+        "TXT_EPULET": (epulet or "").strip(),
+        "TXT_LEPCSO": (lepcsohaz or "").strip(),
+        "TXT_EMELET": (emelet or "").strip(),
+        "TXT_AJTO": (ajto or "").strip(),
+
         # első/hosszabbítás
-        "elso_beutazas_helye": (elso_beutazas_helye or "").strip(),
-        "elso_beutazas_datuma": (elso_beutazas_datuma or "").strip(),
+        
+        "TXT_BEUT_HELY": (TXT_BEUT_HELY or "").strip(),
+        # Első beutazás dátuma (Word mezők)
+        "DT_BEUT_EV": beutazas_datum[:4] if beutazas_datum else "",
+        "DT_BEUT_HO": beutazas_datum[5:7] if beutazas_datum else "",
+        "DT_BEUT_NAP": beutazas_datum[8:10] if beutazas_datum else "",
+        
+        # Hosszabbított engedély érvényessége (Word mezők)
+        "DT_ENGED_ERV_EV": engedely_ervenyes[:4] if engedely_ervenyes else "",
+        "DT_ENGED_ERV_HO": engedely_ervenyes[5:7] if engedely_ervenyes else "",
+        "DT_ENGED_ERV_NAP": engedely_ervenyes[8:10] if engedely_ervenyes else "",
+       
         "hossz_engedely_szam": (hossz_engedely_szam or "").strip(),
-        "hossz_engedely_ervenyes": (hossz_engedely_ervenyes or "").strip(),
-        # átvétel
-        "atvetel_mod": atvetel_mod,
-        "postai_cim_tipus": postai_cim_tipus,
-        # egészség
-        "egeszseg_biztositas": egeszseg_biztositas,
-        "egeszseg_egyeb": (egeszseg_egyeb or "").strip(),
+        
+        
+        # Okmány átvétele – Word X mezők
+        "X_ATVETEL_POSTA": "X" if atvetel_mod == "postai úton" else "",
+        "X_ATVETEL_SZEMELY": "X" if atvetel_mod == "kiállító hatóságnál" else "",
+        
+        "X_POSTA_SZALLASHELY": "X" if postai_cim_tipus == "kérelmező szálláshelye" else "",
+        "X_POSTA_MEGHATALMAZOTT": "X" if postai_cim_tipus == "meghatalmazott kapcsolattartási címe" else "",
+        
+        
+        # Egészségbiztosítás – Word X mezők
+        "X_EGEBIZT_TELJESKORU": "X" if egeszseg_biztositas == "igen" else "",
+        "X_EGEBIZT_EGYEB": "X" if egeszseg_biztositas == "nem" else "",
+        
+        "TXT_EGEBIZT_EGYEB": (egeszseg_egyeb or "").strip(),
+        
         # visszautazás
         
         "TXT_VISSZA_UTAZASI_ORSZAG": (TXT_VISSZA_UTAZASI_ORSZAG or "").strip(),
         "TXT_KOZLEKEDESI_ESZKOZ": (TXT_KOZLEKEDESI_ESZKOZ or "").strip(),
 
         
-        "van_utlevel": van_utlevel,
-        "van_vizum": van_vizum,
-        "van_menetjegy": van_menetjegy,
-        "van_anyagi_fedezet": van_anyagi_fedezet,
-        "fedezet_osszeg": (fedezet_osszeg or "").strip(),
+        # Vissza-/továbbutazás – Word X mezők
+        
+        # Van útlevele?
+        "X_UTLEVEL_IGEN": "X" if van_utlevel == "igen" else "",
+        "X_UTLEVEL_NEM": "X" if van_utlevel == "nem" else "",
+        
+        # Van vízuma?
+        "X_VIZUM_IGEN": "X" if van_vizum == "igen" else "",
+        "X_VIZUM_NEM": "X" if van_vizum == "nem" else "",
+        
+        # Van menetjegye?
+        "X_MENETJEGY_IGEN": "X" if van_menetjegy == "igen" else "",
+        "X_MENETJEGY_NEM": "X" if van_menetjegy == "nem" else "",
+        
+        # Van anyagi fedezete?
+        "X_ANYAGI_FEDEZET_IGEN": "X" if van_anyagi_fedezet == "igen" else "",
+        "X_ANYAGI_FEDEZET_NEM": "X" if van_anyagi_fedezet == "nem" else "",
+        "TXT_ANYAGI_FEDEZET_OSSZEG": (fedezet_osszeg or "").strip(),
+        
         # hozzátartozók
         "hozzatartozok_json": json.dumps(hozz, ensure_ascii=False),
+
+        # ====== Hozzátartozók (ELT1–ELT4) Word mezők ======
+        
+        def get_elt(i, key, default=""):
+            try:
+                return hozz[i].get(key, default)
+            except IndexError:
+                return ""
+        
+        def split_date(d):
+            return (d[:4], d[5:7], d[8:10]) if d and len(d) >= 10 else ("", "", "")
+        
+        for idx in range(4):  # ELT1–ELT4
+            p = idx + 1
+            prefix = f"ELT{p}"
+        
+            szul_ev, szul_ho, szul_nap = split_date(get_elt(idx, "szuletesi_ido"))
+        
+            record.update({
+        
+                # Alapadatok
+                f"TXT_{prefix}_VEZETEKNEV": get_elt(idx, "vezeteknev"),
+                f"TXT_{prefix}_KERESZTNEV": get_elt(idx, "keresztnev"),
+                f"TXT_{prefix}_ROKONSAG": get_elt(idx, "rokonsagi_fok"),
+                f"TXT_{prefix}_SZUL_HELY": get_elt(idx, "szuletesi_hely"),
+        
+                f"DT_{prefix}_SZUL_EV": szul_ev,
+                f"DT_{prefix}_SZUL_HO": szul_ho,
+                f"DT_{prefix}_SZUL_NAP": szul_nap,
+        
+                f"TXT_{prefix}_ALLAMPOLGARSAG": get_elt(idx, "allampolgarsag"),
+        
+                # Tartózkodás
+                f"X_{prefix}_NEM_TARTOZK_MO": "X" if get_elt(idx, "tartozkodik_e") == "nem" else "",
+                f"NR_{prefix}_TARTOZK_OKMANY": get_elt(idx, "okmany_szam"),
+            })
+    
+        
         # egyéb adatok
-        "elozo_orszag": (elozo_orszag or "").strip(),
-        "elozo_telepules": (elozo_telepules or "").strip(),
-        "elozo_cim": (elozo_cim or "").strip(),
-        "mas_schengen_okmany": mas_schengen_okmany,
-        "mas_schengen_tipus": (mas_schengen_tipus or "").strip(),
-        "mas_schengen_szam": (mas_schengen_szam or "").strip(),
-        "mas_schengen_ervenyes": (mas_schengen_ervenyes or "").strip(),
-        "volt_elutasitas": volt_elutasitas,
-        "volt_buntetve": volt_buntetve,
-        "buntet_reszletek": (buntet_reszletek or "").strip(),
-        "volt_kiutasitas": volt_kiutasitas,
-        "kiutasitas_datum": (kiutasitas_datum or "").strip(),
-        "fert_beteg": fert_beteg,
-        "kap_ellatas": kap_ellatas,
-        # kiskorú
-        "kiskoru_utazik": kiskoru_utazik,
+        # Előző tartózkodás (Word szövegmezők)
+        "TXT_ELOZO_TART_ORSZAG": (elozo_orszag or "").strip(),
+        "TXT_ELOZO_TART_TELEPULES": (elozo_telepules or "").strip(),
+        "TXT_ELOZO_TART_KOZTERULET": (elozo_cim or "").strip(),
+        # Más schengeni okmány – Word X mezők
+        "X_SCHENGEN_OKMANY_IGEN": "X" if mas_schengen_okmany == "igen" else "",
+        "X_SCHENGEN_OKMANY_NEM": "X" if mas_schengen_okmany == "nem" else "",
+        
+        # Más schengeni okmány érvényesség dátuma (Word év / hó / nap)
+        "DT_SCHENGEN_ERV_EV": mas_schengen_ervenyes[:4] if mas_schengen_ervenyes else "",
+        "DT_SCHENGEN_ERV_HO": mas_schengen_ervenyes[5:7] if mas_schengen_ervenyes else "",
+        "DT_SCHENGEN_ERV_NAP": mas_schengen_ervenyes[8:10] if mas_schengen_ervenyes else "",
+        "TXT_SCHENGEN_ENGED_TIPUS": (mas_schengen_tipus or "").strip(),
+        "NR_SCHENGEN_ENGED_SZAM": (mas_schengen_szam or "").strip(),
+        
+        # Elutasítás
+        "X_ELUTASITOTT_IGEN": "X" if volt_elutasitas == "igen" else "",
+        "X_ELUTASITOTT_NEM": "X" if volt_elutasitas == "nem" else "",
+        
+        # Büntetettség
+        "X_BUNTETT_IGEN": "X" if volt_buntetve == "igen" else "",
+        "X_BUNTETT_NEM": "X" if volt_buntetve == "nem" else "",
+        
+        # Kiutasítás
+        "X_KIUTASITOTT_IGEN": "X" if volt_kiutasitas == "igen" else "",
+        "X_KIUTASITOTT_NEM": "X" if volt_kiutasitas == "nem" else "",
+        
+        # Kiutasítás dátuma (Word év / hó / nap)
+        "DT_KIUTASIT_EV": kiutasitas_datum[:4] if kiutasitas_datum else "",
+        "DT_KIUTASIT_HO": kiutasitas_datum[5:7] if kiutasitas_datum else "",
+        "DT_KIUTASIT_NAP": kiutasitas_datum[8:10] if kiutasitas_datum else "",
+        
+        "TXT_BUNTETT_RESZLETEK": (buntet_reszletek or "").strip(),
+    
+        # Fertőző betegségek és ellátás
+        "X_FERT_BETEGSEG_IGEN": "X" if fert_beteg == "igen" else "",
+        "X_FERT_BETEGSEG_NEM": "X" if fert_beteg == "nem" else "",
+        
+        "X_EU_ELLATAS_IGEN": "X" if kap_ellatas == "igen" else "",
+        "X_EU_ELLATAS_NEM": "X" if kap_ellatas == "nem" else "",
+        
+       
+        # Kiskorú gyermek együtt utazik – Word X mezők
+        "X_GYERMEK_UTAZIK_IGEN": "X" if kiskoru_utazik == "igen" else "",
+        "X_GYERMEK_UTAZIK_NEM": "X" if kiskoru_utazik == "nem" else "",
+        
         # cél
-        "tartozkodas_vege": (tartozkodas_vege or "").strip(),
-        "tartozkodas_celja": tartozkodas_celja,
+        # Tartózkodás vége – Word dátummezők
+        "DT_TARTOZKODAS_EV": tartozkodas_vege[:4] if tartozkodas_vege else "",
+        "DT_TARTOZKODAS_HO": tartozkodas_vege[5:7] if tartozkodas_vege else "",
+        "DT_TARTOZKODAS_NAP": tartozkodas_vege[8:10] if tartozkodas_vege else "",
+        
+        # Tartózkodás célja – Word X mezők
+        "X_CEL_VENDEG_ONFOGL": "X" if tartozkodas_celja == "Vendég-önfoglalkoztatás" else "",
+        "X_CEL_VENDEG_BEF": "X" if tartozkodas_celja == "Vendégbefektető" else "",
+        "X_CEL_SZEZON": "X" if tartozkodas_celja == "Szezonális munkavállalás" else "",
+        "X_CEL_BERUHAZAS": "X" if tartozkodas_celja == "Beruházás megvalósítása céljából munkavállalás" else "",
+        "X_CEL_FOGLALKOZTATAS": "X" if tartozkodas_celja == "Foglalkoztatás" else "",
+        "X_CEL_VENDEGMUNKAS": "X" if tartozkodas_celja == "Vendégmunkás-tartózkodási engedély" else "",
+        "X_CEL_MAGYAR_KARTYA": "X" if tartozkodas_celja == "Magyar Kártya" else "",
+        "X_CEL_EU_KEK_KARTYA": "X" if tartozkodas_celja == "EU Kék Kártya" else "",
+        "X_CEL_VALLALATON_BELULI": "X" if tartozkodas_celja == "Vállalaton belüli áthelyezés" else "",
+        "X_CEL_KUTATAS": "X" if tartozkodas_celja == "Kutatás/kutatói mobilitás (hosszú távú)" else "",
+        "X_CEL_NEMZETI_KARTYA": "X" if tartozkodas_celja == "Nemzeti Kártya" else "",
+        "X_CEL_TANULMANY": "X" if tartozkodas_celja == "Tanulmányok/hallgatói mobilitás" else "",
+        "X_CEL_ALLASKERES": "X" if tartozkodas_celja == "Álláskeresés vagy vállalkozás indítása" else "",
+        "X_CEL_KEPZES": "X" if tartozkodas_celja == "Képzés" else "",
+        "X_CEL_GYAKORNOK": "X" if tartozkodas_celja == "Gyakornok" else "",
+        "X_CEL_HIVATALOS": "X" if tartozkodas_celja == "Hivatalos" else "",
+        "X_CEL_FEHER_KARTYA": "X" if tartozkodas_celja == "Fehér Kártya" else "",
+        "X_CEL_KIKULDETES": "X" if tartozkodas_celja == "Kiküldetés" else "",
+        "X_CEL_GYOGYKEZELES": "X" if tartozkodas_celja == "Gyógykezelés" else "",
+        "X_CEL_ONKENTES": "X" if tartozkodas_celja == "Önkéntes tevékenység folytatása" else "",
+        "X_CEL_NEMZETI_ERDEK": "X" if tartozkodas_celja == "Nemzeti érdek" else "",
+        "X_CEL_CSALADI": "X" if tartozkodas_celja == "Családi együttélés biztosítása" else "",
+
+        
         # fizetés
         "NR_FIZETES_TRANZAKCIO": (NR_FIZETES_TRANZAKCIO or "").strip(),
         
@@ -1096,91 +1225,100 @@ if submitted:
    
     # CIRILL SZÖVEG FORDÍTÁSA + TRANSLIT MINDIG (UI nyelvétől függetlenül)
     if True:
-
+        
         # a) Foglalkozás
-        job_val = record.get("magyarorszagra_erkezese_elotti_foglalkozas", "")
+        job_val = record.get("TXT_ELOZO_FOGLALKOZAS", "")
         if contains_cyrillic(job_val):
             hu_job = translator_translate_to_hungarian(job_val)
-            record["magyarorszagra_erkezese_elotti_foglalkozas"] = hu_job or transliterate_to_latin(job_val)
+            record["TXT_ELOZO_FOGLALKOZAS"] = hu_job or transliterate_to_latin(job_val)
         # b) Szakképzettség
-        skill_val = record.get("szakkepzettseg", "")
+        skill_val = record.get("TXT_SZAKKEPZETTSEG", "")
         if contains_cyrillic(skill_val):
             hu_skill = translator_translate_to_hungarian(skill_val)
-            record["szakkepzettseg"] = hu_skill or transliterate_to_latin(skill_val)
+            record["TXT_SZAKKEPZETTSEG"] = hu_skill or transliterate_to_latin(skill_val)
           # c) Születési hely
-        birth_place = record.get("szuletesi_hely", "")
+        birth_place = record.get("TXT_SZUL_HELY", "")
         if contains_cyrillic(birth_place):
             hu_birth_place = translator_translate_to_hungarian(birth_place)
-            record["szuletesi_hely"] = hu_birth_place or transliterate_to_latin(birth_place)
+            record["TXT_SZUL_HELY"] = hu_birth_place or transliterate_to_latin(birth_place)
     
         # d) Születési ország
-        birth_country = record.get("szuletesi_orszag", "")
+        birth_country = record.get("TXT_SZUL_ORSZAG", "")
         if contains_cyrillic(birth_country):
             hu_birth_country = translator_translate_to_hungarian(birth_country)
-            record["szuletesi_orszag"] = hu_birth_country or transliterate_to_latin(birth_country)
+            record["TXT_SZUL_ORSZAG"] = hu_birth_country or transliterate_to_latin(birth_country)
     
         # e) Nemzetiség
-        nationality = record.get("nemzetiseg", "")
+        nationality = record.get("TXT_NEMZETISEG", "")
         if contains_cyrillic(nationality):
             hu_nationality = translator_translate_to_hungarian(nationality)
-            record["nemzetiseg"] = hu_nationality or transliterate_to_latin(nationality)
+            record["TXT_NEMZETISEG"] = hu_nationality or transliterate_to_latin(nationality)
 
         # f) Egyéb állampolgárság translit/fordítás
-        allampolgarsag = record.get("allampolgarsag", "")
+        allampolgarsag = record.get("TXT_ALLAMPOLGARSAG", "")
         if contains_cyrillic(allampolgarsag):
             hu_ap = translator_translate_to_hungarian(allampolgarsag)
-            record["allampolgarsag"] = hu_ap or transliterate_to_latin(allampolgarsag)
+            record["TXT_ALLAMPOLGARSAG"] = hu_ap or transliterate_to_latin(allampolgarsag)
 
         # g) Útlevél kiadási helye, ha Egyéb
-        utlevel_helye = record.get("utlevel_helye", "")   
+        utlevel_helye = record.get("TXT_UTLEVEL_KIALL_HELY", "")   
         if contains_cyrillic(utlevel_helye):
             hu_place = translator_translate_to_hungarian(utlevel_helye)
-            record["utlevel_helye"] = hu_place or transliterate_to_latin(utlevel_helye)
+            record["TXT_UTLEVEL_KIALL_HELY"] = hu_place or transliterate_to_latin(utlevel_helye)
 
         # h) Más shengeni okmány - Engedély típusa
-        mas_schengen_tipus = record.get("mas_schengen_tipus", "")   
+        mas_schengen_tipus = record.get("TXT_SCHENGEN_ENGED_TIPUS", "")   
         if contains_cyrillic(mas_schengen_tipus):
             hu_mas_schengen_tipus = translator_translate_to_hungarian(mas_schengen_tipus)
-            record["mas_schengen_tipus"] = hu_mas_schengen_tipus or transliterate_to_latin(mas_schengen_tipus)       
+            record["TXT_SCHENGEN_ENGED_TIPUS"] = hu_mas_schengen_tipus or transliterate_to_latin(mas_schengen_tipus)       
          
         # i) Teljes körű egészségbiztosítás Egyéb megjegyzés
-        egeszseg_egyeb = record.get("egeszseg_egyeb", "")
+        egeszseg_egyeb = record.get("TXT_EGEBIZT_EGYEB", "")
         if contains_cyrillic(egeszseg_egyeb):
             hu_egeszs = translator_translate_to_hungarian(egeszseg_egyeb)
-            record["egeszseg_egyeb"] = hu_egeszs or transliterate_to_latin(egeszseg_egyeb)
+            record["TXT_EGEBIZT_EGYEB"] = hu_egeszs or transliterate_to_latin(egeszseg_egyeb)
         
         # j) Visszautazás országa és közlekedési eszköz
-        visszaut_orszag = record.get("visszaut_orszag", "")
+        visszaut_orszag = record.get("TXT_VISSZA_UTAZASI_ORSZAG", "")
         if contains_cyrillic(visszaut_orszag):
             hu_visszaut_orszag = translator_translate_to_hungarian(visszaut_orszag)
-            record["visszaut_orszag"] = hu_visszaut_orszag or transliterate_to_latin(visszaut_orszag)
+            record["TXT_VISSZA_UTAZASI_ORSZAG"] = hu_visszaut_orszag or transliterate_to_latin(visszaut_orszag)
 
-        kozlekedesi_eszkoz = record.get("kozlekedesi_eszkoz", "")
+        kozlekedesi_eszkoz = record.get("TXT_KOZLEKEDESI_ESZKOZ", "")
         if contains_cyrillic(kozlekedesi_eszkoz):
             hu_kozlekedesi_eszkoz = translator_translate_to_hungarian(kozlekedesi_eszkoz)
-            record["kozlekedesi_eszkoz"] = hu_kozlekedesi_eszkoz or transliterate_to_latin(kozlekedesi_eszkoz)
+            record["TXT_KOZLEKEDESI_ESZKOZ"] = hu_kozlekedesi_eszkoz or transliterate_to_latin(kozlekedesi_eszkoz)
             
         # k) Mo-ra érkezés előtti ország
-        elozo_orszag = record.get("elozo_orszag", "")
+        elozo_orszag = record.get("TXT_ELOZO_TART_ORSZAG", "")
         if contains_cyrillic(elozo_orszag):
             hu_elozo_orszag = translator_translate_to_hungarian(elozo_orszag)
-            record["elozo_orszag"] = hu_elozo_orszag or transliterate_to_latin(elozo_orszag)
+            record["TXT_ELOZO_TART_ORSZAG"] = hu_elozo_orszag or transliterate_to_latin(elozo_orszag)
 
         # l) Bűncselekmény részletei
-        buntet_reszletek = record.get("buntet_reszletek", "")
+        buntet_reszletek = record.get("TXT_BUNTETT_RESZLETEK", "")
         if contains_cyrillic(buntet_reszletek):
             hu_buntet_reszletek = translator_translate_to_hungarian(buntet_reszletek)
-            record["buntet_reszletek"] = hu_buntet_reszletek or transliterate_to_latin(buntet_reszletek)
+            record["TXT_BUNTETT_RESZLETEK"] = hu_buntet_reszletek or transliterate_to_latin(buntet_reszletek)
             
         # m) Minden egyéb mező transliterációja
         to_trans = [
-            "phone","email","vezeteknev","keresztnev","szuletesi_csaladi","szuletesi_uto",
-            "anyja_csaladi","anyja_uto","allampolgarsag","nemzetiseg","szuletesi_hely","szuletesi_orszag",
-            "utlevel_szam","utlevel_helye","helyrajzi_szam","iranyitoszam","telepules","kozterulet_nev",
-            "kozterulet_jelleg","hazszam","epulet","lepcsohaz","emelet","ajto","elso_beutazas_helye",
-            "fedezet_osszeg","elozo_telepules","elozo_cim","mas_schengen_szam","buntet_reszletek",
-            "tranzakcio_szam"
+            "TXT_CSALADI_NEV",
+            "TXT_UTONEV",
+            "TXT_SZUL_HELY",
+            "TXT_SZUL_ORSZAG",
+            "TXT_ALLAMPOLGARSAG",
+            "TXT_NEMZETISEG",
+            "TXT_UTLEVEL_KIALL_HELY",
+            "TXT_VISSZA_UTAZASI_ORSZAG",
+            "TXT_ELOZO_TART_ORSZAG",
+            "TXT_BUNTETT_RESZLETEK",
+            "TXT_ELOZO_FOGLALKOZAS",
+            "TXT_SZAKKEPZETTSEG",
+            "TXT_ANYAGI_FEDEZET_OSSZEG",
+            "NR_FIZETES_TRANZAKCIO"
         ]
+        
         record, _ = transliterate_record_fields(record, to_trans)
         # hozzátartozók listájában is translit
         if record.get("hozzatartozok_json"):
