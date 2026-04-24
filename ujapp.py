@@ -615,7 +615,11 @@ with st.form("adaturlap", clear_on_submit=False):
    
     # 2) Útlevél
     st.markdown(f"**{L['section_passport']}**")
-    utlevel_szam = render_text_field("utlevel_szam", L["utlevel_szam"], ui_lang)
+    NR_UTLEVEL_SZAM = render_text_field(
+        "NR_UTLEVEL_SZAM",
+        L["utlevel_szam"],
+        ui_lang
+    )
     utlevel_kiadas = st.text_input(L["utlevel_kiadas"], placeholder="YYYY-MM-DD")
 
     # Útlevél kiállítás helye – lokalizált lista
@@ -936,22 +940,60 @@ if submitted:
         "TXT_ANYA_CSALADI_NEV": (TXT_ANYA_CSALADI_NEV or "").strip(),
         "TXT_ANYA_UTONEV": (TXT_ANYA_UTONEV or "").strip(),
 
-        "nem": nem,
-        "allampolgarsag": (allampolgarsag or "").strip(),
-        "nemzetiseg": (nemzetiseg or "").strip(),
-        "szuletesi_datum": (szuletesi_datum or "").strip(),
-        "szuletesi_hely": (szuletesi_hely or "").strip(),
-        "szuletesi_orszag": (szuletesi_orszag or "").strip(),
-        "csaladi_allapot": csaladi_allapot,
-        "vegzettseg": vegzettseg,
-        "szakkepzettseg": (szakkepzettseg or "").strip(),
+        # --- Nem (X kerül a megfelelő négyzetbe) ---
+        "X_NEM_FERFI": "X" if nem == "férfi" else "",
+        "X_NEM_NO": "X" if nem == "nő" else "",
+
+        # --- Családi állapot (X mezők) ---
+        "X_ALLAPOT_NOTLEN_HAJADON": "X" if csaladi_allapot == "nőtlen/hajadon" else "",
+        "X_ALLAPOT_HAZAS": "X" if csaladi_allapot == "házas" else "",
+        "X_ALLAPOT_ELVALT": "X" if csaladi_allapot == "elvált" else "",
+        "X_ALLAPOT_OZVEGY": "X" if csaladi_allapot == "özvegy" else "",
+
+        # --- Iskolai végzettség (X mezők) ---
+        "X_ISKOLA_ALAP": "X" if vegzettseg == "alapfokú" else "",
+        "X_ISKOLA_KOZEP": "X" if vegzettseg == "középfokú" else "",
+        "X_ISKOLA_FELSO": "X" if vegzettseg == "felsőfokú" else "",
+                        
+        "DT_SZUL_EV": szuletesi_datum[:4] if szuletesi_datum else "",
+        "DT_SZUL_HO": szuletesi_datum[5:7] if szuletesi_datum else "",
+        "DT_SZUL_NAP": szuletesi_datum[8:10] if szuletesi_datum else "",
+        "TXT_ALLAMPOLGARSAG": (allampolgarsag or "").strip(),
+        "TXT_NEMZETISEG": (nemzetiseg or "").strip(),
+        "TXT_SZUL_HELY": (szuletesi_hely or "").strip(),
+        "TXT_SZUL_ORSZAG": (szuletesi_orszag or "").strip(),
+        "TXT_SZAKKEPZETTSEG": (szakkepzettseg or "").strip(),
+
+        
         "magyarorszagra_erkezese_elotti_foglalkozas": (elozo_foglalkozas or "").strip(),
+        
         # útlevél
-        "utlevel_szam": (utlevel_szam or "").strip(),
-        "utlevel_kiadas": (utlevel_kiadas or "").strip(),
-        "utlevel_helye": (utlevel_helye or "").strip(),
-        "utlevel_tipus": utlevel_tipus,
-        "utlevel_lejarat": (utlevel_lejarat or "").strip(),
+        
+        # --- Útlevél adatok (Word kompatibilis) ---
+
+        # Útlevél száma
+        "NR_UTLEVEL_SZAM": (NR_UTLEVEL_SZAM or "").strip(),
+        
+        # Kiállítás helye
+        "TXT_UTLEVEL_KIALL_HELY": (utlevel_helye or "").strip(),
+        
+        # Kiállítás ideje (év / hó / nap)
+        "DT_UTLEVEL_KIALL_EV": utlevel_kiadas[:4] if utlevel_kiadas else "",
+        "DT_UTLEVEL_KIALL_HO": utlevel_kiadas[5:7] if utlevel_kiadas else "",
+        "DT_UTLEVEL_KIALL_NAP": utlevel_kiadas[8:10] if utlevel_kiadas else "",
+        
+        # Érvényesség vége
+        "DT_UTLEVEL_ERV_EV": utlevel_lejarat[:4] if utlevel_lejarat else "",
+        "DT_UTLEVEL_ERV_HO": utlevel_lejarat[5:7] if utlevel_lejarat else "",
+        "DT_UTLEVEL_ERV_NAP": utlevel_lejarat[8:10] if utlevel_lejarat else "",
+        
+        # Útlevél típusa – X a megfelelő helyre
+        "X_UTLEVEL_MAGAN": "X" if utlevel_tipus == "magánútlevél" else "",
+        "X_UTLEVEL_SZOLG": "X" if utlevel_tipus == "szolgálati" else "",
+        "X_UTLEVEL_DIPLO": "X" if utlevel_tipus == "diplomata" else "",
+        "X_UTLEVEL_EGYEB": "X" if utlevel_tipus == "egyéb" else "",
+
+        
         # szállás
         "helyrajzi_szam": (helyrajzi_szam or "").strip(),
         "iranyitoszam": (iranyitoszam or "").strip(),
