@@ -1469,5 +1469,5 @@ WORD_CANONICAL_FIELDS = {
         "NR_FIZETES_TRANZAKCIO"
       ]
     }
-    }
+
     
