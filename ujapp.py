@@ -728,10 +728,7 @@ with st.form("adaturlap", clear_on_submit=False):
         key="van_utlevel_disp"
     )
 
-    van_utlevel_disp = st.selectbox(
-        L["van_utlevel"],
-        options=[""] + YESNO_DISP,
-        index=0
+    
     )
     
     van_vizum_disp = st.selectbox(
