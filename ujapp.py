@@ -718,8 +718,33 @@ with st.form("adaturlap", clear_on_submit=False):
         "TXT_KOZLEKEDESI_ESZKOZ", L["kozlekedesi_eszkoz"], ui_lang
     )
     van_utlevel_disp = st.selectbox(L["van_utlevel"], options=[""] + YESNO_DISP, index=0)
-
-   
+    van_utlevel_disp = st.selectbox(
+        L["van_utlevel"],
+        options=[""] + YESNO_DISP,
+        index=0
+    )
+        
+    van_vizum_disp = st.selectbox(
+        L["van_vizum"],
+        options=[""] + YESNO_DISP,
+        index=0
+    )
+        
+    van_menetjegy_disp = st.selectbox(
+        L["van_menetjegy"],
+        options=[""] + YESNO_DISP,
+        index=0
+    )
+        
+    van_anyagi_fedezet_disp = st.selectbox(
+        L["van_anyagi_fedezet"],
+        options=[""] + YESNO_DISP,
+        index=0
+    )
+    fedezet_osszeg = st.text_input(
+        L["fedezet_osszeg"],
+        placeholder="pl. 2000 EUR"
+    )
 
     # 7) Egyéb adatok
     st.markdown(f"**{L['section_egyeb']}**")
