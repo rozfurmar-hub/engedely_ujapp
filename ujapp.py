@@ -729,8 +729,7 @@ with st.form("adaturlap", clear_on_submit=False):
     )
 
     
-    )
-    
+        
     van_vizum_disp = st.selectbox(
         L["van_vizum"],
         options=[""] + YESNO_DISP,
