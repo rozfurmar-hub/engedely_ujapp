@@ -1340,9 +1340,13 @@ if submitted:
         errors = []
         
     # Validáció + dátumnormalizálás
-    val_errors = validate_record(record, L, ui_lang)
-    if isinstance(val_errors, list) and val_errors:
-        errors.extend(val_errors)
+    try:
+        val_errors = validate_record(record, L, ui_lang)
+        if isinstance(val_errors, list) and val_errors:
+            errors.extend(val_errors)
+    except Exception as e:
+        # 🔒 Soha ne álljon le az app validáció miatt
+        st.warning(f"⚠️ Validációs hiba történt, kihagyva: {e}")
 
 
     if errors:
