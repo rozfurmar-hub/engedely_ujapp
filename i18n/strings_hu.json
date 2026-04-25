@@ -73,7 +73,7 @@
   "hossz_engedely_ervenyes": "Engedély érvényessége (YYYY-MM-DD) (csak engedélyhosszabbítás esetében kell kitölteni)",
   "section_atvetel": "5) Okmány átvétele",
   "atvetel_mod": "Átvétel módja",
-  "postai_cim_tipus": "Postai kézbesítés címe",
+  "postai_cim_tipus": "Ha postán kéri: postai kézbesítés melyik címre menjen? (válasszon)",
   "section_egeszseg": "6) Teljes körű egészségbiztosítás",
   "egeszseg_biztositas": "Rendelkezik teljes körű egészségbiztosítással?",
   "egeszseg_egyeb": "Egyéb (biztosítás típusa, megjegyzés)",
