@@ -972,7 +972,7 @@ if submitted:
         "X_ENGED_ELSO": "X" if engedely_tipus_disp == "első" else "",
         "X_ENGED_HOSSZ": "X" if engedely_tipus_disp == "hosszabbítás" else "",
         
-        "TXT_BEUT_HELY": (TXT_BEUT_HELY or "").strip(),
+        "TXT_BEUT_HELY": (elso_beutazas_helye or "").strip(),
         
         "DT_BEUT_EV": beutazas_datum[:4] if (engedely_tipus_disp == "első" and beutazas_datum) else "",
         "DT_BEUT_HO": beutazas_datum[5:7] if (engedely_tipus_disp == "első" and beutazas_datum) else "",
@@ -1066,7 +1066,7 @@ if submitted:
 
         # első/hosszabbítás
         
-        "TXT_BEUT_HELY": (TXT_BEUT_HELY or "").strip(),
+        "TXT_BEUT_HELY": (elso_beutazas_helye or "").strip(),
         # Első beutazás dátuma (Word mezők)
         "DT_BEUT_EV": beutazas_datum[:4] if beutazas_datum else "",
         "DT_BEUT_HO": beutazas_datum[5:7] if beutazas_datum else "",
@@ -1362,6 +1362,12 @@ if submitted:
             hu_telepules = translator_translate_to_hungarian(telepules)
             record["TXT_TELEPULES"] = hu_telepules or transliterate_to_latin(telepules)
 
+         # n) Mo-i szálláshely település 
+        elso_beutazas_helye = record.get("TXT_BEUT_HELY", "")
+        if contains_cyrillic(elso_beutazas_helye):
+            hu_elso_beutazas_helye = translator_translate_to_hungarian(elso_beutazas_helye)
+            record["TXT_BEUT_HELY"] = hu_elso_beutazas_helye or transliterate_to_latin(elso_beutazas_helye)
+
                     
         # o) Minden egyéb mező transliterációja
         to_trans = [
@@ -1379,7 +1385,7 @@ if submitted:
             "TXT_ELOZO_TART_KOZTERULET",
             "TXT_ELOZO_TART_KOZTER_JELLEG",
             "NR_FIZETES_TRANZAKCIO",
-            "TXT_BEUT_HELY"
+            
         ]
         
         record, _ = transliterate_record_fields(record, to_trans)
