@@ -1221,6 +1221,41 @@ if submitted:
             f"X_{prefix}_NEM_TARTOZK_MO": "X" if get_elt(idx, "tartozkodik_e") == "nem" else "",
             f"NR_{prefix}_TARTOZK_OKMANY": get_elt(idx, "okmany_szam"),
         })
+
+    # ====== ELT jogcím (tartózkodás jogcíme) – Word X mezők ======
+    
+    jogcim = (get_elt(idx, "tartozkodas_jogcim") or "").strip().lower()
+    
+    record.update({
+    
+        # Ví­zum
+        f"X_ELT{p}_JOGCIM_VIZUM":
+            "X" if jogcim in ["vízum", "vizum", "visa"] else "",
+    
+        # Tartózkodási engedély
+        f"X_ELT{p}_JOGCIM_TART":
+            "X" if jogcim in ["tartózkodási engedély", "tartozkodasi engedely"] else "",
+    
+        # Ideiglenes letelepedési engedély
+        f"X_ELT{p}_JOGCIM_IDEIGLENES_LET":
+            "X" if jogcim in ["ideiglenes letelepedési engedély", "ideiglenes let"] else "",
+    
+        # EK / EU kártya
+        f"X_ELT{p}_JOGCIM_EU_KARTYA":
+            "X" if jogcim in ["eu kártya", "ek kártya", "eu kartya"] else "",
+    
+        # Nemzeti kártya
+        f"X_ELT{p}_JOGCIM_NEMZETI_KARTYA":
+            "X" if jogcim in ["nemzeti kártya", "nemzeti kartya"] else "",
+    
+        # Egyéb jogcím (X)
+        f"X_ELT{p}_JOGCIM_EGYEB":
+            "X" if jogcim in ["egyéb", "egyeb", "other"] else "",
+    
+        # Egyéb jogcím – SZÖVEG (EZ TRANSZLITERÁLT!)
+        f"TXT_ELT{p}_JOGCIM_EGYEB":
+            translit(get_elt(idx, "tartozkodas_jogcim_egyeb")),
+    })
     
     # CIRILL SZÖVEG FORDÍTÁSA + TRANSLIT MINDIG (UI nyelvétől függetlenül)
     if True:
