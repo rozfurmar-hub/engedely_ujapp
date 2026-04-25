@@ -1200,61 +1200,58 @@ if submitted:
         "teljes_nev": f"{(TXT_CSALADI_NEV or '').strip()} {(TXT_UTONEV or '').strip()}".strip(),
     }
 
-    # ====== Hozzátartozók (ELT1–ELT4) Word mezők ======
-    
-    for idx in range(4):  # ELT1–ELT4
+        
+    # ====== ELTARTOTTAK (ELT1–ELT4) – TELJES, VÉGLEGES KEZELÉS ======
+    for idx in range(4):   # ELT1–ELT4
         p = idx + 1
         prefix = f"ELT{p}"
     
         szul_ev, szul_ho, szul_nap = split_date(get_elt(idx, "szuletesi_ido"))
-    
-        record.update({
-            f"TXT_{prefix}_VEZETEKNEV": get_elt(idx, "vezeteknev"),
-            f"TXT_{prefix}_KERESZTNEV": get_elt(idx, "keresztnev"),
-            f"TXT_{prefix}_ROKONSAG": get_elt(idx, "rokonsagi_fok"),
-            f"TXT_{prefix}_SZUL_HELY": get_elt(idx, "szuletesi_hely"),
-    
-            f"DT_{prefix}_SZUL_EV": szul_ev,
-            f"DT_{prefix}_SZUL_HO": szul_ho,
-            f"DT_{prefix}_SZUL_NAP": szul_nap,
-    
-            f"TXT_{prefix}_ALLAMPOLGARSAG": get_elt(idx, "allampolgarsag"),
-    
-            f"X_{prefix}_NEM_TARTOZK_MO": "X" if get_elt(idx, "tartozkodik_e") == "nem" else "",
-            f"NR_{prefix}_TARTOZK_OKMANY": get_elt(idx, "okmany_szam"),
-        })
-
-    # ====== ELT jogcím (tartózkodás jogcíme) – Word X mezők ======
-    
-    jogcim = (get_elt(idx, "tartozkodas_jogcim") or "").strip().lower()
-    
+        
+    # --- Szöveges mezők: FORDÍTÁS cirill esetén + fallback TRANSLIT ---
     record.update({
-    
-        # Ví­zum
+        f"TXT_ELT{p}_VEZETEKNEV":
+            translit(get_elt(idx, "vezeteknev")),
+
+        f"TXT_ELT{p}_KERESZTNEV":
+            translit(get_elt(idx, "keresztnev")),
+
+        f"TXT_ELT{p}_ROKONSAG":
+            translate_or_translit(get_elt(idx, "rokonsagi_fok")),
+
+        f"TXT_ELT{p}_SZUL_HELY":
+            translate_or_translit(get_elt(idx, "szuletesi_hely")),
+
+        f"TXT_ELT{p}_ALLAMPOLGARSAG":
+            translate_or_translit(get_elt(idx, "allampolgarsag")),
+
+        f"NR_ELT{p}_TARTOZK_OKMANY":
+            translit(get_elt(idx, "okmany_szam")),
+    })
+
+    # --- Jogcím (X-elős mezők, NEM transliteráljuk!) ---
+    jogcim = (get_elt(idx, "tartozkodas_jogcim") or "").strip().lower()
+
+    record.update({
         f"X_ELT{p}_JOGCIM_VIZUM":
             "X" if jogcim in ["vízum", "vizum", "visa"] else "",
-    
-        # Tartózkodási engedély
+
         f"X_ELT{p}_JOGCIM_TART":
             "X" if jogcim in ["tartózkodási engedély", "tartozkodasi engedely"] else "",
-    
-        # Ideiglenes letelepedési engedély
+
         f"X_ELT{p}_JOGCIM_IDEIGLENES_LET":
             "X" if jogcim in ["ideiglenes letelepedési engedély", "ideiglenes let"] else "",
-    
-        # EK / EU kártya
+
         f"X_ELT{p}_JOGCIM_EU_KARTYA":
-            "X" if jogcim in ["eu kártya", "ek kártya", "eu kartya"] else "",
-    
-        # Nemzeti kártya
+            "X" if jogcim in ["eu kártya", "ek kártya"] else "",
+
         f"X_ELT{p}_JOGCIM_NEMZETI_KARTYA":
             "X" if jogcim in ["nemzeti kártya", "nemzeti kartya"] else "",
-    
-        # Egyéb jogcím (X)
+
         f"X_ELT{p}_JOGCIM_EGYEB":
             "X" if jogcim in ["egyéb", "egyeb", "other"] else "",
-    
-        # Egyéb jogcím – SZÖVEG (EZ TRANSZLITERÁLT!)
+
+        # „Egyéb jogcím” SZÖVEG – csak TRANSZLITERÁLVA
         f"TXT_ELT{p}_JOGCIM_EGYEB":
             translit(get_elt(idx, "tartozkodas_jogcim_egyeb")),
     })
