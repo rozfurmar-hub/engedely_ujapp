@@ -1353,14 +1353,14 @@ if submitted:
         fedezet_osszeg = record.get("TXT_ANYAGI_FEDEZET_OSSZEG", "")
         if contains_cyrillic(fedezet_osszeg):
             hu_fedezet_osszeg = translator_translate_to_hungarian(fedezet_osszeg)
-            record["TXT_ANYAGI_FEDEZET_OSSZEG"] = fedezet_osszeg or transliterate_to_latin(fedezet_osszeg)
+            record["TXT_ANYAGI_FEDEZET_OSSZEG"] = hu_fedezet_osszeg or transliterate_to_latin(fedezet_osszeg)
 
 
         # n) Mo-i szálláshely település 
         telepules = record.get("TXT_TELEPULES", "")
         if contains_cyrillic(telepules):
             hu_telepules = translator_translate_to_hungarian(telepules)
-            record["TXT_TELEPULES"] = telepules or transliterate_to_latin(telepules)
+            record["TXT_TELEPULES"] = hu_telepules or transliterate_to_latin(telepules)
 
                     
         # o) Minden egyéb mező transliterációja
@@ -1378,7 +1378,8 @@ if submitted:
             "TXT_ELOZO_TART_TELEPULES",
             "TXT_ELOZO_TART_KOZTERULET",
             "TXT_ELOZO_TART_KOZTER_JELLEG",
-            "NR_FIZETES_TRANZAKCIO"
+            "NR_FIZETES_TRANZAKCIO",
+            "TXT_BEUT_HELY"
         ]
         
         record, _ = transliterate_record_fields(record, to_trans)
