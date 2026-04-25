@@ -36,6 +36,8 @@ def render_select_field(key, label, options, ui_lang, index=0):
         show_field_help(key, ui_lang)
     return st.selectbox("", options=options, index=index, key=key)
 
+def translit(v: str) -> str:
+    return transliterate_to_latin(v) if contains_cyrillic(v) else v
 
 # ---- Adatkezelő modul (meglévő környezetből) ----
 from datakezelo import BASE_DIR, create_record, list_records, update_record
