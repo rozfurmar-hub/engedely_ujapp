@@ -1261,7 +1261,14 @@ if submitted:
     
     # CIRILL SZÖVEG FORDÍTÁSA + TRANSLIT MINDIG (UI nyelvétől függetlenül)
     if True:
-        
+    
+
+    # --- DEBUG: Azure Translator titkok ---
+    st.write("AZURE_TRANSLATOR_KEY:", bool(_get_secret("AZURE_TRANSLATOR_KEY")))
+    st.write("AZURE_TRANSLATOR_REGION:", bool(_get_secret("AZURE_TRANSLATOR_REGION")))
+    st.write("AZURE_TRANSLATOR_ENDPOINT:", bool(_get_secret("AZURE_TRANSLATOR_ENDPOINT")))
+
+    
         # a) Foglalkozás
         job_val = record.get("TXT_ELOZO_FOGLALKOZAS", "")
         if contains_cyrillic(job_val):
