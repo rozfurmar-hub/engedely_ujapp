@@ -1288,12 +1288,14 @@ if submitted:
             hu_kozlekedesi_eszkoz = translator_translate_to_hungarian(kozlekedesi_eszkoz)
             record["TXT_KOZLEKEDESI_ESZKOZ"] = hu_kozlekedesi_eszkoz or transliterate_to_latin(kozlekedesi_eszkoz)
             
+      
         # k) Mo-ra érkezés előtti ország
         elozo_orszag = record.get("TXT_ELOZO_TART_ORSZAG", "")
         if contains_cyrillic(elozo_orszag):
             hu_elozo_orszag = translator_translate_to_hungarian(elozo_orszag)
             record["TXT_ELOZO_TART_ORSZAG"] = hu_elozo_orszag or transliterate_to_latin(elozo_orszag)
 
+        
         # l) Bűncselekmény részletei
         buntet_reszletek = record.get("TXT_BUNTETT_RESZLETEK", "")
         if contains_cyrillic(buntet_reszletek):
@@ -1304,16 +1306,18 @@ if submitted:
         to_trans = [
             "TXT_CSALADI_NEV",
             "TXT_UTONEV",
+            "TXT_SZUL_CSALADI_NEV",
+            "TXT_SZUL_UTONEV",
+            "TXT_ANYA_CSALADI_NEV",
+            "TXT_ANYA_UTONEV",
             "TXT_SZUL_HELY",
-            "TXT_SZUL_ORSZAG",
-            "TXT_ALLAMPOLGARSAG",
-            "TXT_NEMZETISEG",
-            "TXT_UTLEVEL_KIALL_HELY",
-            "TXT_VISSZA_UTAZASI_ORSZAG",
-            "TXT_ELOZO_TART_ORSZAG",
-            "TXT_BUNTETT_RESZLETEK",
-            "TXT_ELOZO_FOGLALKOZAS",
-            "TXT_SZAKKEPZETTSEG",
+            "TXT_TELEPULES",
+            "TXT_KOZTERULET_NEV",
+            "TXT_KOZTERULET_JELLEG",
+            "TXT_SZALLAS_EGYEB",
+            "TXT_ELOZO_TART_TELEPULES",
+            "TXT_ELOZO_TART_KOZTERULET",
+            "TXT_ELOZO_TART_KOZTER_JELLEG",
             "TXT_ANYAGI_FEDEZET_OSSZEG",
             "NR_FIZETES_TRANZAKCIO"
         ]
