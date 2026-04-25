@@ -1260,7 +1260,7 @@ if submitted:
     })
     
     # CIRILL SZÖVEG FORDÍTÁSA + TRANSLIT MINDIG (UI nyelvétől függetlenül)
-    st.write("FORDÍTÁS TESZT (Будапешт):", translator_translate_to_hungarian("Будапешт"))
+    
     if True:
     
         # a) Foglalkozás
