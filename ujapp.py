@@ -1256,6 +1256,15 @@ if submitted:
                 translit(get_elt(idx, "tartozkodas_jogcim_egyeb")),
         })
 
+        # --- ELT születési dátum (ugyanazzal a split_date-tel, mint máshol) ---
+        szul_datum = get_elt(idx, "szuletesi_ido")
+        ev, ho, nap = split_date(szul_datum)
+        
+        record.update({
+            f"DT_ELT{p}_SZUL_EV": ev,
+            f"DT_ELT{p}_SZUL_HO": ho,
+            f"DT_ELT{p}_SZUL_NAP": nap,
+        })
     
     # CIRILL SZÖVEG FORDÍTÁSA + TRANSLIT MINDIG (UI nyelvétől függetlenül)
     
