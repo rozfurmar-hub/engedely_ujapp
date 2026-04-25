@@ -1276,6 +1276,7 @@ if submitted:
         st.write(
         "FORDÍTÁS TESZT (Будапешт):",
         translator
+        )
             
         # b) Szakképzettség
         skill_val = record.get("TXT_SZAKKEPZETTSEG", "")
