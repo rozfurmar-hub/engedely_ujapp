@@ -39,6 +39,15 @@ def render_select_field(key, label, options, ui_lang, index=0):
 def translit(v: str) -> str:
     return transliterate_to_latin(v) if contains_cyrillic(v) else v
 
+# ====== Segédfüggvény: fordítás cirill esetén, fallback translit ======
+def translate_or_translit(v: str) -> str:
+    if not v:
+        return ""
+    if contains_cyrillic(v):
+        hu = translator_translate_to_hungarian(v)
+        return hu or transliterate_to_latin(v)
+    return v
+
 # ---- Adatkezelő modul (meglévő környezetből) ----
 from datakezelo import BASE_DIR, create_record, list_records, update_record
 
