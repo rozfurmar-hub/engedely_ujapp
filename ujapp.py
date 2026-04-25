@@ -1275,7 +1275,7 @@ if submitted:
 
         st.write(
         "FORDÍTÁS TESZT (Будапешт):",
-        translator
+        translator_translate_to_hungarian("Будапешт")
         )
             
         # b) Szakképzettség
