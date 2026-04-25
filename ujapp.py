@@ -1396,38 +1396,71 @@ if submitted:
 # Helyőrzők listája (a sablonokhoz) – megjelenítjük is
 # =========================
 PLACEHOLDERS = [
-    # Kontakt
-    "phone","email",
-    # Személyes
-    "vezeteknev","keresztnev","szuletesi_csaladi","szuletesi_uto","anyja_csaladi","anyja_uto",
-    "nem","allampolgarsag","nemzetiseg","csaladi_allapot","szuletesi_datum","szuletesi_hely","szuletesi_orszag",
-    "vegzettseg","szakkepzettseg","magyarorszagra_erkezese_elotti_foglalkozas",
+
+    # Kapcsolattartás
+    "TXT_TELEFON",
+    "TXT_EMAIL",
+
+    # Személyes adatok
+    "TXT_CSALADI_NEV",
+    "TXT_UTONEV",
+    "TXT_SZUL_CSALADI_NEV",
+    "TXT_SZUL_UTONEV",
+    "TXT_ANYA_CSALADI_NEV",
+    "TXT_ANYA_UTONEV",
+    "DT_SZUL_EV",
+    "DT_SZUL_HO",
+    "DT_SZUL_NAP",
+    "TXT_SZUL_HELY",
+    "TXT_SZUL_ORSZAG",
+    "TXT_ALLAMPOLGARSAG",
+    "TXT_NEMZETISEG",
+    "TXT_SZAKKEPZETTSEG",
+    "TXT_ELOZO_FOGLALKOZAS",
+
+    # Nem – X mezők
+    "X_NEM_FERFI",
+    "X_NEM_NO",
+
+    # Családi állapot – X mezők
+    "X_ALLAPOT_NOTLEN_HAJADON",
+    "X_ALLAPOT_HAZAS",
+    "X_ALLAPOT_ELVALT",
+    "X_ALLAPOT_OZVEGY",
+
     # Útlevél
-    "utlevel_szam","utlevel_kiadas","utlevel_helye","utlevel_tipus","utlevel_lejarat",
-    # Szállás
-    "helyrajzi_szam","iranyitoszam","telepules","kozterulet_nev","kozterulet_jelleg","hazszam","epulet","lepcsohaz","emelet","ajto","szallas_jogcim",
-    # Első/hosszabbítás
-    "elso_beutazas_helye","elso_beutazas_datuma","hossz_engedely_szam","hossz_engedely_ervenyes",
-    # Átvétel
-    "atvetel_mod","postai_cim_tipus",
-    # Egészség
-    "egeszseg_biztositas","egeszseg_egyeb",
-    # Visszautazás
-    "visszaut_orszag","kozlekedesi_eszkoz","van_utlevel","van_vizum","van_menetjegy","van_anyagi_fedezet","fedezet_osszeg",
-    # Hozzátartozók – JSON
-    "hozzatartozok_json",
-    # Egyéb
-    "elozo_orszag","elozo_telepules","elozo_cim",
-    "mas_schengen_okmany","mas_schengen_tipus","mas_schengen_szam","mas_schengen_ervenyes",
-    "volt_elutasitas","volt_buntetve","buntet_reszletek","volt_kiutasitas","kiutasitas_datum","fert_beteg","kap_ellatas",
-    # Kiskorú
-    "kiskoru_utazik",
-    # Cél
-    "tartozkodas_vege","tartozkodas_celja",
+    "NR_UTLEVEL_SZAM",
+    "TXT_UTLEVEL_KIALL_HELY",
+    "DT_UTLEVEL_KIALL_EV",
+    "DT_UTLEVEL_KIALL_HO",
+    "DT_UTLEVEL_KIALL_NAP",
+    "DT_UTLEVEL_ERV_EV",
+    "DT_UTLEVEL_ERV_HO",
+    "DT_UTLEVEL_ERV_NAP",
+
+    # Szálláshely
+    "TXT_HRSZ",
+    "TXT_IRSZAM",
+    "TXT_TELEPULES",
+    "TXT_KOZTERULET_NEV",
+    "TXT_KOZTERULET_JELLEG",
+    "TXT_HAZSZAM",
+    "TXT_EPULET",
+    "TXT_LEPCSO",
+    "TXT_EMELET",
+    "TXT_AJTO",
+
+    # Tartózkodás vége
+    "DT_TARTOZKODAS_EV",
+    "DT_TARTOZKODAS_HO",
+    "DT_TARTOZKODAS_NAP",
+
     # Fizetés
-    "tranzakcio_szam",
-    # Egyes sablonokhoz hasznos
+    "NR_FIZETES_TRANZAKCIO",
+
+    # Technikai
     "teljes_nev",
+    "hozzatartozok_json",
 ]
 
 with st.expander("📌 Helyőrzők (templates) – kattintson a listához", expanded=False):
