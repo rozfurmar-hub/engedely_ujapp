@@ -1272,7 +1272,11 @@ if submitted:
         st.write("AZURE_TRANSLATOR_KEY:", bool(_get_secret("AZURE_TRANSLATOR_KEY")))
         st.write("AZURE_TRANSLATOR_REGION:", bool(_get_secret("AZURE_TRANSLATOR_REGION")))
         st.write("AZURE_TRANSLATOR_ENDPOINT:", bool(_get_secret("AZURE_TRANSLATOR_ENDPOINT")))
-    
+
+        st.write(
+        "FORDÍTÁS TESZT (Будапешт):",
+        translator
+            
         # b) Szakképzettség
         skill_val = record.get("TXT_SZAKKEPZETTSEG", "")
         if contains_cyrillic(skill_val):
