@@ -1258,6 +1258,8 @@ if submitted:
         f"TXT_ELT{p}_JOGCIM_EGYEB":
             translit(get_elt(idx, "tartozkodas_jogcim_egyeb")),
     })
+
+
     
     # CIRILL SZÖVEG FORDÍTÁSA + TRANSLIT MINDIG (UI nyelvétől függetlenül)
     
