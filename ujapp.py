@@ -1350,7 +1350,7 @@ if submitted:
 
         # n) Mo-i szálláshely település 
         telepules = record.get("TXT_TELEPULES", "")
-        if contains_cyrillic(fedezet_osszeg):
+        if contains_cyrillic(telepules):
             hu_telepules = translator_translate_to_hungarian(telepules)
             record["TXT_TELEPULES"] = telepules or transliterate_to_latin(telepules)
 
