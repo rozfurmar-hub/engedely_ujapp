@@ -1262,18 +1262,17 @@ if submitted:
     # CIRILL SZÖVEG FORDÍTÁSA + TRANSLIT MINDIG (UI nyelvétől függetlenül)
     if True:
     
-
-    # --- DEBUG: Azure Translator titkok ---
-    st.write("AZURE_TRANSLATOR_KEY:", bool(_get_secret("AZURE_TRANSLATOR_KEY")))
-    st.write("AZURE_TRANSLATOR_REGION:", bool(_get_secret("AZURE_TRANSLATOR_REGION")))
-    st.write("AZURE_TRANSLATOR_ENDPOINT:", bool(_get_secret("AZURE_TRANSLATOR_ENDPOINT")))
-
-    
         # a) Foglalkozás
         job_val = record.get("TXT_ELOZO_FOGLALKOZAS", "")
         if contains_cyrillic(job_val):
             hu_job = translator_translate_to_hungarian(job_val)
             record["TXT_ELOZO_FOGLALKOZAS"] = hu_job or transliterate_to_latin(job_val)
+
+         # --- DEBUG: Azure Translator titkok ---
+        st.write("AZURE_TRANSLATOR_KEY:", bool(_get_secret("AZURE_TRANSLATOR_KEY")))
+        st.write("AZURE_TRANSLATOR_REGION:", bool(_get_secret("AZURE_TRANSLATOR_REGION")))
+        st.write("AZURE_TRANSLATOR_ENDPOINT:", bool(_get_secret("AZURE_TRANSLATOR_ENDPOINT")))
+    
         # b) Szakképzettség
         skill_val = record.get("TXT_SZAKKEPZETTSEG", "")
         if contains_cyrillic(skill_val):
