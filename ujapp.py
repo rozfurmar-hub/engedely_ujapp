@@ -1340,8 +1340,14 @@ if submitted:
         if contains_cyrillic(buntet_reszletek):
             hu_buntet_reszletek = translator_translate_to_hungarian(buntet_reszletek)
             record["TXT_BUNTETT_RESZLETEK"] = hu_buntet_reszletek or transliterate_to_latin(buntet_reszletek)
+
+        # m) Anyagi fedezet összege
+        fedezet_osszeg = record.get("TXT_ANYAGI_FEDEZET_OSSZEG", "")
+        if contains_cyrillic(fedezet_osszeg):
+            hu_fedezet_osszeg = translator_translate_to_hungarian(fedezet_osszeg)
+            record["TXT_ANYAGI_FEDEZET_OSSZEG"] = fedezet_osszeg or transliterate_to_latin(fedezet_osszeg)
             
-        # m) Minden egyéb mező transliterációja
+        # n) Minden egyéb mező transliterációja
         to_trans = [
             "TXT_CSALADI_NEV",
             "TXT_UTONEV",
@@ -1357,7 +1363,6 @@ if submitted:
             "TXT_ELOZO_TART_TELEPULES",
             "TXT_ELOZO_TART_KOZTERULET",
             "TXT_ELOZO_TART_KOZTER_JELLEG",
-            "TXT_ANYAGI_FEDEZET_OSSZEG",
             "NR_FIZETES_TRANZAKCIO"
         ]
         
