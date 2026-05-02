@@ -108,5 +108,6 @@
   "tartozkodas_vege": "Meddig kéri az engedélyt? (YYYY-MM-DD)",
   "tartozkodas_celja": "Tartózkodás célja",
   "section_fizetes": "11) Fizetési tranzakció",
-  "tranzakcio_szam": "Elektronikus/banki befizetés tranzakciós száma"
+  "tranzakcio_szam": "Elektronikus/banki befizetés tranzakciós száma",
+  "engedely_tipusa": "Kérelem típusa"
 }
