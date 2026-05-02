@@ -341,7 +341,7 @@ def to_canonical(lang: str, field: str, value: str) -> str:
     elif field == "passtype":
         mapping = {"ru": {"обычный":"magánútlevél","служебный":"szolgálati","дипломатический":"diplomata","другое":"egyéb"}}
     elif field == "szallas_jogcim":
-        mapping = {"ru": {"собственник":"tulajdonos","арендатор":"bérlő","член семьи":"családtag","безвозмездное пользование":"szívességi lakáshasználó","другое":"egyéb"}}
+        mapping = {"ru": {"собственник":"tulajdonos","арендатор":"bérlő","член семьи":"családtag","безвозмездное пользование":"szívességi lakáshasználó","прочее":"egyéb"}}
     elif field == "atvetel_mod":
         mapping = {"ru": {"почтовой отправкой":"postai úton","в выдавшем органе":"kiállító hatóságnál"}}
     elif field == "postai_cim_tipus":
