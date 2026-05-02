@@ -1395,14 +1395,19 @@ if submitted:
             hu_telepules = translator_translate_to_hungarian(telepules)
             record["TXT_TELEPULES"] = hu_telepules or transliterate_to_latin(telepules)
 
-         # n) Mo-i szálláshely település 
+         # o) Első beutazás helye 
         elso_beutazas_helye = record.get("TXT_BEUT_HELY", "")
         if contains_cyrillic(elso_beutazas_helye):
             hu_elso_beutazas_helye = translator_translate_to_hungarian(elso_beutazas_helye)
             record["TXT_BEUT_HELY"] = hu_elso_beutazas_helye or transliterate_to_latin(elso_beutazas_helye)
 
+        # p) Szálláshely jogcíme - egyéb megnevezés
+        szallas_egyeb_val = record.get("TXT_SZALLAS_EGYEB", "")
+        if contains_cyrillic(szallas_egyeb_val):
+            hu_szallas_egyeb = translator_translate_to_hungarian(szallas_egyeb_val)
+            record["TXT_SZALLAS_EGYEB"] = hu_szallas_egyeb or transliterate_to_latin(szallas_egyeb_val)
                     
-        # o) Minden egyéb mező transliterációja
+        # q) Minden egyéb mező transliterációja
         to_trans = [
             "TXT_CSALADI_NEV",
             "TXT_UTONEV",
