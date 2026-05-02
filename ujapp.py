@@ -678,10 +678,7 @@ with st.form("adaturlap", clear_on_submit=False):
     emelet = st.text_input(L["emelet"]) 
     ajto = st.text_input(L["ajto"]) 
     # Szálláshelyen tartózkodás jogcíme
-    szallas_jogcim_disp = st.selectbox(
-        L["szallas_jogcim"],
-        options=[""] + SZALLAS_JOGCIM_DISP,
-        index=0,
+    szallas_jogcim_disp = st.selectbox(L["szallas_jogcim"], options=[""] + SZALLAS_JOGCIM_DISP, index=0,
         key="szallas_jogcim_disp"
     )
     
