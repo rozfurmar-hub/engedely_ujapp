@@ -315,6 +315,20 @@ CEL_ENUM_RU = [
 ]
 CITIZENSHIP_DISP_RU = ["венгерское", "украинское", "русское", "сербское", "прочее"]
 
+EGEBIZT_OPTS = [
+    "foglalkoztatási jogviszony alapján",
+    "rendelkezem anyagi fedezettel a költségek fedezetére",
+    "rendelkezem teljes körű egészségbiztosítással",
+    "egyéb"
+]
+
+EGEBIZT_OPTS_RU = [
+    "на основании трудовых отношений",
+    "располагаю финансовыми средствами для покрытия расходов",
+    "имею полное медицинское страхование",
+    "другое"
+]
+
 def get_localized_options(lang: str):
     if lang == "ru":
         return (
