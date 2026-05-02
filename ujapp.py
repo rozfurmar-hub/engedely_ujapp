@@ -683,9 +683,14 @@ with st.form("adaturlap", clear_on_submit=False):
     st.markdown(f"**{L['section_elso_vagy_hossz']}**")
     
     # Választás: első kérelem vagy hosszabbítás
+    if ui_lang == "ru":
+    engedely_tipus_opts = ["", "первое", "продление"]
+    else:
+        engedely_tipus_opts = ["", "első", "hosszabbítás"]
+    
     engedely_tipus_disp = st.selectbox(
         L["section_elso_vagy_hossz"],
-        options=["", "első", "hosszabbítás"]
+        options=engedely_tipus_opts
     )
     
     # Első kérelem esetén
