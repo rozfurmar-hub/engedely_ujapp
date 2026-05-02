@@ -298,9 +298,9 @@ GENDER_DISP_RU = ["мужской", "женский"]
 FAMILY_DISP_RU = ["неженат/незамужем", "женат/замужем", "в разводе", "вдовец/вдова"]
 EDU_DISP_RU = ["начальное", "среднее", "высшее"]
 YESNO_DISP_RU = ["да", "нет"]
-PASS_TYPES_RU = ["обычный", "служебный", "дипломатический", "другое"]
+PASS_TYPES_RU = ["обычный", "служебный", "дипломатический", "прочее"]
 PASS_COUNTRY_RU = ["Венгрия", "Украина", "Россия", "Сербия", "другая страна"]
-SZALLAS_JOGCIM_RU = ["собственник", "арендатор", "член семьи", "безвозмездное пользование", "другое"]
+SZALLAS_JOGCIM_RU = ["собственник", "арендатор", "член семьи", "безвозмездное пользование", "прочее"]
 ATVETEL_MOD_RU = ["почтовой отправкой", "в выдавшем органе"]
 POSTAI_CIM_TIPUS_RU = ["адрес проживания заявителя", "адрес доверенного лица"]
 CEL_ENUM_RU = [
@@ -677,8 +677,28 @@ with st.form("adaturlap", clear_on_submit=False):
     lepcsohaz = st.text_input(L["lepcsohaz"]) 
     emelet = st.text_input(L["emelet"]) 
     ajto = st.text_input(L["ajto"]) 
-    szallas_jogcim_disp = st.selectbox(L["szallas_jogcim"], options=[""] + JOGCIM_DISP, index=0)
+    # Szálláshelyen tartózkodás jogcíme
+    szallas_jogcim_disp = st.selectbox(
+        L["szallas_jogcim"],
+        options=[""] + SZALLAS_JOGCIM_DISP,
+        index=0,
+        key="szallas_jogcim_disp"
+    )
+    
+    # "egyéb" esetén plusz szövegmező
+    szallas_egyeb = ""
+    if ui_lang == "ru":
+        egyeb_ertek = "другое"
+    else:
+        egyeb_ertek = "egyéb"
+    
+    if szallas_jogcim_disp == egyeb_ertek:
+        szallas_egyeb = st.text_input(
+            L.get("szallas_egyeb", "Egyéb jogcím megnevezése"),
+            key="TXT_SZALLAS_EGYEB"
+        )
 
+    
     # 4) Első kérelem / Hosszabbítás
     st.markdown(f"**{L['section_elso_vagy_hossz']}**")
     
@@ -1068,6 +1088,17 @@ if submitted:
         "TXT_LEPCSO": (lepcsohaz or "").strip(),
         "TXT_EMELET": (emelet or "").strip(),
         "TXT_AJTO": (ajto or "").strip(),
+
+
+        # Szálláshelyen tartózkodás jogcíme – Word X mezők
+        "X_SZALLAS_TULAJ": "X" if szallas_jogcim == "tulajdonos" else "",
+        "X_SZALLAS_BERLO": "X" if szallas_jogcim == "bérlő" else "",
+        "X_SZALLAS_CSALADTAG": "X" if szallas_jogcim == "családtag" else "",
+        "X_SZALLAS_SZIVES": "X" if szallas_jogcim == "szívességi lakáshasználó" else "",
+        "X_SZALLAS_EGYEB": "X" if szallas_jogcim == "egyéb" else "",
+        
+        # Egyéb jogcím szövege
+        "TXT_SZALLAS_EGYEB": (szallas_egyeb or "").strip(),
 
         # első/hosszabbítás
         
