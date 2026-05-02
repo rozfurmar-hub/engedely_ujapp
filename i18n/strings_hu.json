@@ -76,7 +76,7 @@
   "postai_cim_tipus": "Ha postán kéri: postai kézbesítés melyik címre menjen?",
   "section_egeszseg": "6) Teljes körű egészségbiztosítás",
   "egeszseg_biztositas": "Rendelkezik teljes körű egészségbiztosítással?",
-  "egeszseg_egyeb": "Egyéb (biztosítás típusa, megjegyzés)",
+  "egeszseg_egyeb": "Egyéb válasz esetén töltse ki:",
   "section_visszaut": "7) Vissza-/továbbutazás feltételei",
   "visszaut_orszag": "Vissza-/továbbutazás országa",
   "kozlekedesi_eszkoz": "Közlekedési eszköz",
