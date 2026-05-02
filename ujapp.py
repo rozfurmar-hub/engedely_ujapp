@@ -690,15 +690,11 @@ with st.form("adaturlap", clear_on_submit=False):
     # Kanonikus érték (RU -> HU visszaalakítás)
     szallas_jogcim = to_canonical(ui_lang, "szallas_jogcim", szallas_jogcim_disp)
     
-    # "egyéb" esetén plusz szövegmező
-    szallas_egyeb = ""
-    if szallas_jogcim == "egyéb":
-        szallas_egyeb = st.text_input(
-            L.get("szallas_egyeb", "Egyéb válasz esetén töltse ki:"),
-            key="TXT_SZALLAS_EGYEB"
-        )
-
-
+    # B terv: mindig látható "egyéb" mező
+    szallas_egyeb = st.text_input(
+        L.get("szallas_egyeb", "Egyéb válasz esetén töltse ki:"),
+        key="TXT_SZALLAS_EGYEB"
+    )
 
     
     # 4) Első kérelem / Hosszabbítás
