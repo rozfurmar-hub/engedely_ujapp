@@ -684,7 +684,7 @@ with st.form("adaturlap", clear_on_submit=False):
     
     # Választás: első kérelem vagy hosszabbítás
     if ui_lang == "ru":
-    engedely_tipus_opts = ["", "первое", "продление"]
+        engedely_tipus_opts = ["", "первое", "продление"]
     else:
         engedely_tipus_opts = ["", "első", "hosszabbítás"]
     
