@@ -108,5 +108,6 @@
   "tartozkodas_vege": "До какой даты? (ГГГГ-ММ-ДД)",
   "tartozkodas_celja": "Цель пребывания",
   "section_fizetes": "11) Платёж",
-  "tranzakcio_szam": "Номер платёжной транзакции"
+  "tranzakcio_szam": "Номер платёжной транзакции",
+  "engedely_tipusa": "Тип обращения"
 }
