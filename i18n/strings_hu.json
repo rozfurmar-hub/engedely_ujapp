@@ -109,5 +109,6 @@
   "tartozkodas_celja": "Tartózkodás célja",
   "section_fizetes": "11) Fizetési tranzakció",
   "tranzakcio_szam": "Elektronikus/banki befizetés tranzakciós száma",
-  "engedely_tipusa": "Kérelem típusa"
+  "engedely_tipusa": "Kérelem típusa",
+  "szallas_egyeb": "Egyéb válasz esetén töltse ki:"
 }
