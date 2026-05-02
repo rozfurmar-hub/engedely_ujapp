@@ -362,6 +362,15 @@ def to_canonical(lang: str, field: str, value: str) -> str:
         mapping = {"ru": {"адрес проживания заявителя":"kérelmező szálláshelye","адрес доверенного лица":"meghatalmazott kapcsolattartási címe"}}
     elif field == "cel":
         mapping = {"ru": dict(zip(CEL_ENUM_RU, CEL_ENUM))}
+    elif field == "egeszseg_biztositas":
+        mapping = {
+            "ru": {
+                "на основании трудовых отношений": "foglalkoztatási jogviszony alapján",
+                "располагаю финансовыми средствами для покрытия расходов": "rendelkezem anyagi fedezettel a költségek fedezetére",
+                "имею полное медицинское страхование": "rendelkezem teljes körű egészségbiztosítással",
+                "другое": "egyéb"
+            }
+        }
     return mapping.get(lang, {}).get(v, v)
 
 # =========================
