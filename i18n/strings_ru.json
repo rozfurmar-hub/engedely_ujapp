@@ -109,5 +109,7 @@
   "tartozkodas_celja": "Цель пребывания",
   "section_fizetes": "11) Платёж",
   "tranzakcio_szam": "Номер платёжной транзакции",
-  "engedely_tipusa": "Тип обращения"
+  "engedely_tipusa": "Тип обращения",
+  "szallas_egyeb": "Если выбран ответ «Прочее», заполните следующее поле:"
+
 }
