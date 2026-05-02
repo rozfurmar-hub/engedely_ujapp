@@ -1447,8 +1447,15 @@ if submitted:
         if contains_cyrillic(szallas_egyeb_val):
             hu_szallas_egyeb = translator_translate_to_hungarian(szallas_egyeb_val)
             record["TXT_SZALLAS_EGYEB"] = hu_szallas_egyeb or transliterate_to_latin(szallas_egyeb_val)
+
+        # q) Egészségbiztosítás - egyéb megjegyzés
+        egeszseg_egyeb_val = record.get("TXT_EGEBIZT_EGYEB", "")
+        if contains_cyrillic(egeszseg_egyeb_val):
+            hu_egeszseg_egyeb = translator_translate_to_hungarian(egeszseg_egyeb_val)
+            record["TXT_EGEBIZT_EGYEB"] = hu_egeszseg_egyeb or transliterate_to_latin(egeszseg_egyeb_val)
+
                     
-        # q) Minden egyéb mező transliterációja
+        # r) Minden egyéb mező transliterációja
         to_trans = [
             "TXT_CSALADI_NEV",
             "TXT_UTONEV",
