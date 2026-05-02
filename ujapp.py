@@ -665,18 +665,20 @@ with st.form("adaturlap", clear_on_submit=False):
     utlevel_tipus_disp = st.selectbox(L["utlevel_tipus"], options=[""] + PASS_DISP, index=0)
     utlevel_lejarat = st.text_input(L["utlevel_lejarat"], placeholder="YYYY-MM-DD")
 
-    # 3) Szálláshely
+    # 3) Magyarországi szálláshely
     st.markdown(f"**{L['section_szallas']}**")
-    helyrajzi_szam = st.text_input(L["helyrajzi_szam"]) 
-    iranyitoszam = st.text_input(L["iranyitoszam"]) 
-    telepules = st.text_input(L["telepules"]) 
-    kozterulet_nev = st.text_input(L["kozterulet_nev"]) 
-    kozterulet_jelleg = st.text_input(L["kozterulet_jelleg"]) 
-    hazszam = st.text_input(L["hazszam"]) 
-    epulet = st.text_input(L["epulet"]) 
-    lepcsohaz = st.text_input(L["lepcsohaz"]) 
-    emelet = st.text_input(L["emelet"]) 
-    ajto = st.text_input(L["ajto"]) 
+    
+    helyrajzi_szam = st.text_input(L["helyrajzi_szam"])
+    iranyitoszam = st.text_input(L["iranyitoszam"])
+    telepules = st.text_input(L["telepules"])
+    kozterulet_nev = st.text_input(L["kozterulet_nev"])
+    kozterulet_jelleg = st.text_input(L["kozterulet_jelleg"])
+    hazszam = st.text_input(L["hazszam"])
+    epulet = st.text_input(L["epulet"])
+    lepcsohaz = st.text_input(L["lepcsohaz"])
+    emelet = st.text_input(L["emelet"])
+    ajto = st.text_input(L["ajto"])
+    
     # Szálláshelyen tartózkodás jogcíme
     szallas_jogcim_disp = st.selectbox(
         L["szallas_jogcim"],
@@ -684,19 +686,18 @@ with st.form("adaturlap", clear_on_submit=False):
         index=0,
         key="szallas_jogcim_disp"
     )
-
+    
+    # Kanonikus érték (RU -> HU visszaalakítás)
+    szallas_jogcim = to_canonical(ui_lang, "szallas_jogcim", szallas_jogcim_disp)
     
     # "egyéb" esetén plusz szövegmező
     szallas_egyeb = ""
-   
-    # A legördülőből kiválasztott érték kanonikus (belső) alakja
-    szallas_jogcim = to_canonical(ui_lang, "szallas_jogcim", szallas_jogcim_disp)
-    
     if szallas_jogcim == "egyéb":
         szallas_egyeb = st.text_input(
             L.get("szallas_egyeb", "Egyéb válasz esetén töltse ki:"),
             key="TXT_SZALLAS_EGYEB"
         )
+
 
 
     
