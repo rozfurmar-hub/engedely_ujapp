@@ -679,7 +679,7 @@ with st.form("adaturlap", clear_on_submit=False):
     ajto = st.text_input(L["ajto"]) 
     szallas_jogcim_disp = st.selectbox(L["szallas_jogcim"], options=[""] + JOGCIM_DISP, index=0)
 
-    # Első kérelem / Hosszabbítás
+    # 4) Első kérelem / Hosszabbítás
     st.markdown(f"**{L['section_elso_vagy_hossz']}**")
     
     # Választás: első kérelem vagy hosszabbítás
