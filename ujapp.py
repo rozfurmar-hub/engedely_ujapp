@@ -313,7 +313,7 @@ CEL_ENUM_RU = [
     "Официальная", "White Card", "Командирование", "Лечение",
     "Волонтёрство", "В национальных интересах", "Воссоединение семьи"
 ]
-CITIZENSHIP_DISP_RU = ["венгерское", "украинское", "русское", "сербское", "другое"]
+CITIZENSHIP_DISP_RU = ["венгерское", "украинское", "русское", "сербское", "прочее"]
 
 def get_localized_options(lang: str):
     if lang == "ru":
@@ -339,7 +339,7 @@ def to_canonical(lang: str, field: str, value: str) -> str:
     elif field == "yesno":
         mapping = {"ru": {"да":"igen","нет":"nem"}}
     elif field == "passtype":
-        mapping = {"ru": {"обычный":"magánútlevél","служебный":"szolgálati","дипломатический":"diplomata","другое":"egyéb"}}
+        mapping = {"ru": {"обычный":"magánútlevél","служебный":"szolgálati","дипломатический":"diplomata", "прочее":"egyéb"}}
     elif field == "szallas_jogcim":
         mapping = {"ru": {"собственник":"tulajdonos","арендатор":"bérlő","член семьи":"családtag","безвозмездное пользование":"szívességi lakáshasználó","прочее":"egyéb"}}
     elif field == "atvetel_mod":
@@ -595,8 +595,8 @@ with st.form("adaturlap", clear_on_submit=False):
     # Állampolgárság – lokalizált lista
     if ui_lang == "ru":
         allamp_opts = CITIZENSHIP_DISP_RU
-        egyeb_label = "Другое гражданство"
-        egyeb_value = "другое"
+        egyeb_label = "Прочее гражданство"
+        egyeb_value = "прочее"
     else:
         allamp_opts = CITIZENSHIP_CANON
         egyeb_label = "Egyéb állampolgárság megnevezése"
@@ -831,10 +831,10 @@ with st.form("adaturlap", clear_on_submit=False):
     
     # I18N listák
     ROKONSAG_HU = ["szülő", "gyermek", "házastárs", "testvér", "egyéb"]
-    ROKONSAG_RU = ["родитель", "ребенок", "супруг(а)", "брат/сестра", "другое"]
+    ROKONSAG_RU = ["родитель", "ребенок", "супруг(а)", "брат/сестра", "прочее"]
     
     HOZZ_NEM_HU = ["férfi", "nő", "egyéb"]
-    HOZZ_NEM_RU = ["мужской", "женский", "другое"]
+    HOZZ_NEM_RU = ["мужской", "женский", "прочее"]
     
     # Mezőfeliratok HU/RU i18n kulcsok
     label_nem          = L.get("hozz_nem", "Nem")
