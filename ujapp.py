@@ -758,17 +758,32 @@ with st.form("adaturlap", clear_on_submit=False):
     )
 
 
-    # Átvétel
+    # 5) Okmány átvétele
     st.markdown(f"**{L['section_atvetel']}**")
     atvetel_mod_disp = st.selectbox(L["atvetel_mod"], options=[""] + ATVETEL_DISP, index=0)
     postai_cim_tipus_disp = st.selectbox(L["postai_cim_tipus"], options=[""] + POSTAI_DISP, index=0)
 
-    # 4) Egészségbiztosítás
+    
+    # 6) Teljes körű egészségbiztosítás
     st.markdown(f"**{L['section_egeszseg']}**")
-    egeszseg_biztositas_disp = st.selectbox(L["egeszseg_biztositas"], options=[""] + YESNO_DISP, index=0)
-    egeszseg_egyeb = st.text_input(L["egeszseg_egyeb"]) 
+    
+    egeszseg_biztositas_disp = st.selectbox(
+        L["egeszseg_biztositas"],
+        options=[""] + (EGEBIZT_OPTS_RU if ui_lang == "ru" else EGEBIZT_OPTS),
+        index=0,
+        key="egeszseg_biztositas_disp"
+    )
+    
+    # Kanonikus érték (RU -> HU visszaalakítás)
+    egeszseg_biztositas = to_canonical(ui_lang, "egeszseg_biztositas", egeszseg_biztositas_disp)
+    
+    # „egyéb” esetén kiegészítő szövegmező
+    egeszseg_egyeb = st.text_input(
+        L.get("egeszseg_egyeb", "Egyéb esetén töltse ki:"),
+        key="TXT_EGEBIZT_EGYEB"
+    )
 
-    # 5) Vissza-/továbbutazás
+    # 7) Vissza-/továbbutazás
     st.markdown(f"**{L['section_visszaut']}**")
 
     TXT_VISSZA_UTAZASI_ORSZAG = render_text_field(
@@ -813,7 +828,7 @@ with st.form("adaturlap", clear_on_submit=False):
         placeholder="pl. 2000 EUR"
     )
 
-    # 7) Egyéb adatok
+    # 8) Egyéb adatok
     st.markdown(f"**{L['section_egyeb']}**")
     elozo_orszag = st.text_input(L["elozo_orszag"]) 
     elozo_telepules = st.text_input(L["elozo_telepules"]) 
@@ -831,11 +846,11 @@ with st.form("adaturlap", clear_on_submit=False):
     fert_beteg_disp = st.selectbox(L["fert_beteg"], options=[""] + YESNO_DISP, index=0)
     kap_ellatas_disp = st.selectbox(L["kap_ellatas"], options=[""] + YESNO_DISP, index=0)
 
-    # 8) Kiskorú
+    # 9) Kiskorú
     st.markdown(f"**{L['section_kiskoru']}**")
     kiskoru_utazik_disp = st.selectbox(L["kiskoru_utazik"], options=[""] + YESNO_DISP, index=0)
 
-    # 9) Tervezett időtartam és cél
+    # 10) Tervezett időtartam és cél
     st.markdown(f"**{L['section_tervezett']}**")
     tartozkodas_vege = st.text_input(L["tartozkodas_vege"], placeholder="YYYY-MM-DD")
     tartozkodas_celja_disp = st.selectbox(L["tartozkodas_celja"], options=[""] + CEL_DISP, index=0)
