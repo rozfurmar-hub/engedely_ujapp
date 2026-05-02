@@ -1161,9 +1161,12 @@ if submitted:
         
         
         # Egészségbiztosítás – Word X mezők
-        "X_EGEBIZT_TELJESKORU": "X" if egeszseg_biztositas == "igen" else "",
-        "X_EGEBIZT_EGYEB": "X" if egeszseg_biztositas == "nem" else "",
+        "X_EGEBIZT_FOGL": "X" if egeszseg_biztositas == "foglalkoztatási jogviszony alapján" else "",
+        "X_EGEBIZT_FEDEZET": "X" if egeszseg_biztositas == "rendelkezem anyagi fedezettel a költségek fedezetére" else "",
+        "X_EGEBIZT_TELJESKORU": "X" if egeszseg_biztositas == "rendelkezem teljes körű egészségbiztosítással" else "",
+        "X_EGEBIZT_EGYEB": "X" if egeszseg_biztositas == "egyéb" else "",
         
+        # „Egyéb” szöveg
         "TXT_EGEBIZT_EGYEB": (egeszseg_egyeb or "").strip(),
         
         # visszautazás
