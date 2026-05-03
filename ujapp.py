@@ -1606,7 +1606,7 @@ if submitted:
         
             # Egyéb csak akkor töltődjön
             f"TXT_ELT{p}_JOGCIM_EGYEB":
-                translit(get_elt(idx, "tartozkodas_jogcim_egyeb")) if jogcim == "egyéb" else "",
+                translate_or_translit(get_elt(idx, "tartozkodas_jogcim_egyeb")) if jogcim == "egyéb" else "",
         })
 
         # --- ELT születési dátum (ugyanazzal a split_date-tel, mint máshol) ---
