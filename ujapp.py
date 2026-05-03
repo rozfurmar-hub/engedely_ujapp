@@ -1230,7 +1230,7 @@ if submitted:
         "X_EGEBIZT_EGYEB": "X" if egeszseg_biztositas == "egyéb" else "",
         
         # „Egyéb” szöveg
-        "TXT_EGEBIZT_EGYEB": (egeszseg_egyeb or "").strip(),
+        "TXT_EGEBIZT_EGYEB": (egeszseg_egyeb or "").strip() if egeszseg_biztositas == "egyéb" else "",
         
         # visszautazás
         
