@@ -1009,7 +1009,7 @@ with st.form("adaturlap", clear_on_submit=False):
         ),
         key="TXT_BETETLAP_SZAM"
     )
-    )
+    
     
     # 11) Fizetési tranzakció
     st.markdown(f"**{L['section_fizetes']}**")
