@@ -900,12 +900,13 @@ with st.form("adaturlap", clear_on_submit=False):
         return labels.get(v, v)
     
     orszag_jellege_12 = st.selectbox(
-        L["orszag_jellege_12"],
+        L.get("orszag_jellege_12", "Ez az ország:"),
         options=orszag_jellege_12_options,
         index=0,
         format_func=orszag_jellege_12_label,
-        key="orszag_jellege_12"
+        key="orszag_jellege_12
     )
+
     
     # B terv: mindig látható két statikus mező
     enged_tipus_static = st.text_input(
