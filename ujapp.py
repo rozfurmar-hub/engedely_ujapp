@@ -1191,6 +1191,8 @@ with st.form("adaturlap", clear_on_submit=False):
             "anyja_vezetek": anyja_vez,
             "anyja_kereszt": anyja_ker,
             "allampolgarsag": allamp,
+            "tartozkodas_jogcim": tart_jogcim,
+            "tartozkodas_jogcim_egyeb": tart_jogcim_egyeb,
             "tartozkodik_e": to_canonical(ui_lang, "yesno", tartozkodas_e),
             "okmany_szam": okmany
         })
