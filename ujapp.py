@@ -904,7 +904,7 @@ with st.form("adaturlap", clear_on_submit=False):
         options=orszag_jellege_12_options,
         index=0,
         format_func=orszag_jellege_12_label,
-        key="orszag_jellege_12
+        key="orszag_jellege_12"
     )
 
     
