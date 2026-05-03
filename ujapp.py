@@ -1561,19 +1561,52 @@ if submitted:
     
         # --- Jogcím X-elés ---
         jogcim = (get_elt(idx, "tartozkodas_jogcim") or "").strip().lower()
-    
+
         record.update({
+            # JOGCIM_* mezők
             f"X_ELT{p}_JOGCIM_VIZUM":
-                "X" if jogcim in ["vízum", "vizum", "visa"] else "",
-    
+                "X" if jogcim == "vízum" else "",
+        
             f"X_ELT{p}_JOGCIM_TART":
-                "X" if jogcim in ["tartózkodási engedély", "tartozkodasi engedely"] else "",
-    
+                "X" if jogcim == "tartózkodási engedély" else "",
+        
+            f"X_ELT{p}_JOGCIM_IDEIGLENES_LET":
+                "X" if jogcim == "ideiglenes letelepedési engedély" else "",
+        
+            f"X_ELT{p}_JOGCIM_EK_LET":
+                "X" if jogcim == "ek letelepedési engedély" else "",
+        
+            f"X_ELT{p}_JOGCIM_IDEIGLENES_KARTYA":
+                "X" if jogcim == "ideiglenes tartózkodási kártya" else "",
+        
+            f"X_ELT{p}_JOGCIM_EU_KARTYA":
+                "X" if jogcim == "eu tartózkodási kártya" else "",
+        
+            f"X_ELT{p}_JOGCIM_NEMZETI_KARTYA":
+                "X" if jogcim == "nemzeti tartózkodási kártya" else "",
+        
             f"X_ELT{p}_JOGCIM_EGYEB":
-                "X" if jogcim in ["egyéb", "egyeb"] else "",
-    
+                "X" if jogcim == "egyéb" else "",
+        
+            # OKMANY_* mezők
+            f"X_ELT{p}_OKMANY_VIZUM":
+                "X" if jogcim == "tartózkodási vízum" else "",
+        
+            f"X_ELT{p}_OKMANY_LET":
+                "X" if jogcim == "letelepedési engedély" else "",
+        
+            f"X_ELT{p}_OKMANY_NEMZETI_LET":
+                "X" if jogcim == "nemzeti letelepedési engedély" else "",
+        
+            f"X_ELT{p}_OKMANY_BEVAND":
+                "X" if jogcim == "bevándorlási engedély" else "",
+        
+            f"X_ELT{p}_OKMANY_EU_KEK":
+                "X" if jogcim == "eu kék kártya" else "",
+        
+            # Egyéb csak akkor töltődjön
             f"TXT_ELT{p}_JOGCIM_EGYEB":
-                translit(get_elt(idx, "tartozkodas_jogcim_egyeb")),
+                translit(get_elt(idx, "tartozkodas_jogcim_egyeb")) if jogcim == "egyéb" else "",
         })
 
         # --- ELT születési dátum (ugyanazzal a split_date-tel, mint máshol) ---
