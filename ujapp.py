@@ -1211,22 +1211,7 @@ if submitted:
         # Egyéb jogcím szövege
         "TXT_SZALLAS_EGYEB": (szallas_egyeb or "").strip(),
 
-        # első/hosszabbítás
-        
-        "TXT_BEUT_HELY": (TXT_BEUT_HELY or "").strip(),
-        # Első beutazás dátuma (Word mezők)
-        "DT_BEUT_EV": beutazas_datum[:4] if beutazas_datum else "",
-        "DT_BEUT_HO": beutazas_datum[5:7] if beutazas_datum else "",
-        "DT_BEUT_NAP": beutazas_datum[8:10] if beutazas_datum else "",
-        
-        # Hosszabbított engedély érvényessége (Word mezők)
-        "DT_ENGED_ERV_EV": engedely_ervenyes[:4] if engedely_ervenyes else "",
-        "DT_ENGED_ERV_HO": engedely_ervenyes[5:7] if engedely_ervenyes else "",
-        "DT_ENGED_ERV_NAP": engedely_ervenyes[8:10] if engedely_ervenyes else "",
-       
-        "NR_ENGED_SZAM": (NR_ENGED_SZAM or "").strip(),
-        
-        
+               
         # Okmány átvétele – Word X mezők
         "X_ATVETEL_POSTA": "X" if atvetel_mod == "postai úton" else "",
         "X_ATVETEL_SZEMELY": "X" if atvetel_mod == "kiállító hatóságnál" else "",
