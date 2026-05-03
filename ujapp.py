@@ -1093,14 +1093,14 @@ if submitted:
     record = {
 
         # ---- Első kérelem / Hosszabbítás (Word kompatibilis) ----
-        "X_ENGED_ELSO": "X" if engedely_tipus_disp == "első" else "",
+        "X_ENGED_ELSO": "X" if engedely_tipus_disp == "első kérelem" else "",
         "X_ENGED_HOSSZ": "X" if engedely_tipus_disp == "hosszabbítás" else "",
         
         "TXT_BEUT_HELY": (TXT_BEUT_HELY or "").strip(),
         
-        "DT_BEUT_EV": beutazas_datum[:4] if (engedely_tipus_disp == "első" and beutazas_datum) else "",
-        "DT_BEUT_HO": beutazas_datum[5:7] if (engedely_tipus_disp == "első" and beutazas_datum) else "",
-        "DT_BEUT_NAP": beutazas_datum[8:10] if (engedely_tipus_disp == "első" and beutazas_datum) else "",
+        "DT_BEUT_EV": beutazas_datum[:4] if (engedely_tipus_disp == "első kérelem" and beutazas_datum) else "",
+        "DT_BEUT_HO": beutazas_datum[5:7] if (engedely_tipus_disp == "első kérelem" and beutazas_datum) else "",
+        "DT_BEUT_NAP": beutazas_datum[8:10] if (engedely_tipus_disp == "első kérelem" and beutazas_datum) else "",
         
         "NR_ENGED_SZAM": (NR_ENGED_SZAM or "").strip(),
         
