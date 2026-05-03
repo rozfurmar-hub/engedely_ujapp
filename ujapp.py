@@ -393,6 +393,38 @@ EGEBIZT_OPTS_RU = [
     "прочее"
 ]
 
+ELT_JOGCIM_OPTS = [
+    "vízum",
+    "tartózkodási engedély",
+    "ideiglenes letelepedési engedély",
+    "EK letelepedési engedély",
+    "ideiglenes tartózkodási kártya",
+    "EU tartózkodási kártya",
+    "nemzeti tartózkodási kártya",
+    "egyéb",
+    "tartózkodási vízum",
+    "letelepedési engedély",
+    "nemzeti letelepedési engedély",
+    "bevándorlási engedély",
+    "EU Kék Kártya",
+]
+
+ELT_JOGCIM_OPTS_RU = [
+    "виза",
+    "разрешение на проживание",
+    "временное разрешение на поселение",
+    "разрешение на поселение ЕС",
+    "временная карта пребывания",
+    "карта пребывания ЕС",
+    "национальная карта пребывания",
+    "другое",
+    "виза на проживание",
+    "разрешение на поселение",
+    "национальное разрешение на поселение",
+    "иммиграционное разрешение",
+    "Голубая карта ЕС",
+]
+
 def get_localized_options(lang: str):
     if lang == "ru":
         return (
