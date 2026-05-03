@@ -1595,18 +1595,12 @@ if submitted:
             hu_egeszseg_egyeb = translator_translate_to_hungarian(egeszseg_egyeb_val)
             record["TXT_EGEBIZT_EGYEB"] = hu_egeszseg_egyeb or transliterate_to_latin(egeszseg_egyeb_val)
 
-        # r) 12. pont – 1. eset engedély típusa
-        
-        enged_tipus_1_val = record.get("TXT_12_ENGED_TIPUS_1", "")
-        if contains_cyrillic(enged_tipus_1_val):
-            hu_enged_tipus_1 = translator_translate_to_hungarian(enged_tipus_1_val)
-            record["TXT_12_ENGED_TIPUS_1"] = hu_enged_tipus_1 or transliterate_to_latin(enged_tipus_1_val)
-        
-            # 12. pont – 3. eset engedély típusa
-        enged_tipus_2_val = record.get("TXT_12_ENGED_TIPUS_2", "")
-        if contains_cyrillic(enged_tipus_2_val):
-            hu_enged_tipus_2 = translator_translate_to_hungarian(enged_tipus_2_val)
-            record["TXT_12_ENGED_TIPUS_2"] = hu_enged_tipus_2 or transliterate_to_latin(enged_tipus_2_val)
+                
+        # r) 12. pont – statikus engedély típus mező
+        enged_tipus_static_val = enged_tipus_static or ""
+        if contains_cyrillic(enged_tipus_static_val):
+            hu_enged_tipus_static = translator_translate_to_hungarian(enged_tipus_static_val)
+            enged_tipus_static = hu_enged_tipus_static or transliterate_to_latin(enged_tipus_static_val)
 
                     
         # s) Minden egyéb mező transliterációja
