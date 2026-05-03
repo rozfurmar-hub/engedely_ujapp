@@ -487,7 +487,7 @@ def transliterate_record_fields(record: dict, fields: list[str]) -> tuple[dict, 
 # Validáció
 # =========================
 RE_PASSPORT = re.compile(r"^[A-Z0-9]{5,15}$", re.I)
-
+RE_DATE_YMD = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 def iso_date(s: str) -> str:
     s = (s or "").strip()
@@ -1059,6 +1059,7 @@ with st.form("adaturlap", clear_on_submit=False):
     
         szul_ido = st.text_input(
             f"{label_szulido} #{i+1}",
+            placeholder="YYYY-MM-DD",
             key=f"h_szulido_{i}"
         )
     
@@ -1099,7 +1100,7 @@ with st.form("adaturlap", clear_on_submit=False):
             "anyja_vezetek": anyja_vez,
             "anyja_kereszt": anyja_ker,
             "allampolgarsag": allamp,
-            "tartozkodik_e": to_canonical(ui_lang, "yesno", tartozkodas_e,
+            "tartozkodik_e": to_canonical(ui_lang, "yesno", tartozkodas_e),
             "okmany_szam": okmany
         })
     
@@ -1123,12 +1124,20 @@ with st.form("adaturlap", clear_on_submit=False):
 # =========================
 # Beküldés feldolgozása
 # =========================
+
+
 if submitted:
     errors = []
+    # Eltartottak születési ideje – csak YYYY-MM-DD formátum fogadható el
+    for i, h in enumerate(hozz, start=1):
+        d = (h.get("szuletesi_ido") or "").strip()
+        if d and not RE_DATE_YMD.match(d):
+            errors.append(f"{i}. eltartott születési ideje csak YYYY-MM-DD formátumban adható meg.")
     if not available_templates:
         errors.append(L["err_no_templates"])
     if not selected_labels:
         errors.append(L["err_no_selection"])
+    
 
     # display -> canonical
     nem = to_canonical(ui_lang, "gender", nem_disp)
@@ -1272,9 +1281,8 @@ if submitted:
         "X_SZALLAS_SZIVES": "X" if szallas_jogcim == "szívességi lakáshasználó" else "",
         "X_SZALLAS_EGYEB": "X" if szallas_jogcim == "egyéb" else "",
         
-        # Egyéb jogcím szövege
-        "TXT_SZALLAS_EGYEB": (szallas_egyeb or "").strip(),
-
+        # Egyéb jogcím szövege       
+        "TXT_SZALLAS_EGYEB": (szallas_egyeb or "").strip() if szallas_jogcim == "egyéb" else "",
                
         # Okmány átvétele – Word X mezők
         "X_ATVETEL_POSTA": "X" if atvetel_mod == "postai úton" else "",
@@ -1333,11 +1341,11 @@ if submitted:
         "X_SCHENGEN_OKMANY_NEM": "X" if mas_schengen_okmany == "nem" else "",
         
         # Más schengeni okmány érvényesség dátuma (Word év / hó / nap)
-        "DT_SCHENGEN_ERV_EV": mas_schengen_ervenyes[:4] if mas_schengen_ervenyes else "",
-        "DT_SCHENGEN_ERV_HO": mas_schengen_ervenyes[5:7] if mas_schengen_ervenyes else "",
-        "DT_SCHENGEN_ERV_NAP": mas_schengen_ervenyes[8:10] if mas_schengen_ervenyes else "",
-        "TXT_SCHENGEN_ENGED_TIPUS": (mas_schengen_tipus or "").strip(),
-        "NR_SCHENGEN_ENGED_SZAM": (mas_schengen_szam or "").strip(),
+        "DT_SCHENGEN_ERV_EV": mas_schengen_ervenyes[:4] if (mas_schengen_okmany == "igen" and mas_schengen_ervenyes) else "",
+        "DT_SCHENGEN_ERV_HO": mas_schengen_ervenyes[5:7] if (mas_schengen_okmany == "igen" and mas_schengen_ervenyes) else "",
+        "DT_SCHENGEN_ERV_NAP": mas_schengen_ervenyes[8:10] if (mas_schengen_okmany == "igen" and mas_schengen_ervenyes) else "",
+        "TXT_SCHENGEN_ENGED_TIPUS": (mas_schengen_tipus or "").strip() if mas_schengen_okmany == "igen" else "",
+        "NR_SCHENGEN_ENGED_SZAM": (mas_schengen_szam or "").strip() if mas_schengen_okmany == "igen" else "",
         
         # Elutasítás
         "X_ELUTASITOTT_IGEN": "X" if volt_elutasitas == "igen" else "",
@@ -1352,11 +1360,11 @@ if submitted:
         "X_KIUTASITOTT_NEM": "X" if volt_kiutasitas == "nem" else "",
         
         # Kiutasítás dátuma (Word év / hó / nap)
-        "DT_KIUTASIT_EV": kiutasitas_datum[:4] if kiutasitas_datum else "",
-        "DT_KIUTASIT_HO": kiutasitas_datum[5:7] if kiutasitas_datum else "",
-        "DT_KIUTASIT_NAP": kiutasitas_datum[8:10] if kiutasitas_datum else "",
+        "DT_KIUTASIT_EV": kiutasitas_datum[:4] if (volt_kiutasitas == "igen" and kiutasitas_datum) else "",
+        "DT_KIUTASIT_HO": kiutasitas_datum[5:7] if (volt_kiutasitas == "igen" and kiutasitas_datum) else "",
+        "DT_KIUTASIT_NAP": kiutasitas_datum[8:10] if (volt_kiutasitas == "igen" and kiutasitas_datum) else "",
         
-        "TXT_BUNTETT_RESZLETEK": (buntet_reszletek or "").strip(),
+        "TXT_BUNTETT_RESZLETEK": (buntet_reszletek or "").strip() if volt_buntetve == "igen" else "",
     
         # Fertőző betegségek és ellátás
         "X_FERT_BETEGSEG_IGEN": "X" if fert_beteg == "igen" else "",
@@ -1453,6 +1461,9 @@ if submitted:
     
             f"NR_ELT{p}_TARTOZK_OKMANY":
                 translit(get_elt(idx, "okmany_szam")),
+            
+            f"X_ELT{p}_NEM_TARTOZK_MO":
+                "X" if get_elt(idx, "tartozkodik_e") == "nem" else "",
         })
     
         # --- Jogcím X-elés ---
