@@ -913,7 +913,7 @@ with st.form("adaturlap", clear_on_submit=False):
 
     # Betétlap száma a kiválasztott célhoz
     betetlap_szam = st.text_input(
-        "Írja ide a kiválasztott célhoz tartozó betétlap számát:",
+        L["betetlap_szam"],
         placeholder="pl. 9.14",
         key="TXT_BETETLAP_SZAM"
     )
