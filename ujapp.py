@@ -481,6 +481,25 @@ def to_canonical(lang: str, field: str, value: str) -> str:
                 "иное государство": "egyeb_allam"
             }
         }
+
+    elif field == "elt_jogcim":
+        mapping = {
+            "ru": {
+                "виза": "vízum",
+                "разрешение на проживание": "tartózkodási engedély",
+                "временное разрешение на поселение": "ideiglenes letelepedési engedély",
+                "разрешение на поселение ЕС": "EK letelepedési engedély",
+                "временная карта пребывания": "ideiglenes tartózkodási kártya",
+                "карта пребывания ЕС": "EU tartózkodási kártya",
+                "национальная карта пребывания": "nemzeti tartózkodási kártya",
+                "другое": "egyéb",
+                "виза на проживание": "tartózkodási vízum",
+                "разрешение на поселение": "letelepedési engedély",
+                "национальное разрешение на поселение": "nemzeti letelepedési engedély",
+                "иммиграционное разрешение": "bevándorlási engedély",
+                "Голубая карта ЕС": "EU Kék Kártya",
+            }
+        }
     return mapping.get(lang, {}).get(v, v)
 
 # =========================
