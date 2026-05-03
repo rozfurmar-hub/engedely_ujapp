@@ -120,4 +120,7 @@
   "txt_12_enged_szam_1": "Az engedély száma (1. eset)",
   "txt_12_enged_tipus_2": "Az engedély típusa (3. eset)",
   "txt_12_enged_szam_2": "Az engedély száma (3. eset)"
+  "txt_12_enged_tipus_static": "Amennyiben az 1. vagy a 3. válaszlehetőséget választotta, adja meg az engedély típusát:",
+  "txt_12_enged_szam_static": "Amennyiben az 1. vagy a 3. válaszlehetőséget választotta, adja meg az engedély számát:"
+
 }
