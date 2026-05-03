@@ -291,6 +291,57 @@ CEL_ENUM = [
     "Hivatalos", "Fehér Kártya", "Kiküldetés", "Gyógykezelés",
     "Önkéntes tevékenység folytatása", "Nemzeti érdek", "Családi együttélés biztosítása"
 ]
+
+CEL_ENUM_DISP_HU = [
+    "Vendég-önfoglalkoztatás (9.2. sz. betétlap)",
+    "Vendégbefektető (9.3. sz. betétlap)",
+    "Szezonális munkavállalás (9.4. sz. betétlap)",
+    "Beruházás megvalósítása céljából munkavállalás (9.5. sz. betétlap)",
+    "Foglalkoztatás (9.6. sz. betétlap)",
+    "Vendégmunkás-tartózkodási engedély (9.7. sz. betétlap)",
+    "Magyar Kártya (9.8. sz. betétlap)",
+    "EU Kék Kártya (9.9. sz. betétlap)",
+    "Vállalaton belüli áthelyezés (9.10. sz. betétlap)",
+    "Kutatás vagy kutatói mobilitás (hosszú távú) (9.11. sz. betétlap)",
+    "Nemzeti Kártya (9.12. sz. betétlap)",
+    "Tanulmányok folytatása vagy hallgatói mobilitás (9.13. sz. betétlap)",
+    "Álláskeresés vagy vállalkozás indítás (9.14. sz. betétlap)",
+    "Képzés (9.15. sz. betétlap)",
+    "Gyakornok (9.16. sz. betétlap)",
+    "Hivatalos (9.17. sz. betétlap)",
+    "Fehér Kártya (9.18. sz. betétlap)",
+    "Kiküldetés (9.19. sz. betétlap)",
+    "Gyógykezelés (9.20. sz. betétlap)",
+    "Önkéntes tevékenység folytatása (9.21. sz. betétlap)",
+    "Tartózkodási engedély nemzeti érdekből (9.22. sz. betétlap)",
+    "Családi együttélés biztosítása (9.23. sz. betétlap)"
+]
+
+CEL_ENUM_DISP_RU = [
+    "Самозанятость (гость) (приложение 9.2.)",
+    "Инвестор (гость) (приложение 9.3.)",
+    "Сезонная работа (приложение 9.4.)",
+    "Работа для реализации инвестпроекта (приложение 9.5.)",
+    "Трудоустройство (приложение 9.6.)",
+    "Разрешение для гостевых работников (приложение 9.7.)",
+    "Hungarian Card (приложение 9.8.)",
+    "EU Blue Card (приложение 9.9.)",
+    "Внутрифирменный перевод (приложение 9.10.)",
+    "Исследования или исследовательская мобильность (долгосрочная) (приложение 9.11.)",
+    "National Card (приложение 9.12.)",
+    "Обучение или студенческая мобильность (приложение 9.13.)",
+    "Поиск работы или открытие бизнеса (приложение 9.14.)",
+    "Обучение (приложение 9.15.)",
+    "Стажёр (приложение 9.16.)",
+    "Официальная цель (приложение 9.17.)",
+    "White Card (приложение 9.18.)",
+    "Командирование (приложение 9.19.)",
+    "Лечение (приложение 9.20.)",
+    "Волонтёрская деятельность (приложение 9.21.)",
+    "В национальных интересах (приложение 9.22.)",
+    "Воссоединение семьи (приложение 9.23.)"
+]
+
 CITIZENSHIP_CANON = ["magyar", "ukrán", "orosz", "szerb", "egyéb"]
 
 # Megjelenítendő címkék RU felületen
@@ -333,11 +384,12 @@ def get_localized_options(lang: str):
     if lang == "ru":
         return (
             GENDER_DISP_RU, FAMILY_DISP_RU, EDU_DISP_RU, YESNO_DISP_RU,
-            PASS_TYPES_RU, SZALLAS_JOGCIM_RU, ATVETEL_MOD_RU, POSTAI_CIM_TIPUS_RU, CEL_ENUM_RU
+            PASS_TYPES_RU, SZALLAS_JOGCIM_RU, ATVETEL_MOD_RU, POSTAI_CIM_TIPUS_RU, CEL_ENUM_DISP_RU
         )
-    return (GENDER_CANON, FAMILY_CANON, EDU_CANON, YESNO_CANON,
-            PASS_TYPES, SZALLAS_JOGCIM, ATVETEL_MOD, POSTAI_CIM_TIPUS, CEL_ENUM)
-
+    return (
+        GENDER_CANON, FAMILY_CANON, EDU_CANON, YESNO_CANON,
+        PASS_TYPES, SZALLAS_JOGCIM, ATVETEL_MOD, POSTAI_CIM_TIPUS, CEL_ENUM_DISP_HU
+    )
 
 def to_canonical(lang: str, field: str, value: str) -> str:
     v = (value or "").strip()
@@ -361,7 +413,11 @@ def to_canonical(lang: str, field: str, value: str) -> str:
     elif field == "postai_cim_tipus":
         mapping = {"ru": {"адрес проживания заявителя":"kérelmező szálláshelye","адрес доверенного лица":"meghatalmazott kapcsolattartási címe"}}
     elif field == "cel":
-        mapping = {"ru": dict(zip(CEL_ENUM_RU, CEL_ENUM))}
+        mapping = {
+            "ru": dict(zip(CEL_ENUM_DISP_RU, CEL_ENUM)),
+            "hu": dict(zip(CEL_ENUM_DISP_HU, CEL_ENUM))
+        }
+  
     elif field == "egeszseg_biztositas":
         mapping = {
             "ru": {
