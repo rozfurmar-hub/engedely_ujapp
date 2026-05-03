@@ -440,6 +440,15 @@ def to_canonical(lang: str, field: str, value: str) -> str:
                 "прочее": "egyéb"
             }
         }
+
+    elif field == "orszag_jellege_12":
+        mapping = {
+            "ru": {
+                "государство обычного пребывания": "szokasos_allam",
+                "государство гражданства": "allampolgarsag_allam",
+                "иное государство": "egyeb_allam"
+            }
+        }
     return mapping.get(lang, {}).get(v, v)
 
 # =========================
@@ -941,11 +950,13 @@ with st.form("adaturlap", clear_on_submit=False):
         key="TXT_BETETLAP_SZAM"
     )
     
-    # Fizetési tranzakció
+    # 11) Fizetési tranzakció
     st.markdown(f"**{L['section_fizetes']}**")
     NR_FIZETES_TRANZAKCIO = st.text_input(
         L["tranzakcio_szam"], key="NR_FIZETES_TRANZAKCIO"
     )
+
+   
     # ====== HOZZÁTARTOZÓK – DINAMIKUS MEZŐK A FORMON BELÜL (HU/RU i18n) ======
     
     hozz = []
