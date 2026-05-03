@@ -111,5 +111,13 @@
   "tranzakcio_szam": "Elektronikus/banki befizetés tranzakciós száma",
   "engedely_tipusa": "Kérelem típusa",
   "szallas_egyeb": "Egyéb válasz esetén töltse ki:",
-  "betetlap_szam": "Írja ide a kiválasztott célhoz tartozó betétlap számát:"
+  "betetlap_szam": "Írja ide a kiválasztott célhoz tartozó betétlap számát:",
+  "orszag_jellege_12": "Ez az ország:",
+  "orszag_jellege_12_szokasos": "olyan állam, ahol szokásos tartózkodási helyem van, és oda beutazhatok, a következő típusú és számú engedéllyel:",
+  "orszag_jellege_12_allamp": "az állampolgárságom szerinti állam",
+  "orszag_jellege_12_egyeb": "olyan állam, ahová beutazhatok, a következő típusú és számú engedéllyel:",
+  "txt_12_enged_tipus_1": "Az engedély típusa (1. eset)",
+  "txt_12_enged_szam_1": "Az engedély száma (1. eset)",
+  "txt_12_enged_tipus_2": "Az engedély típusa (3. eset)",
+  "txt_12_enged_szam_2": "Az engedély száma (3. eset)"
 }
