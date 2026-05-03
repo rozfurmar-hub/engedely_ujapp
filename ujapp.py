@@ -1099,7 +1099,7 @@ with st.form("adaturlap", clear_on_submit=False):
             "anyja_vezetek": anyja_vez,
             "anyja_kereszt": anyja_ker,
             "allampolgarsag": allamp,
-            "tartozkodik_e": tartozkodas_e,
+            "tartozkodik_e": to_canonical(ui_lang, "yesno", tartozkodas_e,
             "okmany_szam": okmany
         })
     
@@ -1138,7 +1138,7 @@ if submitted:
     szallas_jogcim = to_canonical(ui_lang, "szallas_jogcim", szallas_jogcim_disp)
     atvetel_mod = to_canonical(ui_lang, "atvetel_mod", atvetel_mod_disp)
     postai_cim_tipus = to_canonical(ui_lang, "postai_cim_tipus", postai_cim_tipus_disp)
-    egeszseg_biztositas = to_canonical(ui_lang, "yesno", egeszseg_biztositas_disp)
+    egeszseg_biztositas = to_canonical(ui_lang, "egeszseg_biztositas", egeszseg_biztositas_disp)
     van_utlevel = to_canonical(ui_lang, "yesno", van_utlevel_disp)
     van_vizum = to_canonical(ui_lang, "yesno", van_vizum_disp)
     van_menetjegy = to_canonical(ui_lang, "yesno", van_menetjegy_disp)
