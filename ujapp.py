@@ -911,6 +911,12 @@ with st.form("adaturlap", clear_on_submit=False):
     tartozkodas_vege = st.text_input(L["tartozkodas_vege"], placeholder="YYYY-MM-DD")
     tartozkodas_celja_disp = st.selectbox(L["tartozkodas_celja"], options=[""] + CEL_DISP, index=0)
 
+    # Betétlap száma a kiválasztott célhoz
+    betetlap_szam = st.text_input(
+        "Írja ide a kiválasztott célhoz tartozó betétlap számát:",
+        key="TXT_BETETLAP_SZAM"
+    )
+    
     # Fizetési tranzakció
     st.markdown(f"**{L['section_fizetes']}**")
     NR_FIZETES_TRANZAKCIO = st.text_input(
@@ -1332,6 +1338,7 @@ if submitted:
         "X_CEL_NEMZETI_ERDEK": "X" if tartozkodas_celja == "Nemzeti érdek" else "",
         "X_CEL_CSALADI": "X" if tartozkodas_celja == "Családi együttélés biztosítása" else "",
 
+        "TXT_BETETLAP_SZAM": (betetlap_szam or "").strip(),
         
         # fizetés
         "NR_FIZETES_TRANZAKCIO": (NR_FIZETES_TRANZAKCIO or "").strip(),
