@@ -808,7 +808,7 @@ with st.form("adaturlap", clear_on_submit=False):
         engedely_tipus_opts = ["", "első kérelem", "hosszabbítás"]
     
     engedely_tipus_disp = st.selectbox(
-        L["engedely_tipusa"],
+        L.get("engedely_tipusa", L["section_elso_vagy_hossz"]),
         options=engedely_tipus_opts,
         key="engedely_tipus_disp"
     )
