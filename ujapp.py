@@ -920,14 +920,21 @@ with st.form("adaturlap", clear_on_submit=False):
     
     # B terv: mindig látható két statikus mező
     enged_tipus_static = st.text_input(
-        L["txt_12_enged_tipus_static"],
+        L.get(
+            "txt_12_enged_tipus_static",
+            "Amennyiben az 1. vagy a 3. válaszlehetőséget választotta, adja meg az engedély típusát:"
+        ),
         key="enged_tipus_static"
     )
     
     enged_szam_static = st.text_input(
-        L["txt_12_enged_szam_static"],
+        L.get(
+            "txt_12_enged_szam_static",
+            "Amennyiben az 1. vagy a 3. válaszlehetőséget választotta, adja meg az engedély számát:"
+        ),
         key="enged_szam_static"
     )
+
     TXT_KOZLEKEDESI_ESZKOZ = render_text_field(
         "TXT_KOZLEKEDESI_ESZKOZ", L["kozlekedesi_eszkoz"], ui_lang
     )
