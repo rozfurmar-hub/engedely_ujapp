@@ -875,13 +875,14 @@ with st.form("adaturlap", clear_on_submit=False):
     st.markdown(f"**{L['section_visszaut']}**")
 
     # Vissza-/továbbutazás országa
+    # Vissza-/továbbutazás országa
     TXT_VISSZA_UTAZASI_ORSZAG = render_text_field(
         "TXT_VISSZA_UTAZASI_ORSZAG",
         L["visszaut_orszag"],
         ui_lang
     )
     
-    # Ez az ország: – belső kód + lokalizált megjelenítés
+    # Ez az ország:
     orszag_jellege_12_options = [
         "",
         "szokasos_allam",
@@ -906,31 +907,16 @@ with st.form("adaturlap", clear_on_submit=False):
         key="orszag_jellege_12"
     )
     
-    # Új mezők – csak az 1. válaszlehetőségnél
-    enged_tipus_1 = ""
-    enged_szam_1 = ""
-    if orszag_jellege_12 == "szokasos_allam":
-        enged_tipus_1 = st.text_input(
-            L["txt_12_enged_tipus_1"],
-            key="TXT_12_ENGED_TIPUS_1"
-        )
-        enged_szam_1 = st.text_input(
-            L["txt_12_enged_szam_1"],
-            key="TXT_12_ENGED_SZAM_1"
-        )
+    # B terv: mindig látható két statikus mező
+    enged_tipus_static = st.text_input(
+        L["txt_12_enged_tipus_static"],
+        key="enged_tipus_static"
+    )
     
-    # Új mezők – csak a 3. válaszlehetőségnél
-    enged_tipus_2 = ""
-    enged_szam_2 = ""
-    if orszag_jellege_12 == "egyeb_allam":
-        enged_tipus_2 = st.text_input(
-            L["txt_12_enged_tipus_2"],
-            key="TXT_12_ENGED_TIPUS_2"
-        )
-        enged_szam_2 = st.text_input(
-            L["txt_12_enged_szam_2"],
-            key="TXT_12_ENGED_SZAM_2"
-        )
+    enged_szam_static = st.text_input(
+        L["txt_12_enged_szam_static"],
+        key="enged_szam_static"
+    )
     TXT_KOZLEKEDESI_ESZKOZ = render_text_field(
         "TXT_KOZLEKEDESI_ESZKOZ", L["kozlekedesi_eszkoz"], ui_lang
     )
