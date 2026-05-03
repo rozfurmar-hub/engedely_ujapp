@@ -893,11 +893,21 @@ with st.form("adaturlap", clear_on_submit=False):
     def orszag_jellege_12_label(v):
         labels = {
             "": "",
-            "szokasos_allam": L["orszag_jellege_12_szokasos"],
-            "allampolgarsag_allam": L["orszag_jellege_12_allamp"],
-            "egyeb_allam": L["orszag_jellege_12_egyeb"],
+            "szokasos_allam": L.get(
+                "orszag_jellege_12_szokasos",
+                "olyan állam, ahol szokásos tartózkodási helyem van, és oda beutazhatok, a következő típusú és számú engedéllyel:"
+            ),
+            "allampolgarsag_allam": L.get(
+                "orszag_jellege_12_allamp",
+                "az állampolgárságom szerinti állam"
+            ),
+            "egyeb_allam": L.get(
+                "orszag_jellege_12_egyeb",
+                "olyan állam, ahová beutazhatok, a következő típusú és számú engedéllyel:"
+            ),
         }
         return labels.get(v, v)
+
     
     orszag_jellege_12 = st.selectbox(
         L.get("orszag_jellege_12", "Ez az ország:"),
