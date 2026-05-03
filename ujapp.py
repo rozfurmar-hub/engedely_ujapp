@@ -281,6 +281,19 @@ PASS_COUNTRY = ["Magyarország", "Ukrajna", "Oroszország", "Szerbia", "egyéb"]
 SZALLAS_JOGCIM = ["tulajdonos", "bérlő", "családtag", "szívességi lakáshasználó", "egyéb"]
 ATVETEL_MOD = ["postai úton", "kiállító hatóságnál"]
 POSTAI_CIM_TIPUS = ["kérelmező szálláshelye", "meghatalmazott kapcsolattartási címe"]
+
+ORSZAG_JELLEGE_12 = [
+    "szokasos_allam",
+    "allampolgarsag_allam",
+    "egyeb_allam"
+]
+
+ORSZAG_JELLEGE_12_RU = [
+    "государство обычного пребывания",
+    "государство гражданства",
+    "иное государство"
+]
+
 CEL_ENUM = [
     "Vendég-önfoglalkoztatás", "Vendégbefektető", "Szezonális munkavállalás",
     "Beruházás megvalósítása céljából munkavállalás", "Foglalkoztatás",
