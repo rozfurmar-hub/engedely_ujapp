@@ -424,7 +424,7 @@ def to_canonical(lang: str, field: str, value: str) -> str:
                 "на основании трудовых отношений": "foglalkoztatási jogviszony alapján",
                 "располагаю финансовыми средствами для покрытия расходов": "rendelkezem anyagi fedezettel a költségek fedezetére",
                 "имею полное медицинское страхование": "rendelkezem teljes körű egészségbiztosítással",
-                "другое": "egyéb"
+                "прочее": "egyéb"
             }
         }
     return mapping.get(lang, {}).get(v, v)
