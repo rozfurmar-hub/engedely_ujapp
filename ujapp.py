@@ -874,9 +874,71 @@ with st.form("adaturlap", clear_on_submit=False):
     # 7) Vissza-/továbbutazás
     st.markdown(f"**{L['section_visszaut']}**")
 
+    # Vissza-/továbbutazás országa
     TXT_VISSZA_UTAZASI_ORSZAG = render_text_field(
-        "TXT_VISSZA_UTAZASI_ORSZAG", L["visszaut_orszag"], ui_lang
+        "TXT_VISSZA_UTAZASI_ORSZAG",
+        L["visszaut_orszag"],
+        ui_lang
     )
+    
+    # Ez az ország:
+    if ui_lang == "ru":
+        orszag_jellege_12_disp_opts = [
+            "",
+            L["orszag_jellege_12_szokasos"],
+            L["orszag_jellege_12_allamp"],
+            L["orszag_jellege_12_egyeb"]
+        ]
+    else:
+        orszag_jellege_12_disp_opts = [
+            "",
+            L["orszag_jellege_12_szokasos"],
+            L["orszag_jellege_12_allamp"],
+            L["orszag_jellege_12_egyeb"]
+        ]
+    
+    orszag_jellege_12_disp = st.selectbox(
+        L["orszag_jellege_12"],
+        options=orszag_jellege_12_disp_opts,
+        index=0,
+        key="orszag_jellege_12_disp"
+    )
+    
+    # Belső, kanonikus érték
+    if orszag_jellege_12_disp == L["orszag_jellege_12_szokasos"]:
+        orszag_jellege_12 = "szokasos_allam"
+    elif orszag_jellege_12_disp == L["orszag_jellege_12_allamp"]:
+        orszag_jellege_12 = "allampolgarsag_allam"
+    elif orszag_jellege_12_disp == L["orszag_jellege_12_egyeb"]:
+        orszag_jellege_12 = "egyeb_allam"
+    else:
+        orszag_jellege_12 = ""
+    
+    # 1. esethez tartozó engedély adatai
+    enged_tipus_1 = ""
+    enged_szam_1 = ""
+    if orszag_jellege_12 == "szokasos_allam":
+        enged_tipus_1 = st.text_input(
+            L["txt_12_enged_tipus_1"],
+            key="TXT_12_ENGED_TIPUS_1"
+        )
+        enged_szam_1 = st.text_input(
+            L["txt_12_enged_szam_1"],
+            key="TXT_12_ENGED_SZAM_1"
+        )
+    
+    # 3. esethez tartozó engedély adatai
+    enged_tipus_2 = ""
+    enged_szam_2 = ""
+    if orszag_jellege_12 == "egyeb_allam":
+        enged_tipus_2 = st.text_input(
+            L["txt_12_enged_tipus_2"],
+            key="TXT_12_ENGED_TIPUS_2"
+        )
+        enged_szam_2 = st.text_input(
+            L["txt_12_enged_szam_2"],
+            key="TXT_12_ENGED_SZAM_2"
+        )
     TXT_KOZLEKEDESI_ESZKOZ = render_text_field(
         "TXT_KOZLEKEDESI_ESZKOZ", L["kozlekedesi_eszkoz"], ui_lang
     )
