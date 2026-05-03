@@ -110,5 +110,6 @@
   "section_fizetes": "11) Fizetési tranzakció",
   "tranzakcio_szam": "Elektronikus/banki befizetés tranzakciós száma",
   "engedely_tipusa": "Kérelem típusa",
-  "szallas_egyeb": "Egyéb válasz esetén töltse ki:"
+  "szallas_egyeb": "Egyéb válasz esetén töltse ki:",
+  "betetlap_szam": "Írja ide a kiválasztott célhoz tartozó betétlap számát:"
 }
