@@ -881,40 +881,32 @@ with st.form("adaturlap", clear_on_submit=False):
         ui_lang
     )
     
-    # Ez az ország:
-    if ui_lang == "ru":
-        orszag_jellege_12_disp_opts = [
-            "",
-            L["orszag_jellege_12_szokasos"],
-            L["orszag_jellege_12_allamp"],
-            L["orszag_jellege_12_egyeb"]
-        ]
-    else:
-        orszag_jellege_12_disp_opts = [
-            "",
-            L["orszag_jellege_12_szokasos"],
-            L["orszag_jellege_12_allamp"],
-            L["orszag_jellege_12_egyeb"]
-        ]
+    # Ez az ország: – belső kód + lokalizált megjelenítés
+    orszag_jellege_12_options = [
+        "",
+        "szokasos_allam",
+        "allampolgarsag_allam",
+        "egyeb_allam"
+    ]
     
-    orszag_jellege_12_disp = st.selectbox(
+    def orszag_jellege_12_label(v):
+        labels = {
+            "": "",
+            "szokasos_allam": L["orszag_jellege_12_szokasos"],
+            "allampolgarsag_allam": L["orszag_jellege_12_allamp"],
+            "egyeb_allam": L["orszag_jellege_12_egyeb"],
+        }
+        return labels.get(v, v)
+    
+    orszag_jellege_12 = st.selectbox(
         L["orszag_jellege_12"],
-        options=orszag_jellege_12_disp_opts,
+        options=orszag_jellege_12_options,
         index=0,
-        key="orszag_jellege_12_disp"
+        format_func=orszag_jellege_12_label,
+        key="orszag_jellege_12"
     )
     
-    # Belső, kanonikus érték
-    if orszag_jellege_12_disp == L["orszag_jellege_12_szokasos"]:
-        orszag_jellege_12 = "szokasos_allam"
-    elif orszag_jellege_12_disp == L["orszag_jellege_12_allamp"]:
-        orszag_jellege_12 = "allampolgarsag_allam"
-    elif orszag_jellege_12_disp == L["orszag_jellege_12_egyeb"]:
-        orszag_jellege_12 = "egyeb_allam"
-    else:
-        orszag_jellege_12 = ""
-    
-    # 1. esethez tartozó engedély adatai
+    # Új mezők – csak az 1. válaszlehetőségnél
     enged_tipus_1 = ""
     enged_szam_1 = ""
     if orszag_jellege_12 == "szokasos_allam":
@@ -927,7 +919,7 @@ with st.form("adaturlap", clear_on_submit=False):
             key="TXT_12_ENGED_SZAM_1"
         )
     
-    # 3. esethez tartozó engedély adatai
+    # Új mezők – csak a 3. válaszlehetőségnél
     enged_tipus_2 = ""
     enged_szam_2 = ""
     if orszag_jellege_12 == "egyeb_allam":
