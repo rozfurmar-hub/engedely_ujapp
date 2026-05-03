@@ -1149,7 +1149,26 @@ with st.form("adaturlap", clear_on_submit=False):
             f"{label_allamp} #{i+1}",
             key=f"h_allamp_{i}"
         )
-    
+
+        # Tartózkodás jogcíme
+        label_tart_jogcim = L.get("hozz_tartozkodas_jogcime", "Tartózkodás jogcíme")
+        label_tart_jogcim_egyeb = L.get("hozz_tartozkodas_jogcim_egyeb", "Egyéb tartózkodási jogcím megnevezése")
+        
+        tart_jogcim_disp = st.selectbox(
+            f"{label_tart_jogcim} #{i+1}",
+            ([""] + (ELT_JOGCIM_OPTS_RU if ui_lang == "ru" else ELT_JOGCIM_OPTS)),
+            key=f"h_tart_jogcim_{i}"
+        )
+        
+        tart_jogcim = to_canonical(ui_lang, "elt_jogcim", tart_jogcim_disp)
+        
+        tart_jogcim_egyeb = ""
+        if tart_jogcim == "egyéb":
+            tart_jogcim_egyeb = st.text_input(
+                f"{label_tart_jogcim_egyeb} #{i+1}",
+                key=f"h_tart_jogcim_egyeb_{i}"
+            )
+            
         tartozkodas_e = st.selectbox(
             f"{label_tartozkodas} #{i+1}",
             igen_nem_opts,
