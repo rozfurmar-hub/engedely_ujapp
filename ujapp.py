@@ -1423,6 +1423,19 @@ if submitted:
         "X_CEL_CSALADI": "X" if tartozkodas_celja == "Családi együttélés biztosítása" else "",
 
         "TXT_BETETLAP_SZAM": (betetlap_szam or "").strip(),
+
+        # 12. pont – ország jellege / X logika
+        "X_12_SZOKASOS_ALLAM": "X" if orszag_jellege_12 == "szokasos_allam" else "",
+        "X_12_ALLAMPOLGARSAG_ALLAM": "X" if orszag_jellege_12 == "allampolgarsag_allam" else "",
+        "X_12_EGYEB_ALLAM": "X" if orszag_jellege_12 == "egyeb_allam" else "",
+        
+        # 1. eset – csak ha szokásos tartózkodási hely szerinti állam
+        "TXT_12_ENGED_TIPUS_1": (enged_tipus_1 or "").strip() if orszag_jellege_12 == "szokasos_allam" else "",
+        "TXT_12_ENGED_SZAM_1": (enged_szam_1 or "").strip() if orszag_jellege_12 == "szokasos_allam" else "",
+        
+        # 3. eset – csak ha egyéb állam
+        "TXT_12_ENGED_TIPUS_2": (enged_tipus_2 or "").strip() if orszag_jellege_12 == "egyeb_allam" else "",
+        "TXT_12_ENGED_SZAM_2": (enged_szam_2 or "").strip() if orszag_jellege_12 == "egyeb_allam" else "",
         
         # fizetés
         "NR_FIZETES_TRANZAKCIO": (NR_FIZETES_TRANZAKCIO or "").strip(),
