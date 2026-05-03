@@ -1003,9 +1003,12 @@ with st.form("adaturlap", clear_on_submit=False):
 
     # Betétlap száma a kiválasztott célhoz
     betetlap_szam = st.text_input(
-        L["betetlap_szam"],
-        placeholder="pl. 9.14",
+        L.get(
+            "betetlap_szam",
+            "Írja ide a kiválasztott célhoz tartozó betétlap számát:"
+        ),
         key="TXT_BETETLAP_SZAM"
+    )
     )
     
     # 11) Fizetési tranzakció
